@@ -48,11 +48,50 @@ const wholeBody = (
   <div class="container-xxl bg-white p-0">
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     <div class="container-xxl position-relative p-0" id="home">
@@ -101,6 +140,30 @@ const wholeBody = (
     </div>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div class="container-xxl py-5" id="about">
         <div class="container py-5 px-lg-5">
             <div class="row g-5 align-items-center">
@@ -136,6 +199,28 @@ const wholeBody = (
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     <div class="container-xxl py-5" id="feature">
@@ -204,6 +289,29 @@ const wholeBody = (
     </div>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div class="container-xxl py-5">
         <div class="container py-5 px-lg-5">
             <div class="row g-5 align-items-center">
@@ -228,6 +336,26 @@ const wholeBody = (
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <div class="container-xxl py-5">
         <div class="container py-5 px-lg-5">
@@ -268,6 +396,29 @@ const wholeBody = (
     </div>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div class="container-xxl py-5">
         <div class="container py-5 px-lg-5">
             <div class="row g-5 align-items-center">
@@ -302,6 +453,29 @@ const wholeBody = (
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     <div class="container-xxl py-5" id="pricing">
@@ -448,6 +622,26 @@ const wholeBody = (
     </div>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div class="container-xxl py-5" id="review">
         <div class="container py-5 px-lg-5">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -528,6 +722,25 @@ const wholeBody = (
     </div>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div class="container-xxl py-5" id="contact">
         <div class="container py-5 px-lg-5">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -574,6 +787,27 @@ const wholeBody = (
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     <div class="container-fluid bg-primary text-light footer wow fadeIn" data-wow-delay="0.1s">
@@ -638,6 +872,11 @@ const wholeBody = (
             </div>
         </div>
     </div>
+
+
+
+
+
 
   </div>
 );
