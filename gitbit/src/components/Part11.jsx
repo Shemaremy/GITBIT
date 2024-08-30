@@ -54,7 +54,6 @@ function Part11() {
             <div className="row">
                 <div className="col-md-6 text-center text-md-start mb-3 mb-md-0">
                     &copy; <a className="border-bottom" href="#">GitBit</a>, All Right Reserved.
-                    {/* Designed By <a className="border-bottom" href="https://htmlcodex.com">HTML Codex</a> */}
                 </div>
                 <div className="col-md-6 text-center text-md-end">
                     <div className="footer-menu">
