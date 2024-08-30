@@ -1,10 +1,28 @@
 /********** Template CSS **********/
-:root {
+/* :root {
     --primary: #4294E3;
     --secondary: #8F12FD;
     --light: #F0F6FF;
     --dark: #262B47;
+} 
+
+
+*/
+:root {
+    --primary: #1B2A38;  
+    --secondary: #4A5D81;  
+    --accent: #7D8C9F; 
+    --light: #B0BEC5;  
+    --dark: #101C27;
 }
+
+
+
+
+
+
+
+
 
 
 /*** Spinner ***/
@@ -258,8 +276,7 @@ h6,
 
 /*** Hero Header ***/
 .hero-header {
-    margin-bottom: 6rem;
-    padding: 16rem 0 0 0;
+    padding: 18rem 0 0 0;
     background:
         url(../img/bg-circle.png),
         url(../img/bg-triangle.png),

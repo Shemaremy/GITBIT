@@ -13,9 +13,9 @@ function Part11() {
         <div className="row g-5">
             <div className="col-md-6 col-lg-3">
                 <h4 className="text-white mb-4">Address</h4>
-                <p><i className="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                <p><i className="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p><i className="fa fa-envelope me-3"></i>info@example.com</p>
+                <p><i className="fa fa-map-marker-alt me-3"></i>Kigali - Rwanda</p>
+                <p><i className="fa fa-phone-alt me-3"></i>+250 783 674 289</p>
+                <p><i className="fa fa-envelope me-3"></i>remyshema20@gmail.com</p>
                 <div className="d-flex pt-2">
                     <a className="btn btn-outline-light btn-social" href="#"><i className="fab fa-twitter"></i></a>
                     <a className="btn btn-outline-light btn-social" href="#"><i className="fab fa-facebook-f"></i></a>
@@ -32,7 +32,7 @@ function Part11() {
                 <a className="btn btn-link" href="#">Career</a>
             </div>
             <div className="col-md-6 col-lg-3">
-                <h4 className="text-white mb-4">Popular Link</h4>
+                <h4 className="text-white mb-4">Popular Links</h4>
                 <a className="btn btn-link" href="#">About Us</a>
                 <a className="btn btn-link" href="#">Contact Us</a>
                 <a className="btn btn-link" href="#">Privacy Policy</a>
