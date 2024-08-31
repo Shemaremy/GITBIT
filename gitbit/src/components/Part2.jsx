@@ -23,24 +23,32 @@ function Part2() {
         }
       }, []);
       
+    // When the burger is clicked, this is called
+    const toggleMobileMenu = () => {
+        const menu_btn = document.querySelector('.hamburger');
+        menu_btn.classList.toggle('is-active');
+
+    };
+
+
 
 
     return(
         <div className="container-xxl position-relative p-0" id="home">
-            <nav className="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
+            <nav className="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 mobile-navbar">
                 <a href="" className="navbar-brand p-0">
                     <h1 className="m-0">GitBit</h1>
                 </a>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                    <span className="fa fa-bars"></span>
-                </button>
+                <div className="hamburger_container">
+                    <button className="hamburger" onClick={toggleMobileMenu}>
+                        <div className="bar"></div>
+                    </button>
+                </div>
                 <div className="collapse navbar-collapse" id="navbarCollapse">
                     <div className="navbar-nav mx-auto py-0">
                         <a href="#home" className="nav-item nav-link active">Home</a>
                         <a href="#about" className="nav-item nav-link">About</a>
-                        <a href="#feature" className="nav-item nav-link">Feature</a>
-                        <a href="#pricing" className="nav-item nav-link">Pricing</a>
-                        <a href="#review" className="nav-item nav-link">Review</a>
+                        <a href="#feature" className="nav-item nav-link">Features</a>
                         <a href="#contact" className="nav-item nav-link">Contact</a>
                     </div>
                 <a href="" className="btn btn-primary-gradient rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Get started</a>
@@ -48,7 +56,7 @@ function Part2() {
             </nav>
 
             <div className="container-xxl bg-primary hero-header">
-                <div className="container px-lg-5">
+                <div className="container px-lg-5 header-content">
                     <div className="row g-5">
                         <div className="col-lg-8 text-center text-lg-start header-words">
                             <h1 className="text-white mb-4 animated slideInDown">Get your projects done and improve your contibution habit with GitBit</h1>

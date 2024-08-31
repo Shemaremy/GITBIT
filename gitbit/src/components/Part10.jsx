@@ -8,7 +8,7 @@ import '../App.css'
 
 function Part10() {
     return(
-        <div className="container-xxl py-5" id="contact">
+        <div className="container-xxl py-5 contact_container" id="contact">
     <div className="container py-5 px-lg-5">
         <div className="text-center wow fadeInUp" data-wow-delay="0.1s">
             <h5 className="text-primary-gradient fw-medium">Contact Us</h5>
@@ -18,7 +18,7 @@ function Part10() {
             <div className="col-lg-9">
                 <div className="wow fadeInUp" data-wow-delay="0.3s">
                     <p className="text-center mb-4">
-                        The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a href="https://htmlcodex.com/contact-form">Download Now</a>.
+                    Get in touch with us for any inquiries related to our app showcase. Whether you have questions, feedback, or collaboration ideas, we’d love to hear from you. Simply fill out your details, and we'll respond promptly.
                     </p>
                     <form>
                         <div className="row g-3">

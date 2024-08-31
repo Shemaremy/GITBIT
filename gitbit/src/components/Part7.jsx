@@ -4,6 +4,7 @@ import './css/style.css';
 import './lib/animate/animate.min.css';
 import './lib/owlcarousel/assets/owl.carousel.min.css';
 import '../App.css'
+import './Mods.css'
 
 
 function Part7() {
@@ -12,28 +13,19 @@ function Part7() {
     <div className="container py-5 px-lg-5">
         <div className="row g-5 align-items-center">
             <div className="col-lg-6">
-                {/* <img className="img-fluid wow fadeInUp" data-wow-delay="0.1s" src="img/about.png" alt="About Image" /> */}
+                <img className="img-fluid wow fadeInUp" data-wow-delay="0.1s" src="img/about.png" alt="About Image" />
             </div>
             <div className="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
-                <h5 className="text-primary-gradient fw-medium">Download</h5>
-                <h1 className="mb-4">Download The Latest Version Of Our App</h1>
-                <p className="mb-4">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo eirmod magna dolore erat amet</p>
+                <h5 className="text-primary-gradient fw-medium">Try GitBit</h5>
+                <h1 className="mb-4">Ready to try GitBit?</h1>
+                <p className="mb-4">While we are working on building an awesome app for mobile devices, we have already made a web app or browser version you can try on browser with all accessibilities. Click the button below to try a browser version. It is nice too.</p>
                 <div className="row g-4">
-                    <div className="col-sm-6 wow fadeIn" data-wow-delay="0.5s">
-                        <a href="" className="d-flex bg-primary-gradient rounded py-3 px-4">
-                            <i className="fab fa-apple fa-3x text-white flex-shrink-0"></i>
-                            <div className="ms-3">
-                                <p className="text-white mb-0">Available On</p>
-                                <h5 className="text-white mb-0">App Store</h5>
-                            </div>
-                        </a>
-                    </div>
-                    <div className="col-sm-6 wow fadeIn" data-wow-delay="0.7s">
+                    <div className="col-sm-6 wow fadeIn try-container" data-wow-delay="0.7s">
                         <a href="" className="d-flex bg-secondary-gradient rounded py-3 px-4">
-                            <i className="fab fa-android fa-3x text-white flex-shrink-0"></i>
+                            <i className="fab fa-chrome fa-2x text-white flex-shrink-0"></i>
                             <div className="ms-3">
-                                <p className="text-white mb-0">Available On</p>
-                                <h5 className="text-white mb-0">Play Store</h5>
+                                <h5 className="text-white mb-0">Try for Free</h5>
+                                <p className="text-white mb-0 browser-version">Browser version</p>
                             </div>
                         </a>
                     </div>

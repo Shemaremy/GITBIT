@@ -10,10 +10,11 @@
 */
 :root {
     --primary: #1B2A38;  
-    --secondary: #4A5D81;  
+    --secondary: #4A5D81;
     --accent: #7D8C9F; 
     --light: #B0BEC5;  
     --dark: #101C27;
+    --white: #ffffffe5;
 }
 
 
@@ -210,6 +211,7 @@ h6,
 .navbar-light .navbar-nav .nav-link:hover::before,
 .navbar-light .navbar-nav .nav-link.active::before {
     top: 0;
+    display: none;
 }
 
 .navbar-light .navbar-brand h1 {
@@ -228,7 +230,7 @@ h6,
 @media (max-width: 991.98px) {
     .sticky-top.navbar-light {
         position: relative;
-        background: #FFFFFF;
+        background: #df606000;
     }
 
     .navbar-light .navbar-collapse {
@@ -253,7 +255,7 @@ h6,
     }
 
     .navbar-light .navbar-brand h1 {
-        background: linear-gradient(to bottom right, var(--primary), var(--secondary));
+        background: linear-gradient(to bottom right, var(--white), var(--white));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
