@@ -77,3 +77,29 @@
         padding-bottom: 0;
     }
 }
+
+.main-container {
+    position: relative;
+}
+
+body {
+    width: 100%;
+    margin: 0 auto !important;
+    overflow-x: hidden;
+    display: flex;
+    padding: 0;
+}
+
+#root {
+    position: relative;
+    display: flex;
+    width: 100%;
+}
+
+.Mobile-panel {
+    background-color: green;
+    height: 100px;
+    width: 100px;
+    position: fixed;
+    z-index: 1;
+}

@@ -3,6 +3,7 @@ import './components/css/style.css';
 import './components/lib/animate/animate.min.css';
 import './components/lib/owlcarousel/assets/owl.carousel.min.css';
 import './App.css'
+import './components/Mods.css'
 
 import Part1 from './components/Part1';
 import Part2 from './components/Part2';
@@ -15,25 +16,24 @@ import Part8 from './components/Part8';
 import Part9 from './components/Part9';
 import Part10 from './components/Part10';
 import Part11 from './components/Part11';
+import Part12 from './components/Part12';
 
 
 
 
 function App() {
   return (
-    <div className="container-xxl bg-white p-0">
-      {/* <Part1/> */}
-      <Part2/>
-      {/* <Part3/> */}
-      <Part4/>
-      <Part5/>
-      {/* <Part6/> */}
-      <Part7/>
-      {/* <Part8/> */}
-      {/* <Part9/> */}
-      <Part10/>
-      <Part11/>
-    </div>
+    <>
+      <div className="container-xxl bg-white p-0 main-container">
+        <Part2/>
+        <Part4/>
+        <Part5/>
+        <Part7/>
+        <Part10/>
+        <Part11/>
+      </div>
+    <Part12/>
+    </>
   );
 }
 
