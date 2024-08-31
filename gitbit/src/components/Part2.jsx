@@ -5,6 +5,7 @@ import './lib/animate/animate.min.css';
 import './lib/owlcarousel/assets/owl.carousel.min.css';
 import '../App.css'
 import './Mods.css'
+import Part12 from "./Part12";
 
 
 
@@ -26,8 +27,9 @@ function Part2() {
     // When the burger is clicked, this is called
     const toggleMobileMenu = () => {
         const menu_btn = document.querySelector('.hamburger');
+        const mobile_panel = document.querySelector('.Mobile-panel')
         menu_btn.classList.toggle('is-active');
-
+        mobile_panel.classList.toggle('is-active');
     };
 
 
