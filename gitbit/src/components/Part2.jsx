@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import './css/bootstrap.min.css';
 import './css/style.css';
 import './lib/animate/animate.min.css';
@@ -9,6 +9,22 @@ import './Mods.css'
 
 
 function Part2() {
+
+    useEffect(() => {
+        if (window.$) {
+          window.$('.screenshot-carousel').owlCarousel({
+            loop: true,
+            margin: 10,
+            nav: true,
+            items: 1,
+            autoplay: true,
+            autoplayTimeout: 5000,
+          });
+        }
+      }, []);
+      
+
+
     return(
         <div className="container-xxl position-relative p-0" id="home">
             <nav className="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">

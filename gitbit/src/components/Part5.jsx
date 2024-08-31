@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import './css/bootstrap.min.css';
 import './css/style.css';
 import './lib/animate/animate.min.css';
@@ -7,6 +7,21 @@ import '../App.css'
 
 
 function Part5() {
+
+    useEffect(() => {
+        if (window.$) {
+          window.$('.screenshot-carousel').owlCarousel({
+            loop: true,
+            margin: 10,
+            nav: true,
+            items: 1,
+            autoplay: true,
+            autoplayTimeout: 5000,
+          });
+        }
+      }, []);
+
+      
     return(
         <div className="container-xxl py-5">
     <div className="container py-5 px-lg-5">
@@ -22,11 +37,11 @@ function Part5() {
             </div>
             <div className="col-lg-4 d-flex justify-content-center justify-content-lg-end wow fadeInUp" data-wow-delay="0.3s">
                 <div className="owl-carousel screenshot-carousel">
-                    {/* <img className="img-fluid" src="img/screenshot-1.png" alt="" />
+                    <img className="img-fluid" src="img/screenshot-1.png" alt="" />
                     <img className="img-fluid" src="img/screenshot-2.png" alt="" />
                     <img className="img-fluid" src="img/screenshot-3.png" alt="" />
                     <img className="img-fluid" src="img/screenshot-4.png" alt="" />
-                    <img className="img-fluid" src="img/screenshot-5.png" alt="" /> */}
+                    <img className="img-fluid" src="img/screenshot-5.png" alt="" />
                 </div>
             </div>
         </div>

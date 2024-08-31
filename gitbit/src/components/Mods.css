@@ -1,3 +1,7 @@
 .header-words {
     margin-bottom: 200px;
 }
+
+.owl-prev, .owl-next {
+    display: none;
+}
