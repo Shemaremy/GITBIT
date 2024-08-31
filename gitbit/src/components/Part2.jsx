@@ -4,6 +4,7 @@ import './css/style.css';
 import './lib/animate/animate.min.css';
 import './lib/owlcarousel/assets/owl.carousel.min.css';
 import '../App.css'
+import './Mods.css'
 
 
 
@@ -26,16 +27,16 @@ function Part2() {
                         <a href="#review" className="nav-item nav-link">Review</a>
                         <a href="#contact" className="nav-item nav-link">Contact</a>
                     </div>
-                <a href="" className="btn btn-primary-gradient rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Start Free Trial</a>
+                <a href="" className="btn btn-primary-gradient rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Get started</a>
                 </div>
             </nav>
 
             <div className="container-xxl bg-primary hero-header">
                 <div className="container px-lg-5">
                     <div className="row g-5">
-                        <div className="col-lg-8 text-center text-lg-start">
-                            <h1 className="text-white mb-4 animated slideInDown">The Revolutionary App That Helps To Control Your Own Fitness</h1>
-                            <p className="text-white pb-3 animated slideInDown">Tempor rebum no at dolore lorem clita rebum rebum ipsum rebum stet dolor sed justo kasd. Ut dolor sed magna dolor sea diam. Sit diam sit justo amet ipsum vero ipsum clita lorem</p>
+                        <div className="col-lg-8 text-center text-lg-start header-words">
+                            <h1 className="text-white mb-4 animated slideInDown">Get your projects done and improve your contibution habit with GitBit</h1>
+                            <p className="text-white pb-3 animated slideInDown">GitBit, a revolutionary web app that helps developers improve their contibution habit, by helping them to contribute on a daily basis, achieve their goals and do more projects for their github profile.</p>
                             <a href="" className="btn btn-primary-gradient py-sm-3 px-4 px-sm-5 rounded-pill me-3 animated slideInLeft">Read More</a>
                             <a href="" className="btn btn-secondary-gradient py-sm-3 px-4 px-sm-5 rounded-pill animated slideInRight">Contact Us</a>
                         </div>

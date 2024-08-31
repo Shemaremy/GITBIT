@@ -17,6 +17,21 @@
 }
 
 
+/* Reset scrollbar for Webkit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+    width: 10px;
+    height: auto;
+}
+
+::-webkit-scrollbar-thumb {
+    background: auto;
+    background-color: rgba(85, 85, 85, 0.438);
+}
+
+::-webkit-scrollbar-track {
+    background: auto;
+}
+
 
 
 
@@ -276,7 +291,7 @@ h6,
 
 /*** Hero Header ***/
 .hero-header {
-    padding: 18rem 0 0 0;
+    padding: 15rem 0 0 0;
     background:
         url(../img/bg-circle.png),
         url(../img/bg-triangle.png),
@@ -298,6 +313,7 @@ h6,
 
 /*** Feature ***/
 .feature-item {
+    cursor: pointer;
     transition: .5s;
 }
 

@@ -12,8 +12,8 @@ function Part5() {
     <div className="container py-5 px-lg-5">
         <div className="row g-5 align-items-center">
             <div className="col-lg-8 wow fadeInUp" data-wow-delay="0.1s">
-                <h5 className="text-primary-gradient fw-medium">Screenshot</h5>
-                <h1 className="mb-4">User Friendly Interface And Very Easy To Use Fitness App</h1>
+                <h5 className="text-primary-gradient fw-medium">Screenshots</h5>
+                <h1 className="mb-4">User Friendly Interface And Very Easy To Use</h1>
                 <p className="mb-4">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo eirmod magna dolore erat amet</p>
                 <p><i className="fa fa-check text-primary-gradient me-3"></i>Diam dolor diam ipsum et tempor sit</p>
                 <p><i className="fa fa-check text-primary-gradient me-3"></i>Aliqu diam amet diam et eos labore</p>
