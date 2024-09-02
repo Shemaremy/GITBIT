@@ -17,10 +17,10 @@ function Part11() {
                 <p><i className="fa-solid fa-phone me-3"></i>+250 783 674 289</p>
                 <p><i className="fa fa-envelope me-3"></i>remyshema20@gmail.com</p>
                 <div className="d-flex pt-2">
-                    <a className="btn btn-outline-light btn-social" href="#"><i className="fa-brands fa-discord"></i></a>
-                    <a className="btn btn-outline-light btn-social" href="#"><i className="fa-brands fa-x-twitter"></i></a>
-                    <a className="btn btn-outline-light btn-social" href="#"><i className="fab fa-instagram"></i></a>
-                    <a className="btn btn-outline-light btn-social" href="#"><i className="fab fa-linkedin-in"></i></a>
+                    <a className="btn btn-outline-light btn-social" href="https://discord.com/users/928425971936292874"><i className="fa-brands fa-discord"></i></a>
+                    <a className="btn btn-outline-light btn-social" href="https://www.instagram.com/shema.remy?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><i className="fa-brands fa-x-twitter"></i></a>
+                    <a className="btn btn-outline-light btn-social" href="https://www.instagram.com/shema.remy?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><i className="fab fa-instagram"></i></a>
+                    <a className="btn btn-outline-light btn-social" href="https://linkedin.com/in/shema-remy-ba3229288"><i className="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
             <div className="col-md-6 col-lg-3">
@@ -32,7 +32,7 @@ function Part11() {
                 <h4 className="text-white mb-4">Popular Links</h4>
                 <a className="btn btn-link" href="#">About Us</a>
                 <a className="btn btn-link" href="#">Contact Us</a>
-                <a className="btn btn-link" href="#">Portfolio</a>
+                <a className="btn btn-link" href="https://remyshema.netlify.app">Portfolio</a>
             </div>
             <div className="col-md-6 col-lg-3">
                 <h4 className="text-white mb-4">Newsletter</h4>

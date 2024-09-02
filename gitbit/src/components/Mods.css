@@ -190,3 +190,30 @@ body.fixed {
 }
 
 
+@media (max-width: 370px) {
+    .rimwe > h1 {
+        padding: 15px;
+        padding-left: 70px;
+        padding-right: 70px;
+    }
+
+    .start-intro {
+        font-size: 15px;
+    }
+
+}
+
+@media (max-width: 320px) {
+    .rimwe > h1 {
+        font-size: 13px;
+    }
+
+    .rimwe, .kabiri, .gatatu, .kane {
+        height: 8%;
+    }
+
+    .panel-option {
+        font-size: 12px;
+    }
+}
+
