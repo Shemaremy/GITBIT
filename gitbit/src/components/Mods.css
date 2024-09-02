@@ -63,7 +63,7 @@ body.fixed {
 
 
 
-@media (max-width: 768px) {
+@media (max-width: 991px) {
     .mobile-navbar {
         background-color: #243d5a;
         background: linear-gradient(to right, #213444, #3d4e6d);
