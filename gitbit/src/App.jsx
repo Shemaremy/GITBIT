@@ -18,22 +18,49 @@ import Part10 from './components/Part10';
 import Part11 from './components/Part11';
 import Part12 from './components/Part12';
 
+import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
+
+
+
+
+// function App() {
+//   return (
+//     <>
+//       <div className="container-xxl bg-white p-0 main-container">
+//         <Part2/>
+//         <Part4/>
+//         <Part5/>
+//         <Part7/>
+//         <Part10/>
+//         <Part11/>
+//       </div>
+//     <Part12/>
+//     </>
+//   );
+// }
 
 
 
 function App() {
   return (
-    <>
-      <div className="container-xxl bg-white p-0 main-container">
-        <Part2/>
-        <Part4/>
-        <Part5/>
-        <Part7/>
-        <Part10/>
-        <Part11/>
-      </div>
-    <Part12/>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={
+          <>
+            <div className="container-xxl bg-white p-0 main-container">
+              <Part2/>
+              <Part4/>
+              <Part5/>
+              <Part7/>
+              <Part10/>
+              <Part11/>
+            </div>
+            <Part12/>
+          </>
+        }>
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 
