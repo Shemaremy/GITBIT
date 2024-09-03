@@ -42,7 +42,6 @@ import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate} from 
 
 
 function App() {
-  alert("hello")
   return (
     <Router>
       <Routes>
@@ -60,6 +59,7 @@ function App() {
           </>
         }>
         </Route>
+        <Route path='/accounts' element={<Part1/>}></Route>
       </Routes>
     </Router>
   );
