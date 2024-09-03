@@ -42,6 +42,7 @@ import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate} from 
 
 
 function App() {
+  alert("hello")
   return (
     <Router>
       <Routes>
