@@ -23,21 +23,6 @@ import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate} from 
 
 
 
-// function App() {
-//   return (
-//     <>
-//       <div className="container-xxl bg-white p-0 main-container">
-//         <Part2/>
-//         <Part4/>
-//         <Part5/>
-//         <Part7/>
-//         <Part10/>
-//         <Part11/>
-//       </div>
-//     <Part12/>
-//     </>
-//   );
-// }
 
 
 
