@@ -5,10 +5,14 @@ import './lib/animate/animate.min.css';
 import './lib/owlcarousel/assets/owl.carousel.min.css';
 import '../App.css'
 import './Mods.css'
+import { useNavigate } from "react-router-dom";
 
 
 function Part12() {
 
+    const navigate = useNavigate();
+
+    // Scroll to a section
     const handleGoToLink = (sectionId) => {
         const thePanel = document.querySelector('.Mobile-panel')
         const hamburger = document.querySelector('.hamburger')
@@ -24,12 +28,16 @@ function Part12() {
         }
     };
 
+    // Get started
+    const gotoAccounts = () => {
+        navigate('/accounts');
+    };
 
     return(
         <div className="Mobile-panel">
             <div className="in-mobile-container">
                 <div className="rimwe">
-                    <h1 className="panel-option">Get started</h1>
+                    <h1 className="panel-option" onClick={gotoAccounts}>Get started</h1>
                 </div>
                 <div className="kabiri">
                     <i className="fa-solid fa-users"></i> &nbsp;&nbsp;&nbsp;

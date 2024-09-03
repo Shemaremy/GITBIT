@@ -1,4 +1,5 @@
 import React, {useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import './css/bootstrap.min.css';
 import './css/style.css';
 import './lib/animate/animate.min.css';
@@ -9,6 +10,7 @@ import './Mods.css'
 
 
 function Part2() {
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (window.$) {
@@ -34,6 +36,10 @@ function Part2() {
     };
 
 
+    const gotoAccounts = () => {
+        navigate('/accounts');
+    };
+
 
 
     return(
@@ -54,7 +60,7 @@ function Part2() {
                         <a href="#feature" className="nav-item nav-link">Features</a>
                         <a href="#contact" className="nav-item nav-link">Contact</a>
                     </div>
-                <a href="" className="btn btn-primary-gradient rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Get started</a>
+                <a href="" className="btn btn-primary-gradient rounded-pill py-2 px-4 ms-3 d-none d-lg-block" onClick={gotoAccounts}>Get started</a>
                 </div>
             </nav>
 

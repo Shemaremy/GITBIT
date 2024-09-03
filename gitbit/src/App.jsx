@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import './components/css/bootstrap.min.css';
 import './components/css/style.css';
 import './components/lib/animate/animate.min.css';
@@ -18,6 +19,8 @@ import Part10 from './components/Part10';
 import Part11 from './components/Part11';
 import Part12 from './components/Part12';
 
+import Accounts from './components/Accounts/Accounts';
+
 import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
 
 
@@ -26,9 +29,22 @@ import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate} from 
 
 
 
-function App() {
+function Approutes() {
+  const location = useLocation();
+
+  useEffect(() => {
+    const bodyHeight = document.querySelector('body');
+
+    if (location.pathname === '/accounts') {
+      bodyHeight.classList.add('accounts-fix');
+    } else {
+      bodyHeight.classList.remove('accounts-fix');
+    }
+  }, [location.pathname]);
+
+
+
   return (
-    <Router>
       <Routes>
         <Route path="/" element={
           <>
@@ -44,8 +60,20 @@ function App() {
           </>
         }>
         </Route>
-        <Route path='/accounts' element={<Part1/>}></Route>
+        <Route path='/accounts' element={<Accounts/>}></Route>
       </Routes>
+  );
+}
+
+
+
+
+
+
+function App() {
+  return(
+    <Router>
+      <Approutes/>
     </Router>
   );
 }
