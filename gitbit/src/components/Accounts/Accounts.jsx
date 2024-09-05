@@ -1,7 +1,5 @@
-import {React, useState} from 'react'
+import {React, useState, useEffect} from 'react'
 import './Accounts.css'
-import Dialog from './Dialogs/Dialog';
-import * as validator from 'email-validator';
 
 function Accounts() {
 
@@ -14,13 +12,20 @@ function Accounts() {
   };
 
 
+  const handleCreateUser = () => {
+    window.location.href = 'http://localhost:5000/auth/github';
+  };
+  
+
+  
+
 
   const SignUp = (
     <>
       <div className='upper-content'>
         <h1 className='getting-started-header'>Sign up to get started with GitBit</h1>
-        <button className='github-button'> 
-          <i class="fa-brands fa-github"></i> &nbsp; Sign up with GitHub
+        <button className='github-button' onClick={handleCreateUser}> 
+          <i className="fa-brands fa-github"></i> &nbsp; Sign up with GitHub
         </button>
         <p className='already-par'>Already have an account? &nbsp; <a href="" onClick={handleSwitch}>Log in</a></p>
       </div>
@@ -34,8 +39,8 @@ function Accounts() {
   const Login = (
     <div className='upper-content'>
       <h1 className='getting-started-header'>Login with GitBit</h1>
-      <button className='github-button'> 
-        <i class="fa-brands fa-github"></i> &nbsp; Login with GitHub
+      <button className='github-button' onClick={handleCreateUser}> 
+        <i className="fa-brands fa-github"></i> &nbsp; Login with GitHub
       </button>
       <p className='already-par'>No account? &nbsp; <a href="#" onClick={handleSwitch}>Sign up</a></p>
     </div>
