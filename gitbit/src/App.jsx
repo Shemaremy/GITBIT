@@ -30,17 +30,7 @@ import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate} from 
 
 
 function Approutes() {
-  const location = useLocation();
 
-  useEffect(() => {
-    const bodyHeight = document.querySelector('body');
-
-    if (location.pathname === '/accounts') {
-      bodyHeight.classList.add('accounts-fix');
-    } else {
-      bodyHeight.classList.remove('accounts-fix');
-    }
-  }, [location.pathname]);
 
 
 
