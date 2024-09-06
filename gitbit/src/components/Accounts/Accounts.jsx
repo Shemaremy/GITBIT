@@ -60,7 +60,7 @@ function Accounts() {
     const message = params.get('message');
 
     if (message === 'login-success') {
-      showDialog('Login successfull!!');
+      showDialog('Authenticated successfully!');
       console.log("Dialog should be triggered now");
     }
   }, [location]);
@@ -116,7 +116,7 @@ function Accounts() {
   return (
     <div className='main-content'>
       {header === 'SignUp' ? SignUp : Login}
-      <Dialog autoOpen={autoOpenDialog} message={dialogMessage} />
+      <Dialog autoOpen={autoOpenDialog} message={dialogMessage} onClose={() => setAutoOpenDialog(false)} />
     </div>
   );
 }
