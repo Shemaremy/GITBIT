@@ -49,6 +49,14 @@ body.fixed {
     display: none;
 }
 
+.submit-button.disable {
+    background: rgba(95, 95, 95, 0.521);
+    cursor: not-allowed !important;
+}
+
+.submit-button.disable:hover {
+    background: rgba(95, 95, 95, 0.521);
+}
 
 
 
