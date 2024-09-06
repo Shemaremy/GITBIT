@@ -1,23 +1,85 @@
 import {React, useState, useEffect} from 'react'
+import { useLocation } from 'react-router-dom';
 import './Accounts.css'
+import Dialog from './Dialogs/Dialog';
+
+
+
+
+
+
+
 
 function Accounts() {
 
 
   const [header, setHeader] = useState ('SignUp');
 
+  const [autoOpenDialog, setAutoOpenDialog] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState('');
 
+  const location = useLocation();
+
+
+
+  // Dialog boxes for the message 
+  const showDialog = (message) => {
+    setDialogMessage(message);
+    setAutoOpenDialog(true);
+    setIsDialogOpen(true);
+  };
+
+
+
+
+
+  // Switch between signin or sign up with github ---------------
   const handleSwitch = () => {
     setHeader(header === 'SignUp' ? 'Login' : 'SignUp');
   };
 
 
+
+
+
+
+  // Call the github auth page onclick -------------------
   const handleCreateUser = () => {
-    window.location.href = 'http://localhost:5000/auth/github';
+    window.location.href = "https://git-bit.glitch.me/auth/github";
   };
-  
 
   
+
+
+
+
+  // Searching the params to fetch the message sent from server side -------------------
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const message = params.get('message');
+
+    if (message === 'login-success') {
+      showDialog('Login successfull!!');
+      console.log("Dialog should be triggered now");
+    }
+  }, [location]);
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  // ---------------------- FRONT END STARTS HERE ---------------------------------------
+  // ---------------------- FRONT END STARTS HERE ---------------------------------------
+  // ---------------------- FRONT END STARTS HERE ---------------------------------------
 
 
   const SignUp = (
@@ -46,10 +108,15 @@ function Accounts() {
     </div>
   );
 
+
+
+
+
   
   return (
     <div className='main-content'>
       {header === 'SignUp' ? SignUp : Login}
+      <Dialog autoOpen={autoOpenDialog} message={dialogMessage} />
     </div>
   );
 }
