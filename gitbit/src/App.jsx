@@ -20,6 +20,7 @@ import Part11 from './components/Part11';
 import Part12 from './components/Part12';
 
 import Accounts from './components/Accounts/Accounts';
+import Analysis from './components/PrimaryPage/Analysis';
 
 import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
 
@@ -51,6 +52,7 @@ function Approutes() {
         }>
         </Route>
         <Route path='/accounts' element={<Accounts/>}></Route>
+        <Route path='/analysis' element={<Analysis/>}></Route>
       </Routes>
   );
 }

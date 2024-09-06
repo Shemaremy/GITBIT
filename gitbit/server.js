@@ -177,7 +177,7 @@ app.get('/auth/github/callback', (req, res, next) => {
         console.error('Authentication error:', err);  // Log the error to the console
         return next(err);  // Handle the error (you could also return a response if needed)
       }
-      if (!user) {
+      if (!user) {  
         console.error('Authentication failed:', info);  // Log failure information
         return res.status(401).send('Authentication failed, please try again.');
       }
