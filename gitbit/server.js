@@ -190,7 +190,8 @@ app.get('/auth/github/callback', (req, res, next) => {
           return next(loginErr);
         }
         // Redirect to the React app on successful login
-        res.redirect('http://localhost:5173/accounts?message=login-success');
+        //res.redirect('http://localhost:5173/accounts?message=login-success');
+        res.redirect('https://gitbit.netlify.app/accounts?message=login-success');
       });
     })(req, res, next);
   });
