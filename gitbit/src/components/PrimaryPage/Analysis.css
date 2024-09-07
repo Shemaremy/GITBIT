@@ -2,6 +2,123 @@
     height: 100vh;
     width: 100%;
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+
+
+.left-part-panel {
+    height: 100%;
+    width: 20%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.left-wrapper {
+    height: 80%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-section,
+.basic-options,
+.bottom-settings {
+    width: 95%;
+}
+
+
+
+.profile-section {
+    height: 25%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-style: dashed;
+    border-width: 1px;
+    border-color: rgba(128, 128, 128, 0.486);
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.img-container {
+    height: 90px;
+    width: 90px;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    background-color: gray;
+    margin-right: 10px;
+}
+
+.profile-section > h3 {
+    height: 60px;
+}
+
+
+
+.basic-options {
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border-style: dashed;
+    border-width: 1px;
+    border-color: rgba(128, 128, 128, 0.486);
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+
+
+.bottom-settings {
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+
+
+.basic-options > p,
+.bottom-settings > p {
+    margin-left: 10px;
+    color: rgb(66, 66, 66);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.basic-options > p:hover {
+    background-color: rgb(0, 189, 189);
+}
+
+
+
+
+
+
+.right-part-panel {
+    height: 100%;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-wrapper {
+    height: 95%;
+    width: 98%;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgba(134, 134, 134, 0.315);
+    background-color: rgba(255, 255, 255, 0.288);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.082);
 }
