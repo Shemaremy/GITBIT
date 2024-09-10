@@ -212,6 +212,8 @@ passport.use(new GitHubStrategy({
       // Attach contributions to req so it can be accessed later
       user.contributions = contributions;
 
+      //console.log(contributions);
+
 
 
       // Return the user
@@ -289,22 +291,34 @@ app.get('/auth/github/callback', (req, res, next) => {
         return next(loginErr);
       }
       // Redirect to the React app on successful login
-      res.redirect('http://localhost:5173/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl);
+      //res.redirect('http://localhost:5173/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl);
       //res.redirect('https://gitbit.netlify.app/accounts?message=login-success&username=' + user.username);
       
       
       
-      // const contributions = req.user.contributions;
-      // res.redirect(
-      //   `http://localhost:5173/accounts?message=login-success&username=${user.username}&profileImg=${user.profileImageUrl}&contributions=${encodeURIComponent(JSON.stringify(contributions))}`
-      // );
+       const contributions = req.user.contributions;
+      /*  res.redirect(
+           `http://localhost:5173/accounts?message=login-success&username=${user.username}&profileImg=${user.profileImageUrl}&contributions=${encodeURIComponent(JSON.stringify(contributions))}`
+        );
+      */
+
+      //res.redirect('http://localhost:5173/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl + '&contributions=' + encodeURIComponent(JSON.stringify(contributions)));
+      //res.redirect('http://localhost:5173/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl + '&contributions=' + JSON.stringify(contributions));
+      //res.redirect('http://localhost:5173/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl + '&contributions=' + contributions);
+
+      //const combinedContributions = encodeURIComponent(JSON.stringify(contributions));
+      //res.redirect('http://localhost:5173/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl + '&contributions=' + combinedContributions);
+      
+
+
+      const userId = req.user._id;
+      res.redirect('http://localhost:5173/accounts?message=login-success&userId=' + userId + '&username=' + user.username + '&profileImg=' + user.profileImageUrl);
+
+
+
     });
   })(req, res, next);
 });
-
-
-
-
 
 
 
