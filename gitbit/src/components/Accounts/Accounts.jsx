@@ -69,6 +69,7 @@ function Accounts() {
 
     if (message === 'login-success') {
       showDialog('Authenticated successfully!');
+      console.log(contributions);
       params.delete('message');
       params.delete('username');
       params.delete('profileImg');
