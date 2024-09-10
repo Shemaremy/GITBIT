@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const sgMail = require('@sendgrid/mail');
 
+const { request, gql } = require('graphql-request');
 
 const app = express();
 app.use(cors());
@@ -21,7 +22,86 @@ app.use(express.json());
 
 
 
+
+
+
+
+
+
+
+
+
+// ---------------------- Configuring with graphql ------------------------------------------------------------------
+
+const GITHUB_GRAPHQL_API = 'https://api.github.com/graphql';
+
+async function getGitHubContributions(accessToken, username) {
+  const query = gql`
+    query($username: String!) {
+      user(login: $username) {
+        contributionsCollection {
+          contributionCalendar {
+            totalContributions
+            weeks {
+              contributionDays {
+                contributionCount
+                date
+                color
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const variables = { username };
+
+  try {
+    const data = await request(GITHUB_GRAPHQL_API, query, variables, {
+      Authorization: `Bearer ${accessToken}`,
+    });
+    return data.user.contributionsCollection.contributionCalendar;
+  } catch (error) {
+    console.error('Error fetching GitHub contributions:', error);
+    throw error;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //------------------- MongoDB connection -----------------------------------------------
+
 async function connectToDatabase() {
     const uri = process.env.MONGODB_URI;
     try {
@@ -32,6 +112,14 @@ async function connectToDatabase() {
     }
 }
 connectToDatabase();
+
+
+
+
+
+
+
+
 
 
 
@@ -117,6 +205,15 @@ passport.use(new GitHubStrategy({
         await user.save();
       }
 
+
+      // Fetch user's GitHub contribution graph data
+      const contributions = await getGitHubContributions(accessToken, profile.username);
+     
+      // Attach contributions to req so it can be accessed later
+      user.contributions = contributions;
+
+
+
       // Return the user
       return done(null, user);
     } catch (error) {
@@ -175,29 +272,51 @@ passport.deserializeUser(async (id, done) => {
 app.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
 
 app.get('/auth/github/callback', (req, res, next) => {
-    passport.authenticate('github', (err, user, info) => {
-      if (err) {
-        console.error('Authentication error:', err);  // Log the error to the console
-        return next(err);  // Handle the error (you could also return a response if needed)
+  passport.authenticate('github', (err, user, info) => {
+    if (err) {
+      console.error('Authentication error:', err);  // Log the error to the console
+      return next(err);  // Handle the error (you could also return a response if needed)
+    }
+    if (!user) {  
+      console.error('Authentication failed:', info);  // Log failure information
+      return res.status(401).send('Authentication failed, please try again.');
+    }
+    
+    // If authentication is successful, log the user in manually
+    req.logIn(user, (loginErr) => {
+      if (loginErr) {
+        console.error('Login error:', loginErr);
+        return next(loginErr);
       }
-      if (!user) {  
-        console.error('Authentication failed:', info);  // Log failure information
-        return res.status(401).send('Authentication failed, please try again.');
-      }
+      // Redirect to the React app on successful login
+      res.redirect('http://localhost:5173/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl);
+      //res.redirect('https://gitbit.netlify.app/accounts?message=login-success&username=' + user.username);
       
-      // If authentication is successful, log the user in manually
-      req.logIn(user, (loginErr) => {
-        if (loginErr) {
-          console.error('Login error:', loginErr);
-          return next(loginErr);
-        }
-        // Redirect to the React app on successful login
-        res.redirect('http://localhost:5173/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl);
-        //res.redirect('https://gitbit.netlify.app/accounts?message=login-success&username=' + user.username);
-      });
-    })(req, res, next);
-  });
-  
+      
+      
+      // const contributions = req.user.contributions;
+      // res.redirect(
+      //   `http://localhost:5173/accounts?message=login-success&username=${user.username}&profileImg=${user.profileImageUrl}&contributions=${encodeURIComponent(JSON.stringify(contributions))}`
+      // );
+    });
+  })(req, res, next);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
