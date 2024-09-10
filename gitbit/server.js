@@ -50,6 +50,7 @@ const userSchema = new mongoose.Schema({
     displayName: String,
     emails: [{ value: String }],
     profileUrl: String,
+    profileImageUrl: String
 });
 const User = mongoose.model('User', userSchema);
 
@@ -110,7 +111,8 @@ passport.use(new GitHubStrategy({
           username: profile.username,
           displayName: profile.displayName,
           emails: profile.emails,
-          profileUrl: profile.profileUrl
+          profileUrl: profile.profileUrl,
+          profileImageUrl: profile.photos[0].value
         });
         await user.save();
       }
@@ -190,8 +192,8 @@ app.get('/auth/github/callback', (req, res, next) => {
           return next(loginErr);
         }
         // Redirect to the React app on successful login
-        //res.redirect('http://localhost:5173/accounts?message=login-success');
-        res.redirect('https://gitbit.netlify.app/accounts?message=login-success');
+        res.redirect('http://localhost:5173/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl);
+        //res.redirect('https://gitbit.netlify.app/accounts?message=login-success&username=' + user.username);
       });
     })(req, res, next);
   });

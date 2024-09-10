@@ -1,7 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './Analysis.css';
 
 function Analysis() {
+
+    const [ username, setUsername ] = useState('NoUsername');
+    const [ profile, setProfile ] = useState('none');
+
+    useEffect(() => {
+        const storedUsername = localStorage.getItem("UserName");
+        const storedProfile = localStorage.getItem("profile")
+        setUsername(storedUsername);
+        setProfile(storedProfile);
+    }, []);
+
 
 
 
@@ -104,8 +115,10 @@ function Analysis() {
             <div className="left-part-panel">
                 <div className="left-wrapper">
                     <div className="profile-section">
-                        <div className="img-container"></div>
-                        <h3>Remy</h3>
+                        <div className="img-container">
+                            <img src={profile} alt="Pic" className="profile-pic"/>
+                        </div>
+                        <h3>{username}</h3>
                     </div>
                     {LeftPanel}
                 </div>
@@ -121,16 +134,18 @@ function Analysis() {
                                     </button>
                                 </div>
                             </div>
-                            <h2>Remy</h2>
+                            <h2>{username}</h2>
                         </div>
                         <div className="right-part-nav">
                             <i className="fa-solid fa-bell"></i>
                             <i className="fa-solid fa-shield-halved"></i>
-                            <div className="img-container"></div>                            
+                            <div className="img-container">
+                                <img src={profile} alt="Pic" className="profile-pic"/>
+                            </div>                            
                         </div>
                     </div>
                     <div className="top-headers">
-                        <h1 className="welcome-header">Welcome back, Remy</h1>
+                        <h1 className="welcome-header">Welcome back, {username}</h1>
                         <p className="main-date">Monday, 23 November</p>
                     </div>
                     <div className="three-panels-section">

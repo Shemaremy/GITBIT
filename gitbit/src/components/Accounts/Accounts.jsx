@@ -57,16 +57,22 @@ function Accounts() {
 
 
 
-
   // Searching the params to fetch the message sent from server side -------------------
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const message = params.get('message');
+    const username = params.get('username');
+    const profile = params.get('profileImg');
+
+    localStorage.setItem('UserName', username);
+    localStorage.setItem('profile', profile);
 
     if (message === 'login-success') {
       showDialog('Authenticated successfully!');
- 
       params.delete('message');
+      params.delete('username');
+      params.delete('profileImg');
+
       const newUrl = `${location.pathname}${params.toString()}`;
       window.history.replaceState(null, '', newUrl);
     }
@@ -96,7 +102,7 @@ function Accounts() {
         <button className='github-button' onClick={handleCreateUser} disabled={isButtonDisabled}> 
           <i className="fa-brands fa-github"></i> &nbsp; Sign up with GitHub
         </button>
-        <p className='already-par'>Already have an account? &nbsp; <a href="" onClick={handleSwitch}>Log in</a></p>
+        <p className='already-par'>Already have an account? &nbsp; <a href="#" onClick={handleSwitch}>Log in</a></p>
       </div>
       <div className='lower-content'>
         <p className='terms-github'>By signing up with Gitbit, you agree to our &nbsp; <a href="">terms of service.</a></p>
@@ -111,7 +117,7 @@ function Accounts() {
       <button className='github-button' onClick={handleCreateUser} disabled={isButtonDisabled}> 
         <i className="fa-brands fa-github"></i> &nbsp; Login with GitHub
       </button>
-      <p className='already-par'>No account? &nbsp; <a href="#" onClick={handleSwitch}>Sign up</a></p>
+      <p className='already-par'>No account? &nbsp; <a href="" onClick={handleSwitch}>Sign up</a></p>
     </div>
   );
 
