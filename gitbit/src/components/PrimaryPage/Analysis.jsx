@@ -19,7 +19,7 @@ function Analysis() {
     const [ repositories, setRepositories ] = useState(0);
     const [ yesterday, setYesterday ] = useState(0);
 
-    /*
+    
     useEffect(() => {
         const storedUsername = localStorage.getItem("UserName");
         const storedProfile = localStorage.getItem("profile");
@@ -39,57 +39,7 @@ function Analysis() {
             setStatus(<><i className="fa-solid fa-thumbs-down"></i></>);
         }
     }, []);
-    */
 
-
-    useEffect(() => {
-        // Set initial state from local storage
-        const storedUsername = localStorage.getItem("UserName");
-        const storedProfile = localStorage.getItem("profile");
-        const storedContributions = localStorage.getItem("contributions");
-        const storedRepositories = localStorage.getItem("repositories");
-        const storedYesterday = localStorage.getItem("yesterday");
-      
-        const contributionsNumber = parseInt(storedContributions);
-        const formattedContr = contributionsNumber.toLocaleString();
-      
-        setUsername(storedUsername);
-        setProfile(storedProfile);
-        setContributions(formattedContr);
-        setRepositories(storedRepositories);
-        setYesterday(parseInt(storedYesterday));
-      
-        if (yesterday < 1) {
-          setStatus(<><i className="fa-solid fa-thumbs-down"></i></>);
-        }
-      
-        // Polling every 5 seconds to get updated contributions from the backend
-        const intervalId = setInterval(async () => {
-          try {
-            const response = await fetch(`https://git-bit.glitch.me/contributions?username=${storedUsername}`);
-            const data = await response.json();
-            
-            // Update the contributions, repositories, and yesterday data in the state
-            const formattedNewContributions = data.contributions.toLocaleString();
-            setContributions(formattedNewContributions);
-            setRepositories(data.repositories);
-            setYesterday(data.yesterday);
-      
-            // Update status based on new contributions
-            if (data.yesterday < 1) {
-              setStatus(<><i className="fa-solid fa-thumbs-down"></i></>);
-            } else {
-              setStatus(<><i className="fa-solid fa-thumbs-up"></i></>);
-            }
-          } catch (error) {
-            console.error("Error fetching contributions:", error);
-          }
-        }, 5000);  // Poll every 5 seconds
-      
-        // Cleanup the interval on component unmount
-        return () => clearInterval(intervalId);
-      }, []);
-      
 
 
 
