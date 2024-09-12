@@ -1,18 +1,30 @@
 import React, { useState, useEffect } from "react";
+import moment from 'moment';
 import './Analysis.css';
 
+
+
+
+
+
 function Analysis() {
+
+
+
+    const [ status, setStatus ] = useState(<><i className="fa-solid fa-thumbs-up"></i></>);
 
     const [ username, setUsername ] = useState('NoUsername');
     const [ profile, setProfile ] = useState('none');
     const [ contributions, setContributions ] = useState(0);
     const [ repositories, setRepositories ] = useState(0);
+    const [ yesterday, setYesterday ] = useState(0);
 
     useEffect(() => {
         const storedUsername = localStorage.getItem("UserName");
         const storedProfile = localStorage.getItem("profile");
         const storedContributions = localStorage.getItem("contributions");
         const storedRepositories = localStorage.getItem("repositories");
+        const storedYesterday = localStorage.getItem("yesterday");
 
         const contributionsNumber = parseInt(storedContributions);
         const formattedContr = contributionsNumber.toLocaleString();
@@ -21,12 +33,36 @@ function Analysis() {
         setProfile(storedProfile);
         setContributions(formattedContr);
         setRepositories(storedRepositories);
+        setYesterday(parseInt(storedYesterday));
+        if (yesterday < 1) {
+            setStatus(<><i className="fa-solid fa-thumbs-down"></i></>);
+        }
     }, []);
 
 
 
 
-    // When the burger is clicked, this is called
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // ----------- Mobile burger options ------------------------------------------------------
+
     const toggleMobileMenu = () => {
         const menu_btn = document.querySelector('.hamburger');
         const show_panel = document.querySelector('.analysis-nav-mobilepanel');
@@ -35,6 +71,21 @@ function Analysis() {
         show_panel.classList.toggle('is-active');
         fixed_page.classList.toggle('body-fixed');
     };
+
+
+
+
+
+
+
+
+
+
+
+    // ------- Formatting the today's date -----------------------------------------------
+
+    const currentDay = moment().format('dddd');
+    const currentDate = moment().format('MMMM Do');
 
     
     
@@ -62,6 +113,14 @@ function Analysis() {
     const isActive = (panel) => panelChange === panel ? 'active' : '';
 
 
+
+
+
+
+
+
+
+    
 
 
 
@@ -156,7 +215,7 @@ function Analysis() {
                     </div>
                     <div className="top-headers">
                         <h1 className="welcome-header">Welcome back, {username}</h1>
-                        <p className="main-date">Monday, 23 November</p>
+                        <p className="main-date">{currentDay}, {currentDate}</p>
                     </div>
                     <div className="three-panels-section">
                         <div className="first-panel-analysis">
@@ -166,8 +225,8 @@ function Analysis() {
                         </div>
                         <div className="second-panel-analysis">
                             <h5 className="min-panel-h5">Yesterday</h5>
-                            <p className="min-panel-par">3 contributions</p>
-                            <h6 className="min-panel-h6">Status: &nbsp; <i className="fa-solid fa-thumbs-up"></i></h6>
+                            <p className="min-panel-par">{yesterday} contributions</p>
+                            <h6 className="min-panel-h6">Status: &nbsp; {status}</h6>
                         </div>
                         <div className="third-panel-analysis">
                             <h5 className="min-panel-h5">Current badge</h5>

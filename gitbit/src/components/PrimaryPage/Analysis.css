@@ -71,6 +71,8 @@
 .profile-section > h3 {
     margin: 0;
     font-size: 23px;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 

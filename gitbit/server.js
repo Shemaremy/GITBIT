@@ -9,6 +9,7 @@ const session = require('express-session');
 const sgMail = require('@sendgrid/mail');
 
 const { request, gql } = require('graphql-request');
+const moment = require('moment');
 
 const app = express();
 app.use(cors());
@@ -66,10 +67,24 @@ async function getGitHubContributions(accessToken, username) {
     const data = await request(GITHUB_GRAPHQL_API, query, variables, {
       Authorization: `Bearer ${accessToken}`,
     });
-    return {
-      contributionCalendar: data.user.contributionsCollection.contributionCalendar,
-      totalRepositories: data.user.repositories.totalCount
-    };
+    
+    const  contributionCalendar = data.user.contributionsCollection.contributionCalendar;
+    const totalRepositories = data.user.repositories.totalCount;
+
+    // Get yesterday's date in YYYY-MM-DD format
+    const yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
+    let yesterdayContributions = 0;
+    contributionCalendar.weeks.forEach(week => {
+      week.contributionDays.forEach(day => {
+        if (day.date === yesterday) {
+          yesterdayContributions = day.contributionCount;
+        }
+      });
+    });
+
+
+
+    return { contributionCalendar, totalRepositories, yesterdayContributions };
   } catch (error) {
     console.error('Error fetching GitHub contributions:', error);
     throw error;
@@ -217,7 +232,7 @@ passport.use(new GitHubStrategy({
       let user = await User.findOne({ githubId: profile.id });
 
       // Fetch user's GitHub contribution graph data and repository numbers
-      const { contributionCalendar, totalRepositories } = await getGitHubContributions(accessToken, profile.username);
+      const { contributionCalendar, totalRepositories, yesterdayContributions } = await getGitHubContributions(accessToken, profile.username);
 
       // If the user does not exist, create a new one
       if (!user) {
@@ -252,7 +267,7 @@ passport.use(new GitHubStrategy({
 
 
       // Return the user
-      return done(null, user);
+      return done(null, { user, yesterdayContributions });
     } catch (error) {
       console.error('Error saving GitHub profile to MongoDB:', error);
       return done(error, null);
@@ -309,15 +324,17 @@ passport.deserializeUser(async (id, done) => {
 app.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
 
 app.get('/auth/github/callback', (req, res, next) => {
-  passport.authenticate('github', (err, user, info) => {
+  passport.authenticate('github', (err, result, info) => {
     if (err) {
       console.error('Authentication error:', err);  // Log the error to the console
       return next(err);  // Handle the error (you could also return a response if needed)
     }
-    if (!user) {  
+    if (!result || !result.user) {  
       console.error('Authentication failed:', info);  // Log failure information
       return res.status(401).send('Authentication failed, please try again.');
     }
+
+    const { user, yesterdayContributions } = result;
     
     // If authentication is successful, log the user in manually
     req.logIn(user, (loginErr) => {
@@ -325,10 +342,14 @@ app.get('/auth/github/callback', (req, res, next) => {
         console.error('Login error:', loginErr);
         return next(loginErr);
       }
-      // Redirect to the React app on successful login
+
+
       const contributions = user.contributions.totalContributions;
       const repositories = user.contributions.totalRepositories;
-      res.redirect(`http://localhost:5173/accounts?message=login-success&username=${user.username}&profileImg=${user.profileImageUrl}&contributions=${contributions}&repositories=${repositories}`);
+      const yesterday = yesterdayContributions;
+
+      
+      res.redirect(`http://localhost:5173/accounts?message=login-success&username=${user.username}&profileImg=${user.profileImageUrl}&contributions=${contributions}&repositories=${repositories}&yesterday=${yesterday}`);
       //res.redirect('https://gitbit.netlify.app/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl);
 
     });

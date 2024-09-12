@@ -66,19 +66,23 @@ function Accounts() {
     const profile = params.get('profileImg');
     const contributions = params.get('contributions');
     const repositories = params.get('repositories');
+    const yesterday = params.get('yesterday');
 
     localStorage.setItem('UserName', username);
     localStorage.setItem('profile', profile);
     localStorage.setItem('contributions', contributions);
     localStorage.setItem('repositories', repositories);
+    localStorage.setItem('yesterday', yesterday);
 
     if (message === 'login-success') {
       showDialog('Authenticated successfully!');
+
       params.delete('message');
       params.delete('username');
       params.delete('profileImg');
       params.delete('contributions');
       params.delete('repositories');
+      params.delete('yesterday');
 
       const newUrl = `${location.pathname}${params.toString()}`;
       window.history.replaceState(null, '', newUrl);
