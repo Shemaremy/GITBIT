@@ -203,6 +203,13 @@ passport.use(new GitHubStrategy({
           profileImageUrl: profile.photos[0].value
         });
         await user.save();
+      } else if (user) {        // If the user exists, update the prev data from mongodb with current from github
+        user.username = profile.username;
+        user.displayName = profile.displayName;
+        user.emails = profile.emails;
+        user.profileUrl = profile.profileUrl;
+        user.profileImageUrl = profile.photos[0].value;
+        await user.save();  
       }
 
 
@@ -291,8 +298,8 @@ app.get('/auth/github/callback', (req, res, next) => {
         return next(loginErr);
       }
       // Redirect to the React app on successful login
-      //res.redirect('http://localhost:5173/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl);
-        res.redirect('https://gitbit.netlify.app/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl);
+      res.redirect('http://localhost:5173/accounts?message=login-success&username=' + user.displayName + '&profileImg=' + user.profileImageUrl);
+      //res.redirect('https://gitbit.netlify.app/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl);
 
       
       
