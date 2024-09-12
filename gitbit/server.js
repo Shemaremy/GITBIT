@@ -261,10 +261,6 @@ passport.use(new GitHubStrategy({
         };
         await user.save();  
       }
-
-
-       // Start polling for updates
-       startPollingContributions(accessToken, profile.username, user._id);
      
   
 
@@ -371,15 +367,28 @@ app.get('/auth/github/callback', (req, res, next) => {
 
 
 
-// --------- Polling method (consistent github updates) ----------------------------------------------
+// --------- Webhook method (consistent github updates) ----------------------------------------------
 
-function startPollingContributions(accessToken, username, userId) {
-  setInterval(async () => {
+app.post('/webhook', async (req, res) => {
+  const payload = req.body;
+
+  if (payload && payload.pusher && payload.repository) {
+    const username = payload.pusher.name;
+    
+    // Fetch the updated contributions from GitHub
     try {
-      const { contributionCalendar, totalRepositories } = await getGitHubContributions(accessToken, username);
+      const user = await User.findOne({ username });
+
+      if (!user || !user.accessToken) {
+        return res.status(400).send('User not found or access token missing');
+      }
+
+      // Use the stored access token to fetch contributions
+      const { contributionCalendar, totalRepositories } = await getGitHubContributions(user.accessToken, username);
+
       
-      // Update the MongoDB database with the latest data
-      await User.findByIdAndUpdate(userId, {
+      // Update the user's contributions in MongoDB
+      await User.findOneAndUpdate({ username }, {
         $set: {
           contributions: {
             ...contributionCalendar,
@@ -388,21 +397,15 @@ function startPollingContributions(accessToken, username, userId) {
         }
       });
       console.log(`Contributions updated for user ${username}`);
+      res.status(200).send('Webhook received');
     } catch (error) {
-      console.error('Error during polling contributions:', error);
+      console.error('Error handling webhook:', error);
+      res.status(500).send('Error handling webhook');
     }
-  }, 30000);  // Poll every 60 seconds (adjust as needed)
-}
-
-
-
-
-
-
-
-
-
-
+  } else {
+    res.status(400).send('Invalid webhook payload');
+  }
+});
 
 
 
