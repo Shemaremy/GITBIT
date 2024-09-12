@@ -262,8 +262,9 @@ passport.use(new GitHubStrategy({
         await user.save();  
       }
      
-  
 
+      // Start polling for updates
+      startPollingContributions(accessToken, profile.username, user._id);
 
 
       // Return the user
@@ -364,32 +365,15 @@ app.get('/auth/github/callback', (req, res, next) => {
 
 
 
+// --------- Polling method (consistent github updates) ---------------------------------------------
 
-
-
-// --------- Webhook method (consistent github updates) ----------------------------------------------
-
-app.post('/webhook', async (req, res) => {
-  const payload = req.body;
-
-  if (payload && payload.pusher && payload.repository) {
-    const username = payload.pusher.name;
-    
-    // Fetch the updated contributions from GitHub
+function startPollingContributions(accessToken, username, userId) {
+  setInterval(async () => {
     try {
-      const user = await User.findOne({ username });
+      const { contributionCalendar, totalRepositories } = await getGitHubContributions(accessToken, username);
 
-      if (!user || !user.accessToken) {
-        return res.status(400).send('User not found or access token missing');
-      }
-
-      
-      // Use the stored access token to fetch contributions
-      const { contributionCalendar, totalRepositories } = await getGitHubContributions(user.accessToken, username);
-
-      
-      // Update the user's contributions in MongoDB
-      await User.findOneAndUpdate({ username }, {
+      // Update the MongoDB database with the latest data
+      await User.findByIdAndUpdate(userId, {
         $set: {
           contributions: {
             ...contributionCalendar,
@@ -398,20 +382,11 @@ app.post('/webhook', async (req, res) => {
         }
       });
       console.log(`Contributions updated for user ${username}`);
-      res.status(200).send('Webhook received');
     } catch (error) {
-      console.error('Error handling webhook:', error);
-      res.status(500).send('Error handling webhook');
+      console.error('Error during polling contributions:', error);
     }
-  } else {
-    res.status(400).send('Invalid webhook payload');
-  }
-});
-
-
-
-
-
+  }, 30000);
+}
 
 
 
