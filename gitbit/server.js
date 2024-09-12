@@ -261,6 +261,10 @@ passport.use(new GitHubStrategy({
         };
         await user.save();  
       }
+
+
+       // Start polling for updates
+       startPollingContributions(accessToken, profile.username, user._id);
      
   
 
@@ -355,6 +359,46 @@ app.get('/auth/github/callback', (req, res, next) => {
     });
   })(req, res, next);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+// --------- Polling method (consistent github updates) ----------------------------------------------
+
+function startPollingContributions(accessToken, username, userId) {
+  setInterval(async () => {
+    try {
+      const { contributionCalendar, totalRepositories } = await getGitHubContributions(accessToken, username);
+      
+      // Update the MongoDB database with the latest data
+      await User.findByIdAndUpdate(userId, {
+        $set: {
+          contributions: {
+            ...contributionCalendar,
+            totalRepositories
+          }
+        }
+      });
+      console.log(`Contributions updated for user ${username}`);
+    } catch (error) {
+      console.error('Error during polling contributions:', error);
+    }
+  }, 30000);  // Poll every 60 seconds (adjust as needed)
+}
+
+
+
+
+
+
 
 
 
