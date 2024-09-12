@@ -383,6 +383,7 @@ app.post('/webhook', async (req, res) => {
         return res.status(400).send('User not found or access token missing');
       }
 
+      
       // Use the stored access token to fetch contributions
       const { contributionCalendar, totalRepositories } = await getGitHubContributions(user.accessToken, username);
 
