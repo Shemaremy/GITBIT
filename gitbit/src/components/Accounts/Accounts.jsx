@@ -60,18 +60,25 @@ function Accounts() {
   // Searching the params to fetch the message sent from server side -------------------
   useEffect(() => {
     const params = new URLSearchParams(location.search);
+
     const message = params.get('message');
     const username = params.get('username');
     const profile = params.get('profileImg');
+    const contributions = params.get('contributions');
+    const repositories = params.get('repositories');
 
     localStorage.setItem('UserName', username);
     localStorage.setItem('profile', profile);
+    localStorage.setItem('contributions', contributions);
+    localStorage.setItem('repositories', repositories);
 
     if (message === 'login-success') {
       showDialog('Authenticated successfully!');
       params.delete('message');
       params.delete('username');
       params.delete('profileImg');
+      params.delete('contributions');
+      params.delete('repositories');
 
       const newUrl = `${location.pathname}${params.toString()}`;
       window.history.replaceState(null, '', newUrl);

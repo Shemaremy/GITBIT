@@ -36,24 +36,29 @@ app.use(express.json());
 const GITHUB_GRAPHQL_API = 'https://api.github.com/graphql';
 
 async function getGitHubContributions(accessToken, username) {
+
   const query = gql`
-    query($username: String!) {
-      user(login: $username) {
-        contributionsCollection {
-          contributionCalendar {
-            totalContributions
-            weeks {
-              contributionDays {
-                contributionCount
-                date
-                color
-              }
+  query($username: String!) {
+    user(login: $username) {
+      contributionsCollection {
+        contributionCalendar {
+          totalContributions
+          weeks {
+            contributionDays {
+              contributionCount
+              date
+              color
             }
           }
         }
       }
+      repositories {
+        totalCount
+      }
     }
-  `;
+  }
+`;
+
 
   const variables = { username };
 
@@ -61,7 +66,10 @@ async function getGitHubContributions(accessToken, username) {
     const data = await request(GITHUB_GRAPHQL_API, query, variables, {
       Authorization: `Bearer ${accessToken}`,
     });
-    return data.user.contributionsCollection.contributionCalendar;
+    return {
+      contributionCalendar: data.user.contributionsCollection.contributionCalendar,
+      totalRepositories: data.user.repositories.totalCount
+    };
   } catch (error) {
     console.error('Error fetching GitHub contributions:', error);
     throw error;
@@ -133,12 +141,27 @@ connectToDatabase();
 // ----------------Mongoose user model --------------------------------------------
 
 const userSchema = new mongoose.Schema({
-    githubId: String,
-    username: String,
-    displayName: String,
-    emails: [{ value: String }],
-    profileUrl: String,
-    profileImageUrl: String
+  githubId: String,
+  username: String,
+  displayName: String,
+  emails: [{ value: String }],
+  profileUrl: String,
+  profileImageUrl: String,
+  contributions: {
+    totalContributions: Number,
+    totalRepositories: Number,
+    weeks: [
+      {
+        contributionDays: [
+          {
+            date: String,
+            contributionCount: Number,
+            color: String
+          }
+        ]
+      }
+    ]
+  }
 });
 const User = mongoose.model('User', userSchema);
 
@@ -189,8 +212,12 @@ passport.use(new GitHubStrategy({
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
+
       // Check if the user already exists in MongoDB
       let user = await User.findOne({ githubId: profile.id });
+
+      // Fetch user's GitHub contribution graph data and repository numbers
+      const { contributionCalendar, totalRepositories } = await getGitHubContributions(accessToken, profile.username);
 
       // If the user does not exist, create a new one
       if (!user) {
@@ -200,7 +227,11 @@ passport.use(new GitHubStrategy({
           displayName: profile.displayName,
           emails: profile.emails,
           profileUrl: profile.profileUrl,
-          profileImageUrl: profile.photos[0].value
+          profileImageUrl: profile.photos[0].value,
+          contributions: {
+            ...contributionCalendar,   // Store the contribution calendar
+            totalRepositories          // Store the total number of repositories
+          }
         });
         await user.save();
       } else if (user) {        // If the user exists, update the prev data from mongodb with current from github
@@ -209,17 +240,14 @@ passport.use(new GitHubStrategy({
         user.emails = profile.emails;
         user.profileUrl = profile.profileUrl;
         user.profileImageUrl = profile.photos[0].value;
+        user.contributions = {
+          ...contributionCalendar,
+          totalRepositories
+        };
         await user.save();  
       }
-
-
-      // Fetch user's GitHub contribution graph data
-      const contributions = await getGitHubContributions(accessToken, profile.username);
      
-      // Attach contributions to req so it can be accessed later
-      user.contributions = contributions;
-
-      //console.log(contributions);
+  
 
 
 
@@ -298,25 +326,10 @@ app.get('/auth/github/callback', (req, res, next) => {
         return next(loginErr);
       }
       // Redirect to the React app on successful login
-      res.redirect('http://localhost:5173/accounts?message=login-success&username=' + user.displayName + '&profileImg=' + user.profileImageUrl);
+      const contributions = user.contributions.totalContributions;
+      const repositories = user.contributions.totalRepositories;
+      res.redirect(`http://localhost:5173/accounts?message=login-success&username=${user.username}&profileImg=${user.profileImageUrl}&contributions=${contributions}&repositories=${repositories}`);
       //res.redirect('https://gitbit.netlify.app/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl);
-
-      
-      
-      
-
-
-
-       //const contributions = req.user.contributions;
-
-      //res.redirect('http://localhost:5173/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl + '&contributions=' + encodeURIComponent(JSON.stringify(contributions)));
-      //res.redirect('http://localhost:5173/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl + '&contributions=' + JSON.stringify(contributions));
-      //res.redirect('http://localhost:5173/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl + '&contributions=' + contributions);
-
-
-      //const combinedContributions = encodeURIComponent(JSON.stringify(contributions));
-      //res.redirect('http://localhost:5173/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl + '&contributions=' + combinedContributions);
-      
 
     });
   })(req, res, next);

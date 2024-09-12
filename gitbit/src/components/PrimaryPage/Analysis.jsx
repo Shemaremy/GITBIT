@@ -5,12 +5,22 @@ function Analysis() {
 
     const [ username, setUsername ] = useState('NoUsername');
     const [ profile, setProfile ] = useState('none');
+    const [ contributions, setContributions ] = useState(0);
+    const [ repositories, setRepositories ] = useState(0);
 
     useEffect(() => {
         const storedUsername = localStorage.getItem("UserName");
-        const storedProfile = localStorage.getItem("profile")
+        const storedProfile = localStorage.getItem("profile");
+        const storedContributions = localStorage.getItem("contributions");
+        const storedRepositories = localStorage.getItem("repositories");
+
+        const contributionsNumber = parseInt(storedContributions);
+        const formattedContr = contributionsNumber.toLocaleString();
+
         setUsername(storedUsername);
         setProfile(storedProfile);
+        setContributions(formattedContr);
+        setRepositories(storedRepositories);
     }, []);
 
 
@@ -151,8 +161,8 @@ function Analysis() {
                     <div className="three-panels-section">
                         <div className="first-panel-analysis">
                             <h5 className="min-panel-h5">Contributions</h5>
-                            <p className="min-panel-par">1,343 contributions</p>
-                            <h6 className="min-panel-h6">29 repositories</h6>
+                            <p className="min-panel-par">{contributions} contributions</p>
+                            <h6 className="min-panel-h6">{repositories} repositories</h6>
                         </div>
                         <div className="second-panel-analysis">
                             <h5 className="min-panel-h5">Yesterday</h5>
