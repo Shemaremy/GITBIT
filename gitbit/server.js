@@ -396,7 +396,6 @@ function startPollingContributions(accessToken, username, userId) {
 
 
 
-
 // Send Email message ------------------------------------------
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
