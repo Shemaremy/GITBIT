@@ -389,6 +389,31 @@ app.get('/auth/github/callback', (req, res, next) => {
 
 
 
+app.get('/contributions', async (req, res) => {
+  const { username } = req.query;
+
+  try {
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json({
+      contributions: user.contributions.totalContributions,
+      repositories: user.contributions.totalRepositories,
+      yesterday: user.contributions.yesterdayContributions,
+    });
+  } catch (error) {
+    console.error('Error fetching contributions:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
+
+
 
 
 
