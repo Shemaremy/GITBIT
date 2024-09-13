@@ -32,6 +32,7 @@ app.use(express.json());
 
 
 
+
 // ---------------------- Configuring with graphql ------------------------------------------------------------------
 
 const GITHUB_GRAPHQL_API = 'https://api.github.com/graphql';
@@ -194,12 +195,22 @@ const User = mongoose.model('User', userSchema);
 
 
 
+
+
+
+
+
+
+
+
+
+
 // ------ Session middleware to keep track of user info. Expires when the page is closed ------------------
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
 }));
 
 app.use(passport.initialize());
@@ -268,13 +279,30 @@ passport.use(new GitHubStrategy({
 
 
       // Return the user
-      return done(null, { user, yesterdayContributions });
+      return done(null, user);
     } catch (error) {
       console.error('Error saving GitHub profile to MongoDB:', error);
       return done(error, null);
     }
   }
 ));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -326,12 +354,25 @@ function startPollingContributions(accessToken, username, userId) {
           }
         }
       });
-      console.log(`Contributions updated for user ${username}`);
+      //console.log(`Contributions updated for user ${username}`);
     } catch (error) {
       console.error('Error during polling contributions:', error);
     }
   }, 5000);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -351,17 +392,16 @@ function startPollingContributions(accessToken, username, userId) {
 app.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
 
 app.get('/auth/github/callback', (req, res, next) => {
-  passport.authenticate('github', (err, result, info) => {
+  passport.authenticate('github', (err, user, info) => {
     if (err) {
-      console.error('Authentication error:', err);  // Log the error to the console
-      return next(err);  // Handle the error (you could also return a response if needed)
+      console.error('Authentication error:', err);  
+      return next(err); 
     }
-    if (!result || !result.user) {  
-      console.error('Authentication failed:', info);  // Log failure information
+    if (!user) {  
+      console.error('Authentication failed:', info); 
       return res.status(401).send('Authentication failed, please try again.');
     }
 
-    const { user, yesterdayContributions } = result;
     
     // If authentication is successful, log the user in manually
     req.logIn(user, (loginErr) => {
@@ -370,14 +410,15 @@ app.get('/auth/github/callback', (req, res, next) => {
         return next(loginErr);
       }
 
-
       const contributions = user.contributions.totalContributions;
       const repositories = user.contributions.totalRepositories;
-      const yesterday = yesterdayContributions;
+      const accessToken = process.env.GITHUB_ACCESS_TOKEN;
 
       
-      res.redirect(`http://localhost:5173/accounts?message=login-success&username=${user.username}&profileImg=${user.profileImageUrl}&contributions=${contributions}&repositories=${repositories}&yesterday=${yesterday}`);
+      res.redirect(`http://localhost:5173/accounts?message=login-success&username=${user.username}&profileImg=${user.profileImageUrl}&contributions=${contributions}&repositories=${repositories}&token=${accessToken}`);
       //res.redirect('https://gitbit.netlify.app/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl);
+
+
 
     });
   })(req, res, next);
@@ -385,6 +426,35 @@ app.get('/auth/github/callback', (req, res, next) => {
 
 
 
+
+app.get('/api/userdata', async (req, res) => {
+  if (!req.user) {
+    console.log('User not found:', req.session);
+    return res.status(401).json({ message: 'User not recognised' });
+  }
+
+  try {
+    const user = await User.findById(req.user._id);
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' }); 
+    }
+
+    const { username, profileImageUrl, contributions, repositories } = user;
+    const yesterdayContributions = contributions.weeks.slice(-1)[0]?.contributionDays.slice(-1)[0]?.contributionCount || 0;
+
+    res.status(200).json({
+      username,
+      profile: profileImageUrl,
+      contributions: contributions.totalContributions,
+      repositories,
+      yesterday: yesterdayContributions,
+    });
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 
 

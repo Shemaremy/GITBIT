@@ -11,6 +11,12 @@ function Analysis() {
 
 
 
+
+
+
+
+
+
     const [ status, setStatus ] = useState(<><i className="fa-solid fa-thumbs-up"></i></>);
 
     const [ username, setUsername ] = useState('NoUsername');
@@ -20,6 +26,7 @@ function Analysis() {
     const [ yesterday, setYesterday ] = useState(0);
 
     
+    /*
     useEffect(() => {
         const storedUsername = localStorage.getItem("UserName");
         const storedProfile = localStorage.getItem("profile");
@@ -35,10 +42,68 @@ function Analysis() {
         setContributions(formattedContr);
         setRepositories(storedRepositories);
         setYesterday(parseInt(storedYesterday));
-        if (yesterday < 1) {
+        if (parseInt(storedYesterday) < 1) {
             setStatus(<><i className="fa-solid fa-thumbs-down"></i></>);
         }
     }, []);
+    */
+
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+
+            const token = localStorage.getItem('token');
+
+            if (!token) {
+                alert('Access token not found');
+                return;
+            }
+
+            try {
+                const response = await fetch('https://git-bit.glitch.me/api/userdata', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                const data = await response.json();
+
+                if (!response.ok) {
+                    //alert(JSON.stringify(data));
+                    throw new Error('Failed to fetch user data');
+                } else {
+                    setUsername(data.username);
+                    setProfile(data.profile);
+                    setContributions(data.contributions.toLocaleString());
+                    setRepositories(data.repositories);
+                    setYesterday(data.yesterday);
+        
+                    if (data.yesterday < 1) {
+                        setStatus(<><i className="fa-solid fa-thumbs-down"></i></>);
+                    }
+    
+                }
+    
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+    
+        fetchUserData();
+    }, []);
+    
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -83,6 +148,34 @@ function Analysis() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // ------- Formatting the today's date -----------------------------------------------
 
     const currentDay = moment().format('dddd');
@@ -112,6 +205,48 @@ function Analysis() {
     };
 
     const isActive = (panel) => panelChange === panel ? 'active' : '';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -170,6 +305,53 @@ function Analysis() {
             </div>
         </>
     );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
