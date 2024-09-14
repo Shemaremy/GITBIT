@@ -5,6 +5,7 @@ const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
 const cors = require('cors');
 const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo');
 const session = require('express-session');
 const sgMail = require('@sendgrid/mail');
 
@@ -12,10 +13,13 @@ const { request, gql } = require('graphql-request');
 const moment = require('moment');
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
+
 app.use(express.json());
-
-
 
 
 
@@ -211,6 +215,10 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI,
+    collectionName: 'sessions'
+  })
 }));
 
 app.use(passport.initialize());
@@ -319,17 +327,25 @@ passport.use(new GitHubStrategy({
 //---------  Passport session handling -------------------------------------------
 
 passport.serializeUser((user, done) => {
-    done(null, user._id);
+  console.log('Serializing user:', user._id)
+  done(null, user._id);
 });
 
-passport.deserializeUser(async (id, done) => {
-    try {
-        const user = await User.findById(id);
-        done(null, user);
-    } catch (error) {
-        done(error, null);
+passport.deserializeUser(async (_id, done) => {
+  try {
+    const user = await User.findById(_id);
+    if (user) {
+      console.log("User found during deserialization:", user.username);
+      done(null, user);
+    } else {
+      console.log("User not found during deserialization");
+      done(null, null);
     }
+  } catch (error) {
+    done(error, null);
+  }
 });
+
 
 
 
@@ -415,10 +431,11 @@ app.get('/auth/github/callback', (req, res, next) => {
       const accessToken = process.env.GITHUB_ACCESS_TOKEN;
 
       
+      console.log('First session', req.session);
+
+      
       res.redirect(`http://localhost:5173/accounts?message=login-success&username=${user.username}&profileImg=${user.profileImageUrl}&contributions=${contributions}&repositories=${repositories}&token=${accessToken}`);
       //res.redirect('https://gitbit.netlify.app/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl);
-
-
 
     });
   })(req, res, next);
@@ -429,7 +446,8 @@ app.get('/auth/github/callback', (req, res, next) => {
 
 app.get('/api/userdata', async (req, res) => {
   if (!req.user) {
-    console.log('User not found:', req.session);
+    //console.log('User not found:', req.user);
+    console.log('Second session', req.session);
     return res.status(401).json({ message: 'User not recognised' });
   }
 
