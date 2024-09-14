@@ -60,12 +60,8 @@ function Analysis() {
             }
 
             try {
-                const response = await fetch('https://git-bit.glitch.me/api/userdata', {
+                const response = await fetch('https://git-bit.glitch.me/fetchdata', {
                     method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
                     credentials: 'include'
                 });
                 
@@ -390,7 +386,7 @@ function Analysis() {
                             <h2>{username}</h2>
                         </div>
                         <div className="right-part-nav">
-                            <i className="fa-solid fa-bell"></i>
+                            <i className="fa-solid fa-bell" onClick={handleFetch()}></i>
                             <i className="fa-solid fa-shield-halved"></i>
                             <div className="img-container">
                                 <img src={profile} alt="Pic" className="profile-pic"/>

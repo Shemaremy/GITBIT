@@ -327,13 +327,13 @@ passport.use(new GitHubStrategy({
 //---------  Passport session handling -------------------------------------------
 
 passport.serializeUser((user, done) => {
-  console.log('Serializing user:', user._id)
-  done(null, user._id);
+  console.log('Serializing user:', user.id)
+  done(null, user.id);
 });
 
-passport.deserializeUser(async (_id, done) => {
+passport.deserializeUser(async (id, done) => {
   try {
-    const user = await User.findById(_id);
+    const user = await User.findById(id);
     if (user) {
       console.log("User found during deserialization:", user.username);
       done(null, user);
@@ -430,12 +430,12 @@ app.get('/auth/github/callback', (req, res, next) => {
       const repositories = user.contributions.totalRepositories;
       const accessToken = process.env.GITHUB_ACCESS_TOKEN;
 
-      
-      console.log('First session', req.session);
+      console.log(req.sessionID);
 
       
       res.redirect(`http://localhost:5173/accounts?message=login-success&username=${user.username}&profileImg=${user.profileImageUrl}&contributions=${contributions}&repositories=${repositories}&token=${accessToken}`);
       //res.redirect('https://gitbit.netlify.app/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl);
+
 
     });
   })(req, res, next);
@@ -444,35 +444,20 @@ app.get('/auth/github/callback', (req, res, next) => {
 
 
 
-app.get('/api/userdata', async (req, res) => {
+app.get('/fetchdata', (req, res) => {
   if (!req.user) {
-    //console.log('User not found:', req.user);
-    console.log('Second session', req.session);
-    return res.status(401).json({ message: 'User not recognised' });
+    console.error(req.sessionID)
+    return res.status(401).json({ message: 'User not recognized' });
+  } else {
+    console.log(req.session);
   }
 
-  try {
-    const user = await User.findById(req.user._id);
-    
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' }); 
-    }
+  // Session data should be available here if the user is authenticated
+  console.log('Session data:', req.session);
 
-    const { username, profileImageUrl, contributions, repositories } = user;
-    const yesterdayContributions = contributions.weeks.slice(-1)[0]?.contributionDays.slice(-1)[0]?.contributionCount || 0;
-
-    res.status(200).json({
-      username,
-      profile: profileImageUrl,
-      contributions: contributions.totalContributions,
-      repositories,
-      yesterday: yesterdayContributions,
-    });
-  } catch (error) {
-    console.error('Error fetching user data:', error);
-    res.status(500).json({ message: 'Server error' });
-  }
 });
+
+
 
 
 
