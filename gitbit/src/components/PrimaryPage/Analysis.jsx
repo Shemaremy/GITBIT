@@ -53,6 +53,7 @@ function Analysis() {
         const fetchUserData = async () => {
 
             const token = localStorage.getItem('token');
+            const storedYesterday = localStorage.getItem("yesterday");
 
             if (!token) {
                 alert('Access token not found');
@@ -62,20 +63,23 @@ function Analysis() {
             try {
                 const response = await fetch('https://git-bit.glitch.me/fetchdata', {
                     method: 'GET',
-                    credentials: 'include'
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 });
                 
                 const data = await response.json();
 
                 if (!response.ok) {
-                    //alert(JSON.stringify(data));
+                    alert(JSON.stringify(data));
                     throw new Error('Failed to fetch user data');
                 } else {
+                    //alert(JSON.stringify(data));
                     setUsername(data.username);
                     setProfile(data.profile);
                     setContributions(data.contributions.toLocaleString());
                     setRepositories(data.repositories);
-                    setYesterday(data.yesterday);
+                    setYesterday(storedYesterday);
         
                     if (data.yesterday < 1) {
                         setStatus(<><i className="fa-solid fa-thumbs-down"></i></>);
@@ -386,7 +390,7 @@ function Analysis() {
                             <h2>{username}</h2>
                         </div>
                         <div className="right-part-nav">
-                            <i className="fa-solid fa-bell" onClick={handleFetch()}></i>
+                            <i className="fa-solid fa-bell"></i>
                             <i className="fa-solid fa-shield-halved"></i>
                             <div className="img-container">
                                 <img src={profile} alt="Pic" className="profile-pic"/>

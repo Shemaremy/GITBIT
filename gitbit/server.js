@@ -8,16 +8,14 @@ const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo');
 const session = require('express-session');
 const sgMail = require('@sendgrid/mail');
+const jwt = require('jsonwebtoken');
 
 const { request, gql } = require('graphql-request');
 const moment = require('moment');
 
 const app = express();
 
-app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true,
-}));
+app.use(cors());
 
 app.use(express.json());
 
@@ -287,7 +285,7 @@ passport.use(new GitHubStrategy({
 
 
       // Return the user
-      return done(null, user);
+      return done(null, { user, yesterdayContributions });
     } catch (error) {
       console.error('Error saving GitHub profile to MongoDB:', error);
       return done(error, null);
@@ -408,15 +406,17 @@ function startPollingContributions(accessToken, username, userId) {
 app.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
 
 app.get('/auth/github/callback', (req, res, next) => {
-  passport.authenticate('github', (err, user, info) => {
+  passport.authenticate('github', (err, result, info) => {
     if (err) {
       console.error('Authentication error:', err);  
       return next(err); 
     }
-    if (!user) {  
+    if (!result || !result.user) {  
       console.error('Authentication failed:', info); 
       return res.status(401).send('Authentication failed, please try again.');
     }
+
+    const { user, yesterdayContributions } = result;
 
     
     // If authentication is successful, log the user in manually
@@ -428,12 +428,13 @@ app.get('/auth/github/callback', (req, res, next) => {
 
       const contributions = user.contributions.totalContributions;
       const repositories = user.contributions.totalRepositories;
+      const yesterday = yesterdayContributions;
       const accessToken = process.env.GITHUB_ACCESS_TOKEN;
 
-      console.log(req.sessionID);
+      const token = jwt.sign({ userId: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-      
-      res.redirect(`http://localhost:5173/accounts?message=login-success&username=${user.username}&profileImg=${user.profileImageUrl}&contributions=${contributions}&repositories=${repositories}&token=${accessToken}`);
+      res.redirect(`http://localhost:5173/accounts?token=${token}&message=login-success&username=${user.username}&profileImg=${user.profileImageUrl}&contributions=${contributions}&repositories=${repositories}&yesterday=${yesterday}`);
+      //res.redirect(`http://localhost:5173/accounts?message=login-success&username=${user.username}&profileImg=${user.profileImageUrl}&contributions=${contributions}&repositories=${repositories}&token=${accessToken}`);
       //res.redirect('https://gitbit.netlify.app/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl);
 
 
@@ -444,18 +445,51 @@ app.get('/auth/github/callback', (req, res, next) => {
 
 
 
-app.get('/fetchdata', (req, res) => {
-  if (!req.user) {
-    console.error(req.sessionID)
-    return res.status(401).json({ message: 'User not recognized' });
-  } else {
-    console.log(req.session);
+
+
+
+
+// Middleware to verify JWT token
+const verifyToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1]; // Extract the token from the 'Authorization' header
+  if (!token) {
+    return res.status(401).json({ message: 'Access denied. No token provided.' });
   }
 
-  // Session data should be available here if the user is authenticated
-  console.log('Session data:', req.session);
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Verify the token
+    req.user = decoded; // Attach the decoded user info to the request
+    next(); // Proceed to the next middleware
+  } catch (err) {
+    return res.status(403).json({ message: 'Invalid token' });
+  }
+};
 
+// Route to fetch data from MongoDB
+app.get('/fetchdata', verifyToken, async (req, res) => {
+  try {
+    // Fetch user data from MongoDB using the user ID from the token
+    const user = await User.findById(req.user.userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Return the username and number of contributions
+    res.status(200).json({
+      username: user.username,
+      profile: user.profileImageUrl,
+      repositories: user.contributions.totalRepositories,
+      contributions: user.contributions.totalContributions
+
+    });
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
 });
+
+
 
 
 
