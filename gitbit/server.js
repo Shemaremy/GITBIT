@@ -325,7 +325,6 @@ passport.use(new GitHubStrategy({
 //---------  Passport session handling -------------------------------------------
 
 passport.serializeUser((user, done) => {
-  console.log('Serializing user:', user.id)
   done(null, user.id);
 });
 
@@ -333,10 +332,10 @@ passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
     if (user) {
-      console.log("User found during deserialization:", user.username);
+      //console.log("User found during deserialization:", user.username);
       done(null, user);
     } else {
-      console.log("User not found during deserialization");
+      //console.log("User not found during deserialization");
       done(null, null);
     }
   } catch (error) {
@@ -368,7 +367,7 @@ function startPollingContributions(accessToken, username, userId) {
           }
         }
       });
-      //console.log(`Contributions updated for user ${username}`);
+      console.log(`Contributions updated for user ${username}`);
     } catch (error) {
       console.error('Error during polling contributions:', error);
     }
