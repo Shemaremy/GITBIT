@@ -13,6 +13,7 @@ body {
   align-items: center;
   height: 100vh;
   width: 100%;
+  overflow-y: hidden;
 }
 
 .upper-content,
