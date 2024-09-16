@@ -102,7 +102,6 @@ function Analysis() {
     
             } catch (error) {
                 console.error('Error:', error);
-                setLoading(false);
             }
         };
     
