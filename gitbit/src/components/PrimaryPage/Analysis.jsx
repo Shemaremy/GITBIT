@@ -90,9 +90,10 @@ function Analysis() {
                     setProfile(data.profile);
                     setContributions(data.contributions.toLocaleString());
                     setRepositories(data.repositories);
-                    setYesterday(storedYesterday);
+                    setYesterday(parseInt(storedYesterday, 10));
+                    alert(typeof(yesterday));
         
-                    if (data.yesterday < 1) {
+                    if (yesterday < 1) {
                         setStatus(<><i className="fa-solid fa-thumbs-down"></i></>);
                     }
 
