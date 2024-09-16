@@ -424,7 +424,7 @@ function startPollingContributions(accessToken, username, userId) {
           }
         }
       });
-      console.log(`Contributions updated for user ${username}`);
+      //console.log(`Contributions updated for user ${username}`);
     } catch (error) {
       console.error('Error during polling contributions:', error);
     }
@@ -488,7 +488,8 @@ app.get('/auth/github/callback', (req, res, next) => {
       const yesterday = yesterdayContributions;
       const token = jwt.sign({ userId: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-      res.redirect(`http://localhost:5173/accounts?message=login-success&token=${token}&yesterday=${yesterday}`);
+      //res.redirect(`http://localhost:5173/accounts?message=login-success&token=${token}&yesterday=${yesterday}`);
+      res.redirect(`https://gitbit.netlify.app/accounts?message=login-success&token=${token}&yesterday=${yesterday}`);
 
     });
   })(req, res, next);
