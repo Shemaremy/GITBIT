@@ -19,7 +19,7 @@ function Analysis() {
 
     const [ status, setStatus ] = useState(<><i className="fa-solid fa-thumbs-up"></i></>);
 
-    const [ username, setUsername ] = useState('NoUsername');
+    const [ username, setUsername ] = useState('user');
     const [ profile, setProfile ] = useState('none');
     const [ contributions, setContributions ] = useState(0);
     const [ repositories, setRepositories ] = useState(0);
@@ -369,7 +369,7 @@ function Analysis() {
                 <div className="left-wrapper">
                     <div className="profile-section">
                         <div className="img-container">
-                            <img src={profile} alt="Pic" className="profile-pic"/>
+                            <img src={profile} alt="pfp" className="profile-pic"/>
                         </div>
                         <h3>{username}</h3>
                     </div>

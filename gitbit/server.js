@@ -15,9 +15,6 @@ const moment = require('moment');
 
 const app = express();
 
-app.use(cors());
-
-app.use(express.json());
 
 
 
@@ -150,12 +147,6 @@ connectToDatabase();
 
 
 
-
-
-
-
-
-
 // ----------------Mongoose user model --------------------------------------------
 
 const userSchema = new mongoose.Schema({
@@ -207,8 +198,24 @@ const User = mongoose.model('User', userSchema);
 
 
 
-// ------ Session middleware to keep track of user info. Expires when the page is closed ------------------
 
+
+
+
+
+
+
+// --------------------------------------------- MIDDLEWARES SECTION -----------------------------------------------------------------
+// --------------------------------------------- MIDDLEWARES SECTION -----------------------------------------------------------------
+// --------------------------------------------- MIDDLEWARES SECTION -----------------------------------------------------------------
+
+
+app.use(cors());
+app.use(express.json());
+
+
+
+// ------ Session middleware to keep track of user auth info. Expires when the page is closed ------------------
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -221,6 +228,56 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+
+
+
+
+
+
+// -------------- Custom middleware to verify JWT token --------------------------------------------------------
+
+const verifyToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({ message: 'Access denied. No token provided.' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Verify the token
+    req.user = decoded; // Attach the decoded user info to the request
+    next(); // Proceed to the next middleware
+  } catch (err) {
+    return res.status(403).json({ message: 'Invalid token' });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -261,8 +318,8 @@ passport.use(new GitHubStrategy({
           profileUrl: profile.profileUrl,
           profileImageUrl: profile.photos[0].value,
           contributions: {
-            ...contributionCalendar,   // Store the contribution calendar
-            totalRepositories          // Store the total number of repositories
+            ...contributionCalendar,
+            totalRepositories
           }
         });
         await user.save();
@@ -402,6 +459,9 @@ function startPollingContributions(accessToken, username, userId) {
 // ROUTES
 // ------
 
+
+// --------- Authentication route ---------------------------------------------------------------------
+
 app.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
 
 app.get('/auth/github/callback', (req, res, next) => {
@@ -425,17 +485,10 @@ app.get('/auth/github/callback', (req, res, next) => {
         return next(loginErr);
       }
 
-      const contributions = user.contributions.totalContributions;
-      const repositories = user.contributions.totalRepositories;
       const yesterday = yesterdayContributions;
-      const accessToken = process.env.GITHUB_ACCESS_TOKEN;
-
       const token = jwt.sign({ userId: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-      res.redirect(`http://localhost:5173/accounts?token=${token}&message=login-success&username=${user.username}&profileImg=${user.profileImageUrl}&contributions=${contributions}&repositories=${repositories}&yesterday=${yesterday}`);
-      //res.redirect(`http://localhost:5173/accounts?message=login-success&username=${user.username}&profileImg=${user.profileImageUrl}&contributions=${contributions}&repositories=${repositories}&token=${accessToken}`);
-      //res.redirect('https://gitbit.netlify.app/accounts?message=login-success&username=' + user.username + '&profileImg=' + user.profileImageUrl);
-
+      res.redirect(`http://localhost:5173/accounts?message=login-success&token=${token}&yesterday=${yesterday}`);
 
     });
   })(req, res, next);
@@ -448,23 +501,25 @@ app.get('/auth/github/callback', (req, res, next) => {
 
 
 
-// Middleware to verify JWT token
-const verifyToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1]; // Extract the token from the 'Authorization' header
-  if (!token) {
-    return res.status(401).json({ message: 'Access denied. No token provided.' });
-  }
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Verify the token
-    req.user = decoded; // Attach the decoded user info to the request
-    next(); // Proceed to the next middleware
-  } catch (err) {
-    return res.status(403).json({ message: 'Invalid token' });
-  }
-};
 
-// Route to fetch data from MongoDB
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// --------- Auto fetching route ---------------------------------------------------------------------
+
 app.get('/fetchdata', verifyToken, async (req, res) => {
   try {
     // Fetch user data from MongoDB using the user ID from the token
