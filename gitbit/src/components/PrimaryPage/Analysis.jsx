@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Part1 from "../Part1";
 import moment from 'moment';
 import './Analysis.css';
 
@@ -15,38 +16,48 @@ function Analysis() {
 
 
 
+    const PanelState = {
+        DASHBOARD: 'dashboard',
+        BADGES: 'badges',
+        GOALS: 'goals',
+        NOTIFICATIONS: 'notifications',
+        SETTINGS: 'settings',
+        HELP: 'help',
+        SIGNOUT: 'signout'
+    };
 
 
+
+    const [loading, setLoading] = useState(true);
     const [ status, setStatus ] = useState(<><i className="fa-solid fa-thumbs-up"></i></>);
-
     const [ username, setUsername ] = useState('user');
     const [ profile, setProfile ] = useState('none');
     const [ contributions, setContributions ] = useState(0);
     const [ repositories, setRepositories ] = useState(0);
     const [ yesterday, setYesterday ] = useState(0);
+    const [panelChange, setPanelChange] = useState(PanelState.DASHBOARD);
 
-    
-    /*
-    useEffect(() => {
-        const storedUsername = localStorage.getItem("UserName");
-        const storedProfile = localStorage.getItem("profile");
-        const storedContributions = localStorage.getItem("contributions");
-        const storedRepositories = localStorage.getItem("repositories");
-        const storedYesterday = localStorage.getItem("yesterday");
 
-        const contributionsNumber = parseInt(storedContributions);
-        const formattedContr = contributionsNumber.toLocaleString();
 
-        setUsername(storedUsername);
-        setProfile(storedProfile);
-        setContributions(formattedContr);
-        setRepositories(storedRepositories);
-        setYesterday(parseInt(storedYesterday));
-        if (parseInt(storedYesterday) < 1) {
-            setStatus(<><i className="fa-solid fa-thumbs-down"></i></>);
-        }
-    }, []);
-    */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     useEffect(() => {
@@ -84,16 +95,24 @@ function Analysis() {
                     if (data.yesterday < 1) {
                         setStatus(<><i className="fa-solid fa-thumbs-down"></i></>);
                     }
+
+                    setLoading(false); 
     
                 }
     
             } catch (error) {
                 console.error('Error:', error);
+                setLoading(false);
             }
         };
     
         fetchUserData();
     }, []);
+
+
+    if (loading) {
+        return <Part1/>;
+    }
     
 
 
@@ -189,17 +208,6 @@ function Analysis() {
 
 
     // ------ Toggling the left nav panel buttons ----------------------------------------    
-    const PanelState = {
-        DASHBOARD: 'dashboard',
-        BADGES: 'badges',
-        GOALS: 'goals',
-        NOTIFICATIONS: 'notifications',
-        SETTINGS: 'settings',
-        HELP: 'help',
-        SIGNOUT: 'signout'
-    };
-
-    const [panelChange, setPanelChange] = useState(PanelState.DASHBOARD);
 
     const handlePanelChange = (newState) => {
         setPanelChange(newState);
