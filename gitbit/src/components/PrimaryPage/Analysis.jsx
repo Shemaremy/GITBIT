@@ -85,13 +85,11 @@ function Analysis() {
                     alert(JSON.stringify(data));
                     throw new Error('Failed to fetch user data');
                 } else {
-                    //alert(JSON.stringify(data));
                     setUsername(data.username);
                     setProfile(data.profile);
                     setContributions(data.contributions.toLocaleString());
                     setRepositories(data.repositories);
                     setYesterday(parseInt(storedYesterday, 10));
-                    alert(typeof(yesterday));
         
                     if (yesterday < 1) {
                         setStatus(<><i className="fa-solid fa-thumbs-down"></i></>);
