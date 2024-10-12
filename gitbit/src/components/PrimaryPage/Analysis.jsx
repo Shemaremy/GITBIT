@@ -29,12 +29,12 @@ function Analysis() {
 
 
     const [loading, setLoading] = useState(true);
-    const [ status, setStatus ] = useState(<><i className="fa-solid fa-thumbs-up"></i></>);
+    const [ status, setStatus ] = useState(<i className="fa-solid fa-thumbs-up"></i>);
     const [ username, setUsername ] = useState('user');
     const [ profile, setProfile ] = useState('none');
     const [ contributions, setContributions ] = useState(0);
     const [ repositories, setRepositories ] = useState(0);
-    const [ yesterday, setYesterday ] = useState(0);
+    const [ yesterday, setYesterday ] = useState();
     const [panelChange, setPanelChange] = useState(PanelState.DASHBOARD);
 
 
@@ -85,6 +85,7 @@ function Analysis() {
                     alert(JSON.stringify(data));
                     throw new Error('Failed to fetch user data');
                 } else {
+                    console.log(data);
                     setUsername(data.username);
                     setProfile(data.profile);
                     setContributions(data.contributions.toLocaleString());
@@ -92,7 +93,7 @@ function Analysis() {
                     setYesterday(parseInt(storedYesterday, 10));
         
                     if (yesterday < 1) {
-                        setStatus(<><i className="fa-solid fa-thumbs-down"></i></>);
+                        setStatus(<i className="fa-solid fa-thumbs-down"></i>);
                     }
 
                     setLoading(false); 
