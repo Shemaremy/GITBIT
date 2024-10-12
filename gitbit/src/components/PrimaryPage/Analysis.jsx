@@ -85,7 +85,7 @@ function Analysis() {
                     alert(JSON.stringify(data));
                     throw new Error('Failed to fetch user data');
                 } else {
-                    console.log(data);
+                    //console.log(data.calendar);
                     setUsername(data.username);
                     setProfile(data.profile);
                     setContributions(data.contributions.toLocaleString());

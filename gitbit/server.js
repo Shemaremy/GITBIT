@@ -420,11 +420,11 @@ function startPollingContributions(accessToken, username, userId) {
         $set: {
           contributions: {
             ...contributionCalendar,
-            totalRepositories
+            totalRepositories,
           }
         }
       });
-      //console.log(`Contributions updated for user ${username}`);
+      //console.log(`Contributions updated for user ${username}`);]
     } catch (error) {
       console.error('Error during polling contributions:', error);
     }
@@ -535,8 +535,8 @@ app.get('/fetchdata', verifyToken, async (req, res) => {
       username: user.username,
       profile: user.profileImageUrl,
       repositories: user.contributions.totalRepositories,
-      contributions: user.contributions.totalContributions
-
+      contributions: user.contributions.totalContributions,
+      calendar: user.contributions.weeks
     });
   } catch (error) {
     console.error('Error fetching user data:', error);
