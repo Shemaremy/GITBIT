@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { ResponsiveCalendar } from '@nivo/calendar';
 import Part1 from "../Part1";
 import moment from 'moment';
 import './Analysis.css';
@@ -27,7 +28,7 @@ function Analysis() {
     };
 
 
-
+    const [calendarData, setCalendarData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [ status, setStatus ] = useState(<i className="fa-solid fa-thumbs-up"></i>);
     const [ username, setUsername ] = useState('user');
@@ -91,7 +92,17 @@ function Analysis() {
                     setContributions(data.contributions.toLocaleString());
                     setRepositories(data.repositories);
                     setYesterday(parseInt(storedYesterday, 10));
-        
+
+                    
+                    const formattedContributions = data.calendar.map(week => 
+                        Object.values(week.contributionDays).map(day => ({
+                            day: moment(day.date).format('YYYY-MM-DD'),
+                            value: day.contributionCount,
+                            color: day.contributionCount === 0 ? '#ffffff' : day.color,
+                        }))
+                    ).flat();                    
+                    setCalendarData(formattedContributions);
+                                    
                     if (yesterday < 1) {
                         setStatus(<i className="fa-solid fa-thumbs-down"></i>);
                     }
@@ -425,7 +436,32 @@ function Analysis() {
                             <h6 className="min-panel-h6">Click <a href="#">here</a> to earn one</h6>
                         </div>
                     </div>
-                    <div className="github-analysis-panel"></div>
+                    <div className="github-analysis-panel">
+                        <ResponsiveCalendar
+                            data={calendarData}
+                            from="2024-01-01"
+                            to="2024-10-12"
+                            emptyColor="#ffffff"
+                            //colors={['#abe4dac7', '#61cdbb', '#e8c1a0', '#f47560']}
+                            margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
+                            yearSpacing={30}
+                            monthBorderColor="#ffffff"
+                            dayBorderWidth={1}
+                            dayBorderColor="#ffffff"
+                            legends={[
+                                {
+                                    anchor: 'bottom-right',
+                                    direction: 'row',
+                                    translateY: 36,
+                                    itemCount: 4,
+                                    itemWidth: 42,
+                                    itemHeight: 36,
+                                    itemsSpacing: 14,
+                                    itemDirection: 'right-to-left',
+                                }
+                            ]}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

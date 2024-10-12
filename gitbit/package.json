@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@nivo/calendar": "^0.87.0",
     "bootstrap": "^5.3.3",
     "cors": "^2.8.5",
     "counterup": "^1.0.2",
