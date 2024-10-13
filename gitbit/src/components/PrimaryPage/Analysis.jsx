@@ -95,12 +95,23 @@ function Analysis() {
 
                     
                     const formattedContributions = data.calendar.map(week => 
+                        Object.values(week.contributionDays)
+                            .filter(day => day.contributionCount > 0)
+                            .map(day => ({
+                                day: moment(day.date).format('YYYY-MM-DD'),
+                                value: day.contributionCount
+                            }))
+                    ).flat();
+                                 
+                    
+                    /*
+                    const formattedContributions = data.calendar.map(week => 
                         Object.values(week.contributionDays).map(day => ({
                             day: moment(day.date).format('YYYY-MM-DD'),
-                            value: day.contributionCount,
-                            color: day.contributionCount === 0 ? '#ffffff' : day.color,
+                            value: day.contributionCount
                         }))
-                    ).flat();                    
+                    ).flat();
+                    */                    
                     setCalendarData(formattedContributions);
                                     
                     if (yesterday < 1) {
@@ -118,7 +129,7 @@ function Analysis() {
     
         fetchUserData();
     }, []);
-
+    
 
     if (loading) {
         return <Part1/>;
@@ -442,7 +453,6 @@ function Analysis() {
                             from="2024-01-01"
                             to="2024-10-12"
                             emptyColor="#ffffff"
-                            //colors={['#abe4dac7', '#61cdbb', '#e8c1a0', '#f47560']}
                             margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
                             yearSpacing={30}
                             monthBorderColor="#ffffff"
@@ -460,6 +470,8 @@ function Analysis() {
                                     itemDirection: 'right-to-left',
                                 }
                             ]}
+                            minValue={0}
+                            maxValue={50}
                         />
                     </div>
                 </div>
