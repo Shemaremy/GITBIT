@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
-import { Tooltip as ReactTooltip } from 'react-tooltip';
+import  ReactTooltip  from 'react-tooltip';
 
 import Part1 from "../Part1";
 import moment from 'moment';
