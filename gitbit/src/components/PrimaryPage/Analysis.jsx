@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { ResponsiveCalendar } from '@nivo/calendar';
+import CalendarHeatmap from 'react-calendar-heatmap';
+import 'react-calendar-heatmap/dist/styles.css';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
+
 import Part1 from "../Part1";
 import moment from 'moment';
 import './Analysis.css';
@@ -95,23 +98,12 @@ function Analysis() {
 
                     
                     const formattedContributions = data.calendar.map(week => 
-                        Object.values(week.contributionDays)
-                            .filter(day => day.contributionCount > 0)
-                            .map(day => ({
-                                day: moment(day.date).format('YYYY-MM-DD'),
-                                value: day.contributionCount
-                            }))
-                    ).flat();
-                                 
-                    
-                    /*
-                    const formattedContributions = data.calendar.map(week => 
                         Object.values(week.contributionDays).map(day => ({
-                            day: moment(day.date).format('YYYY-MM-DD'),
-                            value: day.contributionCount
+                            date: moment(day.date).format('YYYY-MM-DD'),
+                            count: day.contributionCount
                         }))
                     ).flat();
-                    */                    
+                    
                     setCalendarData(formattedContributions);
                                     
                     if (yesterday < 1) {
@@ -448,31 +440,30 @@ function Analysis() {
                         </div>
                     </div>
                     <div className="github-analysis-panel">
-                        <ResponsiveCalendar
-                            data={calendarData}
-                            from="2024-01-01"
-                            to="2024-10-12"
-                            emptyColor="#ffffff"
-                            margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
-                            yearSpacing={30}
-                            monthBorderColor="#ffffff"
-                            dayBorderWidth={1}
-                            dayBorderColor="#ffffff"
-                            legends={[
-                                {
-                                    anchor: 'bottom-right',
-                                    direction: 'row',
-                                    translateY: 36,
-                                    itemCount: 4,
-                                    itemWidth: 42,
-                                    itemHeight: 36,
-                                    itemsSpacing: 14,
-                                    itemDirection: 'right-to-left',
+                        <CalendarHeatmap
+                            startDate={moment().subtract(1, 'year').toDate()}
+                            endDate={moment().toDate()}
+                            values={calendarData}
+                            classForValue={value => {
+                                if (!value || value.count === 0) {
+                                    return 'color-empty';
                                 }
-                            ]}
-                            minValue={0}
-                            maxValue={50}
+                                return `color-gitlab-${Math.min(value.count, 4)}`;
+                            }}
+                            tooltipDataAttrs={value => {
+                                if (!value || !value.date) return {};
+                                const date = new Date(value.date);
+                                return {
+                                    'data-tooltip-id': 'my-tooltip',
+                                    'data-tooltip-content': `${value.count} contributions on ${date.toISOString().slice(0, 10)}`,
+                                };
+                            }}
+                            
+                            
+                            showWeekdayLabels={true}
+                            //onClick={value => alert(`Clicked on value with count: ${value.count}`)}
                         />
+                        <ReactTooltip id="my-tooltip"/>
                     </div>
                 </div>
             </div>

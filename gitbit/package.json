@@ -26,8 +26,10 @@
     "passport": "^0.5.0",
     "passport-github2": "^0.1.12",
     "react": "^18.2.0",
+    "react-calendar-heatmap": "^1.9.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.26.1",
+    "react-tooltip": "^3.8.1",
     "waypoints": "^4.0.1",
     "wowjs": "^1.1.3"
   },

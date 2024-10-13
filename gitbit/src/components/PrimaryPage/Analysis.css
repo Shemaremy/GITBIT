@@ -221,22 +221,39 @@
 
 
 .github-analysis-panel {
-    width: 100%;
+    width: 97%;
     height: 55%;
+    padding-top: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    background-color: #9696965b;
+    /* background-color: #9696965b; */
 }
 
 
 
+/* -------------- Heatmap box settings ---------------------------- */
+
+.react-calendar-heatmap {
+    padding-right: 10px;
+}
 
 
+.react-calendar-heatmap text {
+    font-size: 8px !important;
+    fill: #575757;
+}
 
 
+.react-calendar-heatmap rect {
+    cursor: pointer;
+    stroke-width: 0px;
+}
 
+.react-calendar-heatmap .color-empty {
+    fill: #dfdfdfc2 !important;
+}
 
 
 
