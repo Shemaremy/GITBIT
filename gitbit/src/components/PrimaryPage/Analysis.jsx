@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
-// import  ReactTooltip  from 'react-tooltip';
+import  { Tooltip as ReactTooltip }  from 'react-tooltip';
 
 import Part1 from "../Part1";
 import moment from 'moment';
@@ -463,7 +463,7 @@ function Analysis() {
                             showWeekdayLabels={true}
                             //onClick={value => alert(`Clicked on value with count: ${value.count}`)}
                         />
-                        {/* <ReactTooltip id="my-tooltip"/> */}
+                        <ReactTooltip id="my-tooltip"/>
                     </div>
                 </div>
             </div>
