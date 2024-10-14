@@ -103,19 +103,27 @@
 
 .basic-options > p,
 .bottom-settings > p {
-    margin-left: 10px;
     color: rgb(66, 66, 66);
     font-size: 14px;
     cursor: pointer;
-    padding: 5px;
-    border-radius: 10px;
+    border-radius: 15px;
     transition: background-color 0.2s ease-in-out;
+    padding: 8px;
 }
 
 .basic-options > p:hover,
 .bottom-settings > p:hover {
     background-color: rgba(128, 128, 128, 0.103);
 }
+
+
+
+.director > i {
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.616);
+}
+
+
 
 .director.active {
     background-color: rgba(128, 128, 128, 0.103);
@@ -317,6 +325,7 @@
 
 .analysis-nav-mobilepanel {
     display: none;
+    pointer-events: none;
 }
 
 
@@ -424,6 +433,7 @@
 
     .analysis-nav-mobilepanel.is-active {
         opacity: 1;
+        pointer-events: all;
     }
 
     .analysis-options-mobile {
@@ -439,9 +449,15 @@
     .basic-options > p, 
     .bottom-settings > p {
         font-size: 15px;
-        padding: 13px;
+        border-radius: 10px;
+        margin-left: 12px;
     }
 
+    
+    .director > i {
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.616);
+    }
 
 
     /* ----- end of mobile nav section --------------------------------------------------------------- */
@@ -494,9 +510,18 @@
     }
 
     .github-analysis-panel {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         border-style: solid;
         border-width: 1px;
         border-color: rgba(128, 128, 128, 0.411);
+        overflow: hidden;
+        overflow-y: scroll;
+    }
+
+    .react-calendar-heatmap {
+        transform: rotate(90deg);
     }
 
 
