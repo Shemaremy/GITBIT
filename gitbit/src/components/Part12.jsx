@@ -30,6 +30,8 @@ function Part12() {
 
     // Get started
     const gotoAccounts = () => {
+        const fixed_body = document.querySelector('body');
+        fixed_body.classList.remove('fixed');
         navigate('/accounts');
     };
 
@@ -41,7 +43,7 @@ function Part12() {
                 </div>
                 <div className="kabiri">
                     <i className="fa-solid fa-users"></i> &nbsp;&nbsp;&nbsp;
-                    <p className="panel-option">About us</p>
+                    <p className="panel-option" onClick={() => handleGoToLink('about')}>About us</p>
                 </div>
                 <div className="gatatu" onClick={() => handleGoToLink('feature')}>
                     <i className="fa-solid fa-list"></i> &nbsp;&nbsp;&nbsp;

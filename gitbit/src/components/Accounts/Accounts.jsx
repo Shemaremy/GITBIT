@@ -119,7 +119,7 @@ function Accounts() {
         <p className='already-par'>Already have an account? &nbsp; <a href="#" onClick={handleSwitch}>Log in</a></p>
       </div>
       <div className='lower-content'>
-        <p className='terms-github'>By signing up with Gitbit, you agree to our &nbsp; <a href="">terms of service.</a></p>
+        <p className='terms-github'>By signing up with Gitbit, you agree to our &nbsp; <a href="/terms">terms of service.</a></p>
       </div>
     </>
   );

@@ -25,13 +25,13 @@ function Part11() {
             </div>
             <div className="col-md-6 col-lg-3">
                 <h4 className="text-white mb-4">Quick Links</h4>
-                <a className="btn btn-link" href="#">Privacy Policy</a>
-                <a className="btn btn-link" href="#">Terms & Condition</a>
+                <a className="btn btn-link" href="/terms">Privacy Policy</a>
+                <a className="btn btn-link" href="/terms">Terms & conditions</a>
             </div>
             <div className="col-md-6 col-lg-3">
                 <h4 className="text-white mb-4">Popular Links</h4>
-                <a className="btn btn-link" href="#">About Us</a>
-                <a className="btn btn-link" href="#">Contact Us</a>
+                <a className="btn btn-link" href="/#about">About Us</a>
+                <a className="btn btn-link" href="/#contact">Contact Us</a>
                 <a className="btn btn-link" href="https://remyshema.netlify.app">Portfolio</a>
             </div>
             <div className="col-md-6 col-lg-3">
@@ -52,10 +52,9 @@ function Part11() {
                 </div>
                 <div className="col-md-6 text-center text-md-end">
                     <div className="footer-menu">
-                        <a href="#">Home</a>
+                        <a href="/#home">Home</a>
                         <a href="#">Cookies</a>
-                        <a href="#">Help</a>
-                        <a href="#">FAQs</a>
+                        <a href="/#contact">Help</a>
                     </div>
                 </div>
             </div>

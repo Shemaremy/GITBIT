@@ -18,6 +18,7 @@ import Part9 from './components/Part9';
 import Part10 from './components/Part10';
 import Part11 from './components/Part11';
 import Part12 from './components/Part12';
+import Terms from './components/Terms';
 
 import Accounts from './components/Accounts/Accounts';
 import Analysis from './components/PrimaryPage/Analysis';
@@ -54,6 +55,7 @@ function Approutes() {
         </Route>
         <Route path='/accounts' element={<Accounts/>}></Route>
         <Route path='/analysis' element={<Analysis/>}></Route>
+        <Route path='/terms' element={<Terms/>}></Route>
       </Routes>
   );
 }

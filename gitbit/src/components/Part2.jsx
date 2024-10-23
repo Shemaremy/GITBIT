@@ -70,8 +70,8 @@ function Part2() {
                         <div className="col-lg-8 text-center text-lg-start header-words">
                             <h1 className="text-white mb-4 animated slideInDown">Get your projects done and improve your contibution habit with GitBit</h1>
                             <p className="text-white pb-3 animated slideInDown start-intro">GitBit, a revolutionary web app that helps developers improve their contibution habit, by helping them to contribute on a daily basis, achieve their goals and do more projects for their github profile.</p>
-                            <a href="" className="btn btn-primary-gradient py-sm-3 px-4 px-sm-5 rounded-pill me-3 animated slideInLeft">Read More</a>
-                            <a href="" className="btn btn-secondary-gradient py-sm-3 px-4 px-sm-5 rounded-pill animated slideInRight">Contact Us</a>
+                            <a href="#feature" className="btn btn-primary-gradient py-sm-3 px-4 px-sm-5 rounded-pill me-3 animated slideInLeft">Read More</a>
+                            <a href="#contact" className="btn btn-secondary-gradient py-sm-3 px-4 px-sm-5 rounded-pill animated slideInRight">Contact Us</a>
                         </div>
                         <div className="col-lg-4 d-flex justify-content-center justify-content-lg-end wow fadeInUp" data-wow-delay="0.3s">
                             <div className="owl-carousel screenshot-carousel">
