@@ -68,7 +68,6 @@ function Analysis() {
         const fetchUserData = async () => {
 
             const token = localStorage.getItem('token');
-            const storedYesterday = localStorage.getItem("yesterday");
 
             if (!token) {
                 alert('Access token not found');
@@ -89,12 +88,18 @@ function Analysis() {
                     alert(JSON.stringify(data));
                     throw new Error('Failed to fetch user data');
                 } else {
+                    const storedYesterday = localStorage.getItem("yesterday");
+                    
                     //console.log(data.calendar);
                     setUsername(data.username);
                     setProfile(data.profile);
                     setContributions(data.contributions.toLocaleString());
                     setRepositories(data.repositories);
-                    setYesterday(parseInt(storedYesterday, 10));
+                    
+
+                    // Parse and set the 'yesterday' value
+                    const yesterdayValue = parseInt(storedYesterday, 10);
+                    setYesterday(yesterdayValue);
 
                     
                     const formattedContributions = data.calendar.map(week => 
@@ -106,7 +111,7 @@ function Analysis() {
                     
                     setCalendarData(formattedContributions);
                                     
-                    if (yesterday < 1) {
+                    if (yesterdayValue < 1) {
                         setStatus(<i className="fa-solid fa-thumbs-down"></i>);
                     }
 
