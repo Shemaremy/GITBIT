@@ -8,22 +8,14 @@ import '../App.css'
 
 function Part8() {
     return(
-        <div className="container-xxl py-5" id="pricing">
+        <div className="container-xxl py-5" id="about">
             <div className="container py-5 px-lg-5">
                 <div className="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h5 className="text-primary-gradient fw-medium">Pricing Plan</h5>
-                    <h1 className="mb-5">Choose Your Plan</h1>
+                    <h5 className="text-primary-gradient fw-medium">Who we are</h5>
+                    <h1 className="mb-5">About us</h1>
                 </div>
                 <div className="tab-class text-center pricing wow fadeInUp" data-wow-delay="0.1s">
-                    <ul className="nav nav-pills d-inline-flex justify-content-center bg-primary-gradient rounded-pill mb-5">
-                        <li className="nav-item">
-                            <button className="nav-link active" data-bs-toggle="pill" href="#tab-1">Monthly</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="nav-link" data-bs-toggle="pill" href="#tab-2">Yearly</button>
-                        </li>
-                    </ul>
-                    <div className="tab-content text-start">
+                    {/* <div className="tab-content text-start">
                         <div id="tab-1" className="tab-pane fade show p-0 active">
                             <div className="row g-4">
                                 <div className="col-lg-4">
@@ -218,7 +210,27 @@ function Part8() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
+                    <p>
+                        Apparently, you won't have to expect the "about us" as many do, because it is about me not us. The reason
+                        is because this web app is built by one individual who is 'me'. I am an independent Software Engineer
+                        based in Rwanda, who is mainly specialised in MERN stack. I built this project so as to specialize deeply into backend area.
+                        I wanted to deeply dive into some RESTAPI's, with the CRUD operations. It is not a school project, its more of
+                        a personal project for my portfolio.
+                    </p>
+                    <p>
+                        Probably, this is not the first backend project that I've built, but it is the hardest one because you won't find many tutorials
+                        out there on how to build a project like this since I've not cloned it from somewhere else. I've tried building something unique,
+                        something that has not been built before for a nice looking resume. Talking of a resume, you can explore more about my portfolio website 
+                        on this link: &nbsp;<a href="https://remyshema.netlify.app">portfolio.</a>
+                    </p>
+                    <p>
+                        It contains all about me, journey and projects that I've built. Feel free to connect with me, and remember, GitBit is the only way you'll
+                        improve your contribution habit and build more projects.
+                    </p>
+                    <p>
+                        Enjoy!!
+                    </p>
                 </div>
             </div>
         </div>

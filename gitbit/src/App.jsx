@@ -44,6 +44,7 @@ function Approutes() {
               <Part4/>
               <Part5/>
               <Part7/>
+              <Part8/>
               <Part10/>
               <Part11/>
             </div>
