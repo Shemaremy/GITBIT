@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
 import  { Tooltip as ReactTooltip }  from 'react-tooltip';
+import { useNavigate } from "react-router-dom";
 
 import Part1 from "../Part1";
 import moment from 'moment';
@@ -41,6 +42,7 @@ function Analysis() {
     const [ yesterday, setYesterday ] = useState();
     const [panelChange, setPanelChange] = useState(PanelState.DASHBOARD);
 
+    const navigate = useNavigate();
 
 
 
@@ -85,7 +87,12 @@ function Analysis() {
                 const data = await response.json();
 
                 if (!response.ok) {
-                    alert(JSON.stringify(data));
+                    if ((JSON.stringify(data)).includes('Invalid token')) {
+                        //alert("Token expired")
+                        navigate('/accounts');
+                    } else {
+                        alert(JSON.stringify(data));
+                    }
                     throw new Error('Failed to fetch user data');
                 } else {
                     const storedYesterday = localStorage.getItem("yesterday");
@@ -108,7 +115,7 @@ function Analysis() {
                             count: day.contributionCount
                         }))
                     ).flat();
-                    
+
                     setCalendarData(formattedContributions);
                                     
                     if (yesterdayValue < 1) {
