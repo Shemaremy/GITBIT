@@ -8,6 +8,12 @@ import Part1 from "../Part1";
 import moment from 'moment';
 import './Analysis.css';
 
+import Badges from "./Contents/Badges";
+import Goals from "./Contents/Goals";
+import Notifications from "./Contents/Notifications";
+import Settings from "./Contents/Settings";
+import Help from "./Contents/Helpcenter";
+
 
 
 
@@ -30,6 +36,7 @@ function Analysis() {
         HELP: 'help',
         SIGNOUT: 'signout'
     };
+
 
 
     const [calendarData, setCalendarData] = useState([]);
@@ -236,6 +243,7 @@ function Analysis() {
 
     const handlePanelChange = (newState) => {
         setPanelChange(newState);
+        //alert(panelChange);
     };
 
     const isActive = (panel) => panelChange === panel ? 'active' : '';
@@ -332,7 +340,7 @@ function Analysis() {
                     <i className="fa-solid fa-headphones-simple"></i>&nbsp;&nbsp; Help center
                 </p>
                 <p 
-                    className={`director ${isActive(PanelState.SIGNOUT)}`} 
+                    className={`director signout_director ${isActive(PanelState.SIGNOUT)}`} 
                     onClick={() => handlePanelChange(PanelState.SIGNOUT)}>
                     Sign out &nbsp;&nbsp; <i className="fa-solid fa-arrow-right-from-bracket"></i>
                 </p>
@@ -341,9 +349,78 @@ function Analysis() {
     );
 
 
+    
 
-
-
+    const dashboardContent = (
+        <>
+            <div className="Mobile-navbar">
+                            <div className="left-part-nav">
+                                <div className="burger">
+                                    <div className="hamburger_container">
+                                        <button className="hamburger" onClick={toggleMobileMenu}>
+                                            <div className="bar"></div>
+                                        </button>
+                                    </div>
+                                </div>
+                                <h2>{username}</h2>
+                            </div>
+                            <div className="right-part-nav">
+                                <i className="fa-solid fa-bell"></i>
+                                <i className="fa-solid fa-shield-halved"></i>
+                                <div className="img-container">
+                                    <img src={profile} alt="Pic" className="profile-pic"/>
+                                </div>                            
+                            </div>
+            </div>
+            <div className="top-headers">
+                <h1 className="welcome-header">Welcome back, {username}</h1>
+                <p className="main-date">{currentDay}, {currentDate}</p>
+            </div>
+            <div className="three-panels-section">
+                <div className="first-panel-analysis">
+                    <h5 className="min-panel-h5">Contributions</h5>
+                    <p className="min-panel-par">{contributions} contributions</p>
+                    <h6 className="min-panel-h6">{repositories} repositories</h6>
+                </div>
+                <div className="second-panel-analysis">
+                    <h5 className="min-panel-h5">Yesterday</h5>
+                    <p className="min-panel-par">{yesterday} contributions</p>
+                    <h6 className="min-panel-h6">Status: &nbsp; {status}</h6>
+                </div>
+                <div className="third-panel-analysis">
+                    <h5 className="min-panel-h5">Current badge</h5>
+                    <p className="min-panel-par">No badge earned <i className="fa-solid fa-ban"></i></p>
+                    <h6 className="min-panel-h6">Click <a href="#">here</a> to earn one</h6>
+                </div>
+            </div>
+            <div className="github-analysis-panel">
+                <CalendarHeatmap
+                    startDate={moment().subtract(1, 'year').toDate()}
+                    endDate={moment().toDate()}
+                    values={calendarData}
+                    classForValue={value => {
+                        if (!value || value.count === 0) {
+                            return 'color-empty';
+                        }
+                        return `color-gitlab-${Math.min(value.count, 4)}`;
+                    }}
+                    tooltipDataAttrs={value => {
+                        if (!value || !value.date) return {};
+                        const date = new Date(value.date);
+                        return {
+                            'data-tooltip-id': 'my-tooltip',
+                            'data-tooltip-content': `${value.count} contributions on ${date.toISOString().slice(0, 10)}`,
+                        };
+                    }}
+                    
+                    
+                    showWeekdayLabels={true}
+                    //onClick={value => alert(`Clicked on value with count: ${value.count}`)}
+                />
+                <ReactTooltip id="my-tooltip"/>
+            </div>
+        </>
+    );
 
 
 
@@ -411,72 +488,12 @@ function Analysis() {
             </div>
             <div className="right-part-panel">
                 <div className="right-wrapper">
-                    <div className="Mobile-navbar">
-                        <div className="left-part-nav">
-                            <div className="burger">
-                                <div className="hamburger_container">
-                                    <button className="hamburger" onClick={toggleMobileMenu}>
-                                        <div className="bar"></div>
-                                    </button>
-                                </div>
-                            </div>
-                            <h2>{username}</h2>
-                        </div>
-                        <div className="right-part-nav">
-                            <i className="fa-solid fa-bell"></i>
-                            <i className="fa-solid fa-shield-halved"></i>
-                            <div className="img-container">
-                                <img src={profile} alt="Pic" className="profile-pic"/>
-                            </div>                            
-                        </div>
-                    </div>
-                    <div className="top-headers">
-                        <h1 className="welcome-header">Welcome back, {username}</h1>
-                        <p className="main-date">{currentDay}, {currentDate}</p>
-                    </div>
-                    <div className="three-panels-section">
-                        <div className="first-panel-analysis">
-                            <h5 className="min-panel-h5">Contributions</h5>
-                            <p className="min-panel-par">{contributions} contributions</p>
-                            <h6 className="min-panel-h6">{repositories} repositories</h6>
-                        </div>
-                        <div className="second-panel-analysis">
-                            <h5 className="min-panel-h5">Yesterday</h5>
-                            <p className="min-panel-par">{yesterday} contributions</p>
-                            <h6 className="min-panel-h6">Status: &nbsp; {status}</h6>
-                        </div>
-                        <div className="third-panel-analysis">
-                            <h5 className="min-panel-h5">Current badge</h5>
-                            <p className="min-panel-par">No badge earned <i className="fa-solid fa-ban"></i></p>
-                            <h6 className="min-panel-h6">Click <a href="#">here</a> to earn one</h6>
-                        </div>
-                    </div>
-                    <div className="github-analysis-panel">
-                        <CalendarHeatmap
-                            startDate={moment().subtract(1, 'year').toDate()}
-                            endDate={moment().toDate()}
-                            values={calendarData}
-                            classForValue={value => {
-                                if (!value || value.count === 0) {
-                                    return 'color-empty';
-                                }
-                                return `color-gitlab-${Math.min(value.count, 4)}`;
-                            }}
-                            tooltipDataAttrs={value => {
-                                if (!value || !value.date) return {};
-                                const date = new Date(value.date);
-                                return {
-                                    'data-tooltip-id': 'my-tooltip',
-                                    'data-tooltip-content': `${value.count} contributions on ${date.toISOString().slice(0, 10)}`,
-                                };
-                            }}
-                            
-                            
-                            showWeekdayLabels={true}
-                            //onClick={value => alert(`Clicked on value with count: ${value.count}`)}
-                        />
-                        <ReactTooltip id="my-tooltip"/>
-                    </div>
+                    {panelChange === 'dashboard' && dashboardContent}
+                    {panelChange === 'badges' && <Badges />}
+                    {panelChange === 'goals' && <Goals />}
+                    {panelChange === 'notifications' && <Notifications />}
+                    {panelChange === 'settings' && <Settings />}
+                    {panelChange === 'help' && <Help />}
                 </div>
             </div>
         </div>

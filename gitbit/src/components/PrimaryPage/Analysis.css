@@ -106,8 +106,8 @@
     color: rgb(66, 66, 66);
     font-size: 14px;
     cursor: pointer;
-    border-radius: 15px;
-    transition: background-color 0.2s ease-in-out;
+    border-radius: 20px;
+    transition: background-color 0.1s ease-in-out;
     padding: 8px;
 }
 
@@ -126,7 +126,17 @@
 
 
 .director.active {
-    background-color: rgba(128, 128, 128, 0.103);
+    background-color: rgba(80, 80, 80, 0.082);
+}
+
+.signout_director:hover {
+    background-color: #57575700 !important;
+    text-decoration: underline;
+}
+
+.signout_director.active {
+    background-color: #57575700 !important;
+    text-decoration: underline;
 }
 
 
@@ -180,7 +190,7 @@
 .welcome-header {
     font-weight: 100 !important;
     font-size: 33px;
-    color: rgba(0, 0, 0, 0.63);
+    color: rgba(0, 0, 0, 0.589);
     margin-left: 10px;
 }
 
@@ -207,11 +217,23 @@
     height: 100%;
     padding: 15px;
     border-radius: 10px;
+    cursor: pointer;
     border-style: solid;
     border-width: 1px;
     border-color: rgba(37, 37, 37, 0.164);
     box-shadow: 0px 0px 5px rgba(128, 128, 128, 0.171);
+    transition: border-color 0.1s ease-in-out;
 }
+
+
+.first-panel-analysis:hover,
+.second-panel-analysis:hover,
+.third-panel-analysis:hover {
+    box-shadow: none;
+    border-color: rgba(37, 37, 37, 0.322);
+}
+
+
 
 .min-panel-h5 {
     height: 60px;
@@ -518,10 +540,6 @@
         border-color: rgba(128, 128, 128, 0.411);
         overflow: hidden;
         overflow-y: scroll;
-    }
-
-    .react-calendar-heatmap {
-        transform: rotate(90deg);
     }
 
 
