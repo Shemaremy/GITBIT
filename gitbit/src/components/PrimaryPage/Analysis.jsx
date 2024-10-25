@@ -243,7 +243,18 @@ function Analysis() {
 
     const handlePanelChange = (newState) => {
         setPanelChange(newState);
-        //alert(panelChange);
+        if (newState === 'signout') {
+            localStorage.removeItem('token');
+            navigate('/');
+        }
+        
+        const menu_btn = document.querySelector('.hamburger');
+        const show_panel = document.querySelector('.analysis-nav-mobilepanel');
+        const fixed_page = document.querySelector('body');
+        menu_btn.classList.remove('is-active');
+        show_panel.classList.remove('is-active');
+        fixed_page.classList.toggle('body-fixed');
+
     };
 
     const isActive = (panel) => panelChange === panel ? 'active' : '';
@@ -353,25 +364,7 @@ function Analysis() {
 
     const dashboardContent = (
         <>
-            <div className="Mobile-navbar">
-                            <div className="left-part-nav">
-                                <div className="burger">
-                                    <div className="hamburger_container">
-                                        <button className="hamburger" onClick={toggleMobileMenu}>
-                                            <div className="bar"></div>
-                                        </button>
-                                    </div>
-                                </div>
-                                <h2>{username}</h2>
-                            </div>
-                            <div className="right-part-nav">
-                                <i className="fa-solid fa-bell"></i>
-                                <i className="fa-solid fa-shield-halved"></i>
-                                <div className="img-container">
-                                    <img src={profile} alt="Pic" className="profile-pic"/>
-                                </div>                            
-                            </div>
-            </div>
+            
             <div className="top-headers">
                 <h1 className="welcome-header">Welcome back, {username}</h1>
                 <p className="main-date">{currentDay}, {currentDate}</p>
@@ -487,6 +480,25 @@ function Analysis() {
                 </div>
             </div>
             <div className="right-part-panel">
+                <div className="Mobile-navbar">
+                    <div className="left-part-nav">
+                        <div className="burger">
+                            <div className="hamburger_container">
+                                <button className="hamburger" onClick={toggleMobileMenu}>
+                                    <div className="bar"></div>
+                                </button>
+                            </div>
+                        </div>
+                        <h2>{username}</h2>
+                    </div>
+                    <div className="right-part-nav">
+                        <i className="fa-solid fa-bell"></i>
+                        <i className="fa-solid fa-shield-halved"></i>
+                        <div className="img-container">
+                            <img src={profile} alt="Pic" className="profile-pic"/>
+                        </div>                            
+                    </div>
+                </div>
                 <div className="right-wrapper">
                     {panelChange === 'dashboard' && dashboardContent}
                     {panelChange === 'badges' && <Badges />}

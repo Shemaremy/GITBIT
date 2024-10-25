@@ -168,6 +168,7 @@
     height: 100%;
     width: 80%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -366,6 +367,7 @@
     .parent-analysis {
         height: 150vh;
         overflow-y: hidden;
+        background-color: rgba(255, 255, 255, 0.288);
     }
 
 
@@ -374,15 +376,15 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
         border-style: solid;
         border-width: 1px;
         border-color: rgba(0, 0, 0, 0.212);
+        background-color: rgba(255, 255, 255, 0.288);
         border-top: 0;
         border-left: 0;
         border-right: 0;
         width: 100%;
-        height: 100px;
     }
 
     .left-part-nav {
@@ -451,6 +453,7 @@
         display: flex;
         opacity: 0;
         transition: opacity 0.3s ease-in-out;
+        z-index: 999;
     }
 
     .analysis-nav-mobilepanel.is-active {
@@ -494,12 +497,12 @@
 
     .right-part-panel {
         width: 100%;
+        padding-top: 20px;
     }
 
     .right-wrapper {
         border-width: 0;
         width: 100%;
-        height: 100%;
         padding: 10px;
         box-shadow: none;
     }
