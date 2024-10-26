@@ -253,7 +253,7 @@ function Analysis() {
         const fixed_page = document.querySelector('body');
         menu_btn.classList.remove('is-active');
         show_panel.classList.remove('is-active');
-        fixed_page.classList.toggle('body-fixed');
+        fixed_page.classList.remove('body-fixed');
 
     };
 
