@@ -383,7 +383,7 @@ function Analysis() {
                 <div className="third-panel-analysis">
                     <h5 className="min-panel-h5">Current badge</h5>
                     <p className="min-panel-par">No badge earned <i className="fa-solid fa-ban"></i></p>
-                    <h6 className="min-panel-h6">Click <a href="#">here</a> to earn one</h6>
+                    <h6 className="min-panel-h6">Click <a href="#" onClick={() => handlePanelChange(PanelState.BADGES)}>here</a> to earn one</h6>
                 </div>
             </div>
             <div className="github-analysis-panel">

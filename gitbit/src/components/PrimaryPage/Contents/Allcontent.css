@@ -164,7 +164,7 @@
 
 .no-goals > button {
     padding: 12px 25px;
-    background-color: #4caf4f;
+    background-color: #1f68b1bd;
     border: none;
     font-size: 12px;
     color: #fff;
@@ -206,7 +206,7 @@
     margin-top: 5px;
     font-size: 12px;
     padding: 9px 22px;
-    background-color: #4caf50;
+    background-color: #3c7cbdbd;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -253,7 +253,7 @@
     margin-top: 10px;
     margin-right: 8px;
     padding: 10px 20px;
-    background-color: #4caf50;
+    background-color: #254e77bd;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -270,6 +270,408 @@
 @keyframes bounce {
     from { transform: translateY(0); }
     to { transform: translateY(-10px); }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ======================= Notifications ==================================================== */
+/* ======================= Notifications ==================================================== */
+/* ======================= Notifications ==================================================== */
+
+.notification_panel {
+    padding: 20px;
+    background-color: #f4f4f9;
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.notification_panel h1 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.notification_filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.notification_filters button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #1f68b1bd;
+    color: white;
+    cursor: pointer;
+    font-weight: 100;
+}
+
+.notification_filters button:hover {
+    background-color: #183453b2;
+}
+
+.notification_list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.notification_item {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.notification_item.unread {
+    background-color: #eaf6ff;
+}
+
+.notification_item.read {
+    opacity: 0.7;
+}
+
+.notification_type {
+    font-weight: bold;
+    color: #333;
+    margin-right: 10px;
+}
+
+.notification_message {
+    flex-grow: 1;
+}
+
+.notification_time {
+    font-size: 0.9em;
+    color: #999;
+    margin-left: 10px;
+}
+
+.mark_as_read {
+    border: none;
+    background-color: transparent;
+    color: #0073e6;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.mark_as_read:hover {
+    text-decoration: underline;
+}
+
+.empty_notifications {
+    text-align: center;
+    color: #666;
+    font-size: 1.1em;
+    padding: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================================ Settings =========================================================== */
+/* ================================ Settings =========================================================== */
+/* ================================ Settings =========================================================== */
+
+.settings_panel {
+    padding: 20px;
+    background-color: #dbdbdb0e;
+    border-radius: 8px;
+    border: dashed 1px rgba(0, 0, 0, 0.205);
+    margin: 0 auto;
+}
+
+.settings_panel h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.settings_section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.settings_section h2 {
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.settings_button {
+    display: inline-block;
+    margin: 5px 0;
+    padding: 10px 15px;
+    background-color: #1f68b1bd;
+    font-size: 12px;
+    margin-left: 5px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.settings_button:hover {
+    background-color: #0056b3;
+}
+
+select, input[type="checkbox"] {
+    margin-top: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================================ Help center =========================================================== */
+/* ================================ Help center =========================================================== */
+/* ================================ Help center =========================================================== */
+
+.help-panel {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding: 2rem;
+    background-color: #f9f9f993;
+    color: #333;
+    font-family: Arial, sans-serif;
+    margin: 0 auto;
+    border-radius: 8px;
+    border: dashed 1px rgba(128, 128, 128, 0.315);
+}
+
+.help-panel h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #444;
+}
+
+.search-bar {
+    display: flex;
+    margin-bottom: 1.5rem;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+}
+
+.search-button {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    background-color: #1f68b1bd;
+    color: white;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+.faq-section, .guides-section, .contact-support, .resource-links {
+    margin-bottom: 1.5rem;
+}
+
+.faq-section h2, .guides-section h2, .contact-support h2, .resource-links h2 {
+    font-size: 1.25rem;
+    color: #006fddbd;
+}
+
+.faq-item {
+    cursor: pointer;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-answer {
+    padding: 0.5rem 0 0.5rem 1rem;
+    color: #666;
+}
+
+.guides-section ul, .resource-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.guides-section li, .resource-links li {
+    margin: 0.5rem 0;
+}
+
+.guides-section li a, .resource-links li a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.contact-support p {
+    font-size: 0.9rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================================ Contact Form =========================================================== */
+/* ================================ Contact Form =========================================================== */
+/* ================================ Contact Form =========================================================== */
+
+.contact-form {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 0 auto;
+}
+
+.contact-form h2 {
+    font-size: 22px;
+    margin-bottom: 30px;
+    color: #333333a4;
+    text-decoration: underline;
+}
+
+.contact-form label {
+    display: block;
+    margin: 0.5rem 0;
+    margin-bottom: 0;
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 100;
+}
+
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 0.25rem;
+}
+
+.contact-form textarea {
+    height: 100px;
+}
+
+
+.contact-form button {
+    width: 15%;
+    background-color: #1f68b1bd;
+    font-size: 13px;
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.contact-form .back-button {
+    margin-top: 1rem;
+    background-color: #555;
+}
+
+.contact-form .back-button:hover, .contact-form button:hover {
+    background-color: #0056b3;
+}
+
+.contact-support .contact-form-link {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.back-button {
+    background-color: rgba(255, 0, 0, 0) !important;
+    color: rgb(100, 100, 100) !important;
+    font-size: 13px;
+    text-decoration: underline;
+    padding: 0 !important;
+    margin-top: 20px !important;
+    margin-left: 10px !important;
 }
 
 
