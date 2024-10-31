@@ -4,22 +4,20 @@ import './Allcontent.css';
 function Badges() {
     // Mock data for badges
     const badges = [
-        { id: 1, name: "First Commit", description: "Awarded for your first commit", earned: true },
-        { id: 2, name: "50 Contributions", description: "Awarded for reaching 50 contributions", earned: true },
-        { id: 3, name: "Open Source Champion", description: "Contributed to open source projects", earned: false },
-        { id: 4, name: "Open Source Champion", description: "Contributed to open source projects", earned: false },
-        { id: 5, name: "Daily Streak", description: "Contributed for 7 days in a row", earned: false },
-        { id: 6, name: "Daily Streak", description: "Contributed for 7 days in a row", earned: false },
-        { id: 7, name: "Daily Streak", description: "Contributed for 7 days in a row", earned: false },
-        { id: 8, name: "Daily Streak", description: "Contributed for 7 days in a row", earned: false },
-        { id: 9, name: "Daily Streak", description: "Contributed for 7 days in a row", earned: false },
-        { id: 10, name: "Daily Streak", description: "Contributed for 7 days in a row", earned: false },
-        { id: 11, name: "Daily Streak", description: "Contributed for 7 days in a row", earned: false },
-        { id: 12, name: "Daily Streak", description: "Contributed for 7 days in a row", earned: false },
-        { id: 13, name: "Daily Streak", description: "Contributed for 7 days in a row", earned: false },
-        { id: 14, name: "Daily Streak", description: "Contributed for 7 days in a row", earned: false },
-        { id: 15, name: "Daily Streak", description: "Contributed for 7 days in a row", earned: false },
-        { id: 16, name: "Daily Streak", description: "Contributed for 7 days in a row", earned: false }
+        { id: 1, name: "First Commit", description: "Awarded for your first commit", earned: false },
+        { id: 2, name: "100 Contributions", description: "Awarded for reaching 100 contributions", earned: false },
+        { id: 3, name: "500 Contributions", description: "Awarded for reaching 500 contributions", earned: false },
+        { id: 4, name: "1000 Contributions", description: "Awarded for reaching 1000 contributions", earned: false },
+        { id: 5, name: "1500 Contributions", description: "Awarded for reaching 1500 contributions", earned: false },
+        { id: 6, name: "2000 Contributions", description: "Awarded for reaching 2000 contributions", earned: false },
+        { id: 7, name: "Consistency (7)", description: "The one who commited 1week nonstop", earned: false },
+        { id: 8, name: "Consistency (30)", description: "The one who commited 1Month nonstop", earned: false },
+        { id: 9, name: "Consistency (90)", description: "The one who commited 3Months nonstop", earned: false },
+        { id: 10, name: "Consistency (180)", description: "The one who commited 6Months nonstop", earned: false },
+        { id: 11, name: "Consistency (365)", description: "The one who commited 1Year nonstop", earned: false },
+        { id: 12, name: "Week Warrior (5)", description: "Contributed 7 days nonstop with 5 daily commits", earned: false },
+        { id: 13, name: "Month Warrior (5)", description: "Contributed 30 days nonstop with 5 daily commits", earned: false },
+        { id: 14, name: "Year Warrior (5)", description: "Contributed 365 days nonstop with 5 daily commits", earned: false }
     ];
 
     return (

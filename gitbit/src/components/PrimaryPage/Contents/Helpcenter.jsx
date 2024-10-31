@@ -6,6 +6,7 @@ function Help() {
 
     const [faqOpen, setFaqOpen] = useState({});
     const [showContactForm, setShowContactForm] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const toggleFAQ = (index) => {
         setFaqOpen(prev => ({ ...prev, [index]: !prev[index] }));
@@ -20,6 +21,20 @@ function Help() {
     };
 
 
+    const faqItems = [
+        { question: "How do I earn Gitbit badges?", answer: "You can earn github badges by navigating on the badges panel, and try completing a task to achieve the badge. Once the challenge is achieved, GitBit will automatically unlock your badge." },
+        { question: "How do I set up GitBit goals and how to achieve them?", answer: "Go to the goals panel and set a goal. You will only be able to set up one personal goal, and when achieved you will get a notification." },
+        { question: "Why is my contribution data not updating?", answer: "Try refreshing the page to see if updated data is visible. If the issue persists, try logging out and log back in. And if neither of these are working, try again after some time." },
+        { question: "All my Github history data is not showing", answer: "Make sure all your Github repositories are public. GitBit only displays public repositories due to privacy policy." }
+    ];
+    
+    const filteredFAQs = faqItems.filter(item => 
+        item.question.toLowerCase().includes(searchQuery) || 
+        item.answer.toLowerCase().includes(searchQuery)
+    );
+    
+
+
     return (
         <div className="help-panel">
             {showContactForm ? (
@@ -29,58 +44,98 @@ function Help() {
 
                 <>
                     <div className="search-bar">
-                        <input type="text" placeholder="Search for help topics..." />
+                    <input 
+                        type="text" 
+                        placeholder="Search for help topics..." 
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value.toLowerCase())} 
+                    />
                         <button className="search-button"><i className="fa-solid fa-magnifying-glass"></i></button>
                     </div>
 
-                    <div className="faq-section">
+                    {/* <div className="faq-section">
                         <h2>Frequently Asked Questions</h2>
                         <div className="faq-item" onClick={() => toggleFAQ(1)}>
                             <div className="faq-question">
-                                <span>How do earn Gitbit badges?</span>
+                                <span>How do I earn Gitbit badges?</span>
                                 {faqOpen[1] ? <i className="fa-solid fa-chevron-up"></i> : <i className="fa-solid fa-chevron-down"></i>}
                             </div>
-                            {faqOpen[1] && <div className="faq-answer">You can connect your GitHub account by navigating to Settings and selecting "Connect GitHub". Follow the prompts to authorize.</div>}
+                            {faqOpen[1] && <div className="faq-answer">
+                                <ul>
+                                    <li>
+                                        You can earn github badges by navigating on the badges panel, and try completing a task to achieve the badge. Once the challenge is
+                                        achieved, GitBit will automatically unlock your badge.
+                                    </li>
+                                </ul>
+                            </div>}
                         </div>
                         <div className="faq-item" onClick={() => toggleFAQ(2)}>
                             <div className="faq-question">
                                 <span>How do I set up GitBit goals and how to achieve them?</span>
                                 {faqOpen[2] ? <i className="fa-solid fa-chevron-up"></i> : <i className="fa-solid fa-chevron-down"></i>}
                             </div>
-                            {faqOpen[2] && <div className="faq-answer">Make sure you have authorized the app and that your GitHub contributions are public. Updates occur every 24 hours.</div>}
+                            {faqOpen[2] && <div className="faq-answer">
+                                <ul>
+                                    <li>
+                                        
+                                    </li>
+                                </ul>
+                            </div>}
                         </div>
                         <div className="faq-item" onClick={() => toggleFAQ(3)}>
                             <div className="faq-question">
                                 <span>Why is my contribution data not updating?</span>
                                 {faqOpen[3] ? <i className="fa-solid fa-chevron-up"></i> : <i className="fa-solid fa-chevron-down"></i>}
                             </div>
-                            {faqOpen[3] && <div className="faq-answer">Make sure you have authorized the app and that your GitHub contributions are public. Updates occur every 24 hours.</div>}
+                            {faqOpen[3] && <div className="faq-answer">
+                                <ul>
+                                    <li>
+                                        
+                                    </li>
+                                    <li>
+                                        And if neither of these are working, try again after some time.
+                                    </li>
+                                </ul>
+                            </div>}
                         </div>
                         <div className="faq-item" onClick={() => toggleFAQ(4)}>
                             <div className="faq-question">
-                                <span>All my github history data is not showing</span>
+                                <span>All my Github history data is not showing</span>
                                 {faqOpen[4] ? <i className="fa-solid fa-chevron-up"></i> : <i className="fa-solid fa-chevron-down"></i>}
                             </div>
-                            {faqOpen[4] && <div className="faq-answer">Make sure you have authorized the app and that your GitHub contributions are public. Updates occur every 24 hours.</div>}
+                            {faqOpen[4] && <div className="faq-answer">
+                                <ul>
+                                    <li>
+                                        
+                                        
+                                    </li>
+                                </ul>
+                            </div>}
                         </div>
-                    </div>
-
-                    {/* <div className="guides-section">
-                        <h2><i class="fa-solid fa-book-open"></i> User Guide & Tutorials</h2>
-                        <ul>
-                            <li><a href="#!">Setting up your account</a></li>
-                            <li><a href="#!">Tracking contributions</a></li>
-                            <li><a href="#!">Customizing your dashboard</a></li>
-                        </ul>
                     </div> */}
+
+                    <div className="faq-section">
+                        <h2>Frequently Asked Questions</h2>
+                        {filteredFAQs.map((item, index) => (
+                            <div className="faq-item" key={index} onClick={() => toggleFAQ(index)}>
+                                <div className="faq-question">
+                                    <span>{item.question}</span>
+                                    {faqOpen[index] ? <i className="fa-solid fa-chevron-up"></i> : <i className="fa-solid fa-chevron-down"></i>}
+                                </div>
+                                {faqOpen[index] && <div className="faq-answer">
+                                    <ul>
+                                        <li>{item.answer}</li>
+                                    </ul>
+                                </div>}
+                            </div>
+                        ))}
+                    </div>
 
                     <div className="contact-support">
                         <h2><i className="fa-regular fa-envelope"></i> Contact Support</h2>
                         <p>
-                            If you need further assistance, feel free to 
-                            <a href="mailto:remyshema20@.com"> email our support team</a> 
-                            or reach out via our &nbsp;
-                            <span className="contact-form-link" onClick={handleShowContactForm}>contact form</span>.
+                            If you need further assistance, feel free to <a href="mailto:remyshema20@.com"> email our support team </a> 
+                            or reach out via our &nbsp; <span className="contact-form-link" onClick={handleShowContactForm}>contact form</span>.
                         </p>
                     </div>
 

@@ -80,6 +80,7 @@ function Analysis() {
 
             if (!token) {
                 alert('Access token not found');
+                navigate('/accounts');
                 return;
             }
 
@@ -243,17 +244,25 @@ function Analysis() {
 
     const handlePanelChange = (newState) => {
         setPanelChange(newState);
+        const menu_btn = document.querySelector('.hamburger');
+        const show_panel = document.querySelector('.analysis-nav-mobilepanel');
+        const fixed_page = document.querySelector('body');
+        const analysis_height = document.querySelector('.parent-analysis');
+        menu_btn.classList.remove('is-active');
+        show_panel.classList.remove('is-active');
+        fixed_page.classList.remove('body-fixed');
+
         if (newState === 'signout') {
             localStorage.removeItem('token');
             navigate('/');
         }
+
+        if (newState === 'goals' || newState === 'notifications' || newState === 'settings' || newState === 'help') {
+            analysis_height.classList.add('filledpage');
+        } else {
+            analysis_height.classList.remove('filledpage');
+        }
         
-        const menu_btn = document.querySelector('.hamburger');
-        const show_panel = document.querySelector('.analysis-nav-mobilepanel');
-        const fixed_page = document.querySelector('body');
-        menu_btn.classList.remove('is-active');
-        show_panel.classList.remove('is-active');
-        fixed_page.classList.remove('body-fixed');
 
     };
 

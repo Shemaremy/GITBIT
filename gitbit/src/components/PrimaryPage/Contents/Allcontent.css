@@ -1,6 +1,6 @@
 .badges_panel,
 .goals_panel,
-.help_panel,
+.help-panel,
 .notification_panel,
 .settings_panel {
     width: 100%;
@@ -31,7 +31,7 @@
 .badges_panel p {
     font-size: 13px;
     color: #777;
-    width: 70%;
+    width: 80%;
     margin: 0 auto;
 }
 
@@ -327,8 +327,13 @@
 }
 
 .notification_filters button:hover {
+    background-color: #18335377;
+}
+
+.notification_filters button.active {
     background-color: #183453b2;
 }
+
 
 .notification_list {
     display: flex;
@@ -359,10 +364,14 @@
     font-weight: bold;
     color: #333;
     margin-right: 10px;
+    text-decoration: underline;
 }
 
 .notification_message {
     flex-grow: 1;
+    margin: 0;
+    margin-left: 10px;
+    font-size: 13px;
 }
 
 .notification_time {
@@ -559,6 +568,15 @@ select, input[type="checkbox"] {
     color: #666;
 }
 
+.faq-answer > ul {
+    margin-bottom: 0;
+}
+
+.faq-answer > ul > li {
+    width: 90%;
+    font-size: 14px;
+}
+
 .guides-section ul, .resource-links ul {
     list-style: none;
     padding: 0;
@@ -647,6 +665,11 @@ select, input[type="checkbox"] {
     border-radius: 4px;
     cursor: pointer;
     margin-top: 1rem;
+}
+
+.back-button {
+    padding: 0;
+    width: auto !important;
 }
 
 .contact-form .back-button {
@@ -799,10 +822,45 @@ select, input[type="checkbox"] {
 /* =============================== RESPONSIVENESS ========================================================== */
 
 @media (max-width: 850px) {
-
     .badges_panel p {
         width: 100%;
     }
+
+    .parent-analysis.filledpage {
+        height: 100vh;
+    }
+
+    .notification_panel {
+        background-color: rgba(255, 0, 0, 0);
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .notification_panel h1 {
+        font-size: 25px;
+        color: gray;
+        font-weight: 100 !important;
+        text-decoration: underline;
+        margin-bottom: 25px;
+    }
+
+    .settings_panel {
+        height: 100%;
+    }
+
+    .help-panel {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .contact-form {
+        padding: 0;
+    }
+
+    .contact-form button {
+        width: 50%;
+    }
+
 }
 
 
