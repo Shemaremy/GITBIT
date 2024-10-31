@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import './Allcontent.css';
 
-function Badges() {
+function Badges({ TotalContributions }) {
+
     // Mock data for badges
-    const badges = [
+    const [badges, setBadges] = useState([
         { id: 1, name: "First Commit", description: "Awarded for your first commit", earned: false },
         { id: 2, name: "100 Contributions", description: "Awarded for reaching 100 contributions", earned: false },
         { id: 3, name: "500 Contributions", description: "Awarded for reaching 500 contributions", earned: false },
@@ -18,7 +19,34 @@ function Badges() {
         { id: 12, name: "Week Warrior (5)", description: "Contributed 7 days nonstop with 5 daily commits", earned: false },
         { id: 13, name: "Month Warrior (5)", description: "Contributed 30 days nonstop with 5 daily commits", earned: false },
         { id: 14, name: "Year Warrior (5)", description: "Contributed 365 days nonstop with 5 daily commits", earned: false }
-    ];
+    ]);
+
+
+
+    const BadgeDetermine = (TotalContributions) => {
+        const Total = parseInt(TotalContributions.replace(/,/g, ''));
+        if (Total >= 1) {
+            badges[0].earned = true;
+        }
+        if (Total >= 100) {
+            badges[1].earned = true;
+        }
+        if (Total >= 500) {
+            badges[2].earned = true;
+        } 
+        if (Total >= 1000) {
+            badges[3].earned = true;
+        } 
+        if (Total >= 1500) {
+            badges[4].earned = true;
+        } 
+        if (Total >= 2000) {
+            badges[5].earned = true;
+        }
+    };
+    BadgeDetermine(TotalContributions);
+
+
 
     return (
         <div className="badges_panel">

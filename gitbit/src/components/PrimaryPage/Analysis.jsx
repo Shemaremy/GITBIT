@@ -510,7 +510,7 @@ function Analysis() {
                 </div>
                 <div className="right-wrapper">
                     {panelChange === 'dashboard' && dashboardContent}
-                    {panelChange === 'badges' && <Badges />}
+                    {panelChange === 'badges' && <Badges TotalContributions={contributions} />}
                     {panelChange === 'goals' && <Goals />}
                     {panelChange === 'notifications' && <Notifications />}
                     {panelChange === 'settings' && <Settings />}
