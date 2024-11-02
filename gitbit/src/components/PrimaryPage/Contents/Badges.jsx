@@ -4,6 +4,7 @@ import './Allcontent.css';
 function Badges({ TotalContributions, calendarData }) {
 
 
+
     // Mock data for badges
     const [badges, setBadges] = useState([
         { id: 1, name: "First Commit", description: "Awarded for your first commit", earned: false },
@@ -26,6 +27,8 @@ function Badges({ TotalContributions, calendarData }) {
 
 
 
+    const [currentBadge, setCurrentBadge] = useState("");
+
 
 
 
@@ -46,18 +49,22 @@ function Badges({ TotalContributions, calendarData }) {
 
 
     // ====== FINDING TOTALS IN ONE SECTION ============================================
-    const TotalCommits = (TotalContributions) => {
-        const Total = parseInt(TotalContributions.replace(/,/g, ''));
-        const thresholds = [1, 100, 500, 1000, 1500, 2000];
-        for (let i = 0; i < thresholds.length; i++) {
-            if (Total >= thresholds[i]) {
-                badges[i].earned = true;
-            } else {
-                break;
+    useEffect(() => {
+        const TotalCommits = (TotalContributions) => {
+            const Total = parseInt(TotalContributions.replace(/,/g, ''));
+            const thresholds = [1, 100, 500, 1000, 1500, 2000];
+            for (let i = 0; i < thresholds.length; i++) {
+                if (Total >= thresholds[i]) {
+                    badges[i].earned = true;
+                } else {
+                    break;
+                }
             }
-        }
-    }; 
-    TotalCommits(TotalContributions);
+        };
+    
+        TotalCommits(TotalContributions);
+    }, [TotalContributions]); // Only re-run when TotalContributions changes
+ 
 
 
 
@@ -346,14 +353,26 @@ function Badges({ TotalContributions, calendarData }) {
 
 
 
-
-
 // ==================================================================================================================================
 // ==================================================================================================================================
 // ==================================================================================================================================
 
 
 
+    // ------------ Updating the current padge for the dashboard ------------------
+    useEffect(() => {
+        const mostRecentBadge = badges.reduce((latest, badge) => {
+            if (badge.earned) {
+                return badge;
+            }
+            return latest;
+        }, null);
+
+        if (mostRecentBadge) {
+            setCurrentBadge(mostRecentBadge.name);
+            //console.log(mostRecentBadge);
+        }
+    }, [badges]);
 
 
 
