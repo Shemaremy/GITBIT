@@ -170,6 +170,12 @@ const userSchema = new mongoose.Schema({
         ]
       }
     ]
+  },
+  goal: {
+    goalId: Number,
+    goalName: String,
+    Target: Number,
+    Progress: Number,
   }
 });
 const User = mongoose.model('User', userSchema);
@@ -320,6 +326,12 @@ passport.use(new GitHubStrategy({
           contributions: {
             ...contributionCalendar,
             totalRepositories
+          },
+          goal: {
+            goalId: 0,
+            goalName: "None",
+            Target: 0,
+            Progress: 0
           }
         });
         await user.save();
@@ -536,13 +548,109 @@ app.get('/fetchdata', verifyToken, async (req, res) => {
       profile: user.profileImageUrl,
       repositories: user.contributions.totalRepositories,
       contributions: user.contributions.totalContributions,
-      calendar: user.contributions.weeks
+      calendar: user.contributions.weeks,
+      goal: user.goal
     });
   } catch (error) {
     console.error('Error fetching user data:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+
+
+
+
+
+
+/* ---------- Add and Delete goal ------------------------------------------------------------------- */
+
+app.post('/api/addgoal', async (req, res) => {
+  const { username, goal } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    user.goal = {
+      goalId: goal.goalId,
+      goalName: goal.goalName,
+      Target: goal.Target,
+      Progress: goal.Progress
+    };
+    await user.save();
+
+    res.status(200).json({ goal: user.goal });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to add goal' });
+  }
+});
+
+
+
+
+app.delete('/api/deletegoal', async (req, res) => {
+  const { username, goalId } = req.body;
+
+  try {
+      const user = await User.findOne({ username });
+      if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+      }
+
+      if (user.goal && user.goal.goalId === goalId) {
+        // Set the goal field to null or an empty object
+        user.goal = {
+          goalId: 0,
+          goalName: "None",
+          Target: 0,
+          Progress: 0
+        };
+
+        await user.save();
+
+        return res.status(200).json({ message: 'Goal deleted successfully' });
+      } else {
+        return res.status(404).json({ error: 'Goal not found' });
+      }
+
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Failed to delete goal' });
+  }
+});
+
+
+
+
+app.put('/api/renewgoal', async (req, res) => {
+  const { username, goalId } = req.body;
+
+  try {
+      const user = await User.findOne({ username });
+      if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+      }
+
+      if (user.goal && user.goal.goalId === goalId) {
+        user.goal.Progress = 0;
+
+        await user.save();
+
+        return res.status(200).json({ message: 'Goal renewed successfully' });
+      } else {
+        return res.status(404).json({ error: 'Goal not found' });
+      }
+
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Failed to renew goal' });
+  }
+});
+
 
 
 

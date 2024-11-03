@@ -48,6 +48,7 @@ function Analysis() {
     const [ repositories, setRepositories ] = useState(0);
     const [ yesterday, setYesterday ] = useState();
     const [panelChange, setPanelChange] = useState(PanelState.DASHBOARD);
+    const [goal, setGoal] = useState();
 
     const navigate = useNavigate();
 
@@ -105,7 +106,9 @@ function Analysis() {
                 } else {
                     const storedYesterday = localStorage.getItem("yesterday");
                     
-                    //console.log(data.calendar);
+                    //console.log(data.goal)
+                    setGoal(data.goal)
+                    
                     setUsername(data.username);
                     setProfile(data.profile);
                     setContributions(data.contributions.toLocaleString());
@@ -136,6 +139,7 @@ function Analysis() {
     
             } catch (error) {
                 console.error('Error:', error);
+                //console.error(error);
             }
         };
     
@@ -267,7 +271,6 @@ function Analysis() {
     };
 
     const isActive = (panel) => panelChange === panel ? 'active' : '';
-
 
 
 
@@ -511,7 +514,7 @@ function Analysis() {
                 <div className="right-wrapper">
                     {panelChange === 'dashboard' && dashboardContent}
                     {panelChange === 'badges' && <Badges TotalContributions={contributions} calendarData={calendarData} />}
-                    {panelChange === 'goals' && <Goals />}
+                    {panelChange === 'goals' && <Goals username={username} goal={goal}/>}
                     {panelChange === 'notifications' && <Notifications />}
                     {panelChange === 'settings' && <Settings />}
                     {panelChange === 'help' && <Help />}

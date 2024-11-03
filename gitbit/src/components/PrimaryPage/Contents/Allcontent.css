@@ -213,6 +213,7 @@
     cursor: pointer;
 }
 
+
 .goal-form-modal {
     position: fixed;
     top: 0;
@@ -260,6 +261,15 @@
     cursor: pointer;
 }
 
+.add-goal-button.disable {
+    background-color: #254e7770;
+    cursor: not-allowed;
+}
+
+.delete-goal-button.disable {
+    background-color: #254e7770;
+    cursor: not-allowed;
+}
 
 .goal-achieved {
     color: #4CAF50; /* Green for success */
