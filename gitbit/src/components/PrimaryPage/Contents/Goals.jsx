@@ -134,7 +134,8 @@ function Goals({username, goal, calendarData}) {
             const goal = goals.find(g => g.goalId === goalId);
             if (!goal) return;
     
-            // Filter `calendarData` to get contributions between `startDate` and `endDate`
+
+            // Finding the current date the calendar has to help us find counts in between
             const filteredContributions = calendarData.flat();
             const latestDate = calendarData.flat()
             .reduce((latest, current) => {
