@@ -254,16 +254,13 @@ function Goals({username, goal, calendarData}) {
                                 color={goal.failed ? "red" : "#4caf50"}
                             />
                             <p>{goal.Progress}/{goal.Target} contributions</p>
+                            {goal.achieved && <p className="goal-status">🎉 Goal Achieved!</p>}
                             {goal.failed && <p className="goal-status">Goal Failed</p>}
                             <div className="goal-actions">
-                                {goal.failed ? (
-                                    <button onClick={() => handleGoalProgress(username, goal.goalId)}>Renew Goal</button>
-                                ) : (
-                                    <button className="delete-goal-button" onClick={() => handleDeleteGoal(username, goal.goalId)} disabled={isButtonDisabled}>
-                                        {loading ? <>Deleting &nbsp; <i className="fa-solid fa-spinner fa-spin"></i></>
-                                        : <>Delete Goal</>}
-                                    </button>
-                                )}
+                                <button className="delete-goal-button" onClick={() => handleDeleteGoal(username, goal.goalId)} disabled={isButtonDisabled}>
+                                    {loading ? <>Deleting &nbsp; <i className="fa-solid fa-spinner fa-spin"></i></>
+                                    : <>Delete Goal</>}
+                                </button>                                
                             </div>
                         </div>
                     ))}
