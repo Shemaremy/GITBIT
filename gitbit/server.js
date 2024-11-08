@@ -176,6 +176,8 @@ const userSchema = new mongoose.Schema({
     goalName: String,
     Target: Number,
     Progress: Number,
+    startDate: Date,
+    endDate: Date
   }
 });
 const User = mongoose.model('User', userSchema);
@@ -331,7 +333,9 @@ passport.use(new GitHubStrategy({
             goalId: 0,
             goalName: "None",
             Target: 0,
-            Progress: 0
+            Progress: 0,
+            startDate: 0,
+            endDate: 0
           }
         });
         await user.save();
@@ -578,7 +582,9 @@ app.post('/api/addgoal', async (req, res) => {
       goalId: goal.goalId,
       goalName: goal.goalName,
       Target: goal.Target,
-      Progress: goal.Progress
+      Progress: goal.Progress,
+      startDate: goal.startDate,
+      endDate: goal.endDate
     };
     await user.save();
 

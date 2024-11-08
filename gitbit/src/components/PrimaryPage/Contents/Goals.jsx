@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import moment from 'moment';
 import './Allcontent.css';
 
-function Goals({username, goal}) {
-    const [goals, setGoals] = useState(goal.goalName !== "None" ? [goal] : []);
+function Goals({username, goal, calendarData}) {
 
+    const [goals, setGoals] = useState(goal.goalName !== "None" ? [goal] : []);
     const [showGoalForm, setShowGoalForm] = useState(false);
     const [newGoalType, setNewGoalType] = useState('');
     const [newGoalTarget, setNewGoalTarget] = useState('');
@@ -12,7 +13,9 @@ function Goals({username, goal}) {
 
 
 
-    // Auto tracking goals set
+    
+
+    // --------- Auto tracking goals set --------------------------------------------------------------
     useEffect(() => {
         if (goal.goalName !== "None") {
             setGoals([goal]);
@@ -23,13 +26,24 @@ function Goals({username, goal}) {
 
 
 
-    
+    //---------- Adding the goal in both database and front end ----------------------------------------
     const handleAddGoal = async (username) => {
         if (newGoalType && newGoalTarget) {
             const disableButton = document.querySelector('.add-goal-button');
             disableButton.classList.add('disable');
             setIsButtonDisabled(true);
             setLoading(true);
+
+            // Set start and end dates based on goal type
+            const startDate = moment().format('YYYY-MM-DD');
+            let endDate;
+            if (newGoalType === 'Weekly') {
+                endDate = moment().add(7, 'days').format('YYYY-MM-DD');
+            } else if (newGoalType === 'Monthly') {
+                endDate = moment().add(1, 'month').format('YYYY-MM-DD');
+            } else if (newGoalType === 'Yearly') {
+                endDate = moment().add(1, 'year').format('YYYY-MM-DD');
+            }
                 
             const newGoal = {
                 goalId: goals.length + 1,
@@ -37,6 +51,8 @@ function Goals({username, goal}) {
                 Target: Number(newGoalTarget),
                 Progress: 0,
                 failed: false,
+                startDate,
+                endDate
             };
 
             try {
@@ -74,6 +90,7 @@ function Goals({username, goal}) {
 
 
 
+    //---------- Deleting the goal in both database and front end ----------------------------------------
     const handleDeleteGoal = async (username, goalId) => {
         const disableButton = document.querySelector('.delete-goal-button');
         disableButton.classList.add('disable');
@@ -111,42 +128,69 @@ function Goals({username, goal}) {
     
 
 
-
+    //---------- Handling progress in both database and front end ----------------------------------------
     const handleGoalProgress = async (username, goalId) => {
         try {
-            const response = await fetch(`https://git-bit.glitch.me/api/renewgoal`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, goalId }),
-            });
+            const goal = goals.find(g => g.goalId === goalId);
+            if (!goal) return;
     
-            if (!response.ok) {
-                throw new Error('Failed to renew goal');
-            }
-    
-            const updatedGoals = goals.map(goal => {
-                if (goal.id === goalId) {
-                    const todayProgress = Math.floor(Math.random() * goal.Target); // Randomized for testing
-                    const isAchieved = todayProgress >= goal.Target;
-        
-                    return {
-                        ...goal,
-                        Progress: isAchieved ? goal.Target : todayProgress,
-                        achieved: isAchieved,
-                        failed: !isAchieved && todayProgress < goal.Target
-                    };
-                }
-                return goal;
-            });
-            setGoals(updatedGoals);
+            // Filter `calendarData` to get contributions between `startDate` and `endDate`
+            const filteredContributions = calendarData.flat();
+            const latestDate = calendarData.flat()
+            .reduce((latest, current) => {
+                const currentDate = new Date(current.date);
+                return currentDate > latest ? currentDate : latest;
+            }, new Date(0));
 
+            const currentDate = latestDate.toISOString().slice(0, 10);
+            const goalStartDate = new Date(goal.startDate).toISOString().split('T')[0];
+            const goalEndDate = new Date(goal.endDate).toISOString().split('T')[0];
+
+
+            // Find contributions in range from start to current date
+            const contributionsInRange = filteredContributions.filter(contribution => {
+                const contributionDate = new Date(contribution.date).toISOString().slice(0, 10);
+                return contributionDate >= goalStartDate && contributionDate <= currentDate;
+            });
+            
+            const totalProgress = contributionsInRange[0].count;    
+            
+            
+            const isAchieved = totalProgress >= goal.Target;
+            const isFailed = !isAchieved && currentDate === goalEndDate;
+    
+            // Update the specific goal's progress
+            const updatedGoals = goals.map(g => 
+                g.goalId === goalId ? { ...g, Progress: totalProgress, achieved: isAchieved, failed: isFailed } : g
+            );
+    
+            setGoals(updatedGoals);
+    
+            // Optional: API call to update the backend with the new progress
+            await fetch(`https://git-bit.glitch.me/api/renewgoal`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, goalId, progress: totalProgress }),
+            });
         } catch (error) {
-            console.error('Error deleting goal:', error);
+            console.error('Error updating goal progress:', error);
         }
     };
     
+    const [progressUpdated, setProgressUpdated] = useState(false);
+
+    useEffect(() => {
+        if (username && goals.length > 0 && calendarData && !progressUpdated) {
+            const goalId = goals[0].goalId; // specify the goalId you want
+            handleGoalProgress(username, goalId);
+            setProgressUpdated(true); // Set to true after first update
+        }
+    }, [username, goals, calendarData, progressUpdated]);
+    
+    
+
+
+    // ----------- Ring progressbar settings and appearance -----------------------------------------------
     const RingProgressBar = ({ progress, size, color }) => {
         const radius = (size - 10) / 2;
         const circumference = 2 * Math.PI * radius;
@@ -177,6 +221,7 @@ function Goals({username, goal}) {
 
 
 
+    // -------------- Rendering data and goal setting form -------------------------------------------------
     return (
         <div className="goals_panel">
             <h1>Goals</h1>
@@ -197,6 +242,11 @@ function Goals({username, goal}) {
                     {goals.map(goal => (
                         <div key={goal.goalId} className={`goal-card ${goal.failed ? 'failed' : ''}`}>
                             <p className="goal-name-header">{goal.goalName} Contributions</p>
+                            <p>
+                                Goal set on {goal.startDate ? new Date(goal.startDate).toLocaleDateString('en-GB') : 'N/A'}&nbsp;
+                                and to be achieved before {goal.endDate ? new Date(goal.endDate).toLocaleDateString('en-GB') : 'N/A'}&nbsp;
+                                with target of {goal.Target}
+                            </p>
                             <RingProgressBar
                                 progress={(goal.Progress / goal.Target) * 100}
                                 size={100}
@@ -226,7 +276,6 @@ function Goals({username, goal}) {
                         <label>Goal Type:</label>
                         <select value={newGoalType} onChange={(e) => setNewGoalType(e.target.value)}>
                             <option key="select" value="">Select Goal Type</option>
-                            <option key="daily" value="Daily">Daily</option>
                             <option key="weekly" value="Weekly">Weekly</option>
                             <option key="monthly" value="Monthly">Monthly</option>
                             <option key="yearly" value="Yearly">Yearly</option>
