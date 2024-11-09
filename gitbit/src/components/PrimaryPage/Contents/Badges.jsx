@@ -377,8 +377,19 @@ function Badges({ TotalContributions, calendarData }) {
 
 
 
+    
+    // ----- Finding number of badges achieved ----------------------------------
+    useEffect(() => {
+        const totalEarned = badges.filter(badge => badge.earned).length;
+        //console.log(totalEarned);
+    }, [badges]);
+    
+    
 
 
+    
+    
+    
 
 
 

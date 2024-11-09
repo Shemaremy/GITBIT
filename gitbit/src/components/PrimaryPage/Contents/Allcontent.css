@@ -404,10 +404,24 @@
 }
 
 .empty_notifications {
-    text-align: center;
     color: #666;
-    font-size: 1.1em;
+    font-size: 13px;
     padding: 20px;
+    border-radius: 15px;
+    border: dashed 1px rgba(128, 128, 128, 0.247);
+}
+
+.del-notification {
+    margin: 0;
+    margin-left: 10px;
+}
+
+.del-notification > i {
+    cursor: pointer;
+}
+
+.del-notification > i:hover {
+    color: #0073e665;
 }
 
 

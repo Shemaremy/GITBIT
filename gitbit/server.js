@@ -178,7 +178,15 @@ const userSchema = new mongoose.Schema({
     Progress: Number,
     startDate: Date,
     endDate: Date
-  }
+  },
+  notifications: [
+    {
+      type: { type: String },
+      message: String,
+      isRead: { type: Boolean },
+      display: { type: Boolean }
+    }
+  ]
 });
 const User = mongoose.model('User', userSchema);
 
@@ -336,6 +344,12 @@ passport.use(new GitHubStrategy({
             Progress: 0,
             startDate: 0,
             endDate: 0
+          },
+          notifications: {
+            type: "none",
+            message: "none",
+            isRead: false,
+            display: false
           }
         });
         await user.save();
@@ -659,6 +673,31 @@ app.put('/api/renewgoal', async (req, res) => {
 
 
 
+
+
+// ---------------- Notifications routes -----------------------------------------------------------------
+
+app.post('/api/addnotification', async (req, res) => {
+  try {
+    const { username, notification } = req.body;
+    const user = await User.findOne({ username });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+
+    user.notifications = {
+      type: notification.type,
+      message: notification.message,
+      isRead: notification.isRead,
+      display: notification.display
+    };
+
+    await user.save(); // Save changes
+
+    res.status(200).json({ message: 'Notification added successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error adding notification', error: error.message });
+  }
+});
 
 
 

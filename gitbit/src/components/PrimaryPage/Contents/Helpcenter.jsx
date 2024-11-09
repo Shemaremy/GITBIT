@@ -53,67 +53,6 @@ function Help() {
                         <button className="search-button"><i className="fa-solid fa-magnifying-glass"></i></button>
                     </div>
 
-                    {/* <div className="faq-section">
-                        <h2>Frequently Asked Questions</h2>
-                        <div className="faq-item" onClick={() => toggleFAQ(1)}>
-                            <div className="faq-question">
-                                <span>How do I earn Gitbit badges?</span>
-                                {faqOpen[1] ? <i className="fa-solid fa-chevron-up"></i> : <i className="fa-solid fa-chevron-down"></i>}
-                            </div>
-                            {faqOpen[1] && <div className="faq-answer">
-                                <ul>
-                                    <li>
-                                        You can earn github badges by navigating on the badges panel, and try completing a task to achieve the badge. Once the challenge is
-                                        achieved, GitBit will automatically unlock your badge.
-                                    </li>
-                                </ul>
-                            </div>}
-                        </div>
-                        <div className="faq-item" onClick={() => toggleFAQ(2)}>
-                            <div className="faq-question">
-                                <span>How do I set up GitBit goals and how to achieve them?</span>
-                                {faqOpen[2] ? <i className="fa-solid fa-chevron-up"></i> : <i className="fa-solid fa-chevron-down"></i>}
-                            </div>
-                            {faqOpen[2] && <div className="faq-answer">
-                                <ul>
-                                    <li>
-                                        
-                                    </li>
-                                </ul>
-                            </div>}
-                        </div>
-                        <div className="faq-item" onClick={() => toggleFAQ(3)}>
-                            <div className="faq-question">
-                                <span>Why is my contribution data not updating?</span>
-                                {faqOpen[3] ? <i className="fa-solid fa-chevron-up"></i> : <i className="fa-solid fa-chevron-down"></i>}
-                            </div>
-                            {faqOpen[3] && <div className="faq-answer">
-                                <ul>
-                                    <li>
-                                        
-                                    </li>
-                                    <li>
-                                        And if neither of these are working, try again after some time.
-                                    </li>
-                                </ul>
-                            </div>}
-                        </div>
-                        <div className="faq-item" onClick={() => toggleFAQ(4)}>
-                            <div className="faq-question">
-                                <span>All my Github history data is not showing</span>
-                                {faqOpen[4] ? <i className="fa-solid fa-chevron-up"></i> : <i className="fa-solid fa-chevron-down"></i>}
-                            </div>
-                            {faqOpen[4] && <div className="faq-answer">
-                                <ul>
-                                    <li>
-                                        
-                                        
-                                    </li>
-                                </ul>
-                            </div>}
-                        </div>
-                    </div> */}
-
                     <div className="faq-section">
                         <h2>Frequently Asked Questions</h2>
                         {filteredFAQs.map((item, index) => (

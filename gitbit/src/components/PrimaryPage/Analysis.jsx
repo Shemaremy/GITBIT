@@ -74,6 +74,7 @@ function Analysis() {
 
 
 
+    // ------------- Fetching user data from database ---------------------------------------------------------
     useEffect(() => {
         const fetchUserData = async () => {
 
@@ -146,6 +147,45 @@ function Analysis() {
         fetchUserData();
     }, []);
     
+
+
+    
+    // ------ Checking the first notification -----------------------------------------------------------------
+    const [previousFive, setPreviousFive] = useState(null);
+
+    useEffect(() => {
+        const fromNowPrevious = (calendarData, consecutiveDays = 5) => {
+            const flattenedData = calendarData.flat();
+        
+            // Find the latest date in the data
+            const latestDate = flattenedData.reduce((latest, current) => {
+                const currentDate = new Date(current.date);
+                return currentDate > latest ? currentDate : latest;
+            }, new Date(0));
+            const currentDate = latestDate.toISOString().slice(0, 10);
+        
+            // Calculate the date range from (currentDate - 5 days) to (currentDate - 1 day)
+            const endDate = new Date(currentDate);
+            const startDate = new Date(endDate);
+            startDate.setDate(endDate.getDate() - consecutiveDays);
+        
+            // Filter contributions within the date range
+            const countsInRange = flattenedData.filter((item) => {
+                const itemDate = new Date(item.date);
+                return itemDate >= startDate && itemDate < endDate;
+            });
+        
+            // Sum the counts for the filtered range
+            const totalCount = countsInRange.reduce((sum, item) => sum + item.count, 0);
+            setPreviousFive(totalCount)
+        
+            return totalCount;
+        };
+        fromNowPrevious(calendarData);
+    }, [calendarData]);
+
+
+
 
     if (loading) {
         return <Part1/>;
@@ -515,7 +555,7 @@ function Analysis() {
                     {panelChange === 'dashboard' && dashboardContent}
                     {panelChange === 'badges' && <Badges TotalContributions={contributions} calendarData={calendarData} />}
                     {panelChange === 'goals' && <Goals username={username} goal={goal} calendarData={calendarData}/>}
-                    {panelChange === 'notifications' && <Notifications />}
+                    {panelChange === 'notifications' && <Notifications previousFive={previousFive} username={username}/>}
                     {panelChange === 'settings' && <Settings />}
                     {panelChange === 'help' && <Help />}
                 </div>
