@@ -112,11 +112,11 @@ function Notifications({previousFive, username, notificationArray}) {
     return (
         <div className="notification_panel">
             <h1>Notifications</h1>
-            <div className="notification_filters">
+            {/* <div className="notification_filters">
                 <button onClick={() => setFilter("all")} className={filter === "all" ? "active" : ""}> All </button>
                 <button onClick={() => setFilter("unread")} className={filter === "unread" ? "active" : ""}> Unread </button>
                 <button onClick={() => setFilter("read")} className={filter === "read" ? "active" : ""}> Read </button>
-            </div>
+            </div> */}
             <div className="notification_list">
                 {getFilteredNotifications().length ? (
                     getFilteredNotifications().map((notif) => (
@@ -124,14 +124,14 @@ function Notifications({previousFive, username, notificationArray}) {
                             <span className={`notification_type ${notif.type.toLowerCase()}`}> {notif.type} </span>
                             <p className="notification_message">{notif.message}</p>
                             <span className="notification_time">{notif.time}</span> &nbsp;
-                            {!notif.isRead && (
+                            {/* {!notif.isRead && (
                                 <button
                                     className="mark_as_read"
                                     onClick={() => markAsRead(notif.id, notif.type, username)}
                                 >
                                     Read
                                 </button>
-                            )}
+                            )} */}
                             <p className="del-notification" onClick={() => deleteNotification(notif.id)}>
                                 <i className="fa-solid fa-trash"></i>
                             </p>
