@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./Allcontent.css";
 
-function Notifications({previousFive, username}) {
+function Notifications({previousFive, username, notificationArray}) {
+
 
     const [filter, setFilter] = useState("all");
 
@@ -14,15 +15,42 @@ function Notifications({previousFive, username}) {
     ]);
     
 
+    // ------- Updating current to db notifications -------------------------------------------------
+    useEffect(() => {
+        const fetchingNotifications = (notificationArray) => {
+            if (notificationArray[0].type !== "none") {
+                
+            }
+        }; fetchingNotifications(notificationArray);
+    }, [notificationArray]);
+
 
 
     // -------- Mark as read function  ----------------------------------------------------------------
-    const markAsRead = (id) => {
+    const markAsRead = async (id, type, username) => {
         setNotifications((prev) =>
             prev.map((notif) =>
                 notif.id === id ? { ...notif, isRead: true } : notif
             )
         );
+
+        try {
+            const response = await fetch('https://git-bit.glitch.me/api/updatenotification', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, type }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to read notification');
+            } else {
+                alert("Read success")
+            }
+        } catch (error) {
+            console.error('Error reading notification:', error);
+        }
     };
 
 
@@ -48,7 +76,9 @@ function Notifications({previousFive, username}) {
 
 
 
-    // ---------- Check & display the notification ---------------------------------------------------------------
+
+
+    // ---------- Check & display the notification, then add it to database ---------------------------------------------------------------
     const checkNotification = async (username) => {
         if (previousFive !== 0) {
             notifications[0].display = true;
@@ -62,8 +92,13 @@ function Notifications({previousFive, username}) {
                 });
     
                 if (!response.ok) {
-                    throw new Error('Failed to add notification');
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to add notification');
                 }
+
+                const result = await response.json();
+                console.log(result.message);
+            
             } catch (error) {
                 console.error('Error adding notification:', error);
             }    
@@ -92,7 +127,7 @@ function Notifications({previousFive, username}) {
                             {!notif.isRead && (
                                 <button
                                     className="mark_as_read"
-                                    onClick={() => markAsRead(notif.id)}
+                                    onClick={() => markAsRead(notif.id, notif.type, username)}
                                 >
                                     Read
                                 </button>

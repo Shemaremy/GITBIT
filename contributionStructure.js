@@ -26,3 +26,15 @@ Array = (53) =
         }
     }
 }
+
+
+
+
+
+Array = (1) = 
+{
+    0: {
+        _id: 123,
+        contributions: 2
+    }
+}
