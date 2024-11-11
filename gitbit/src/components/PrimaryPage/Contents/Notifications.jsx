@@ -3,9 +3,16 @@ import "./Allcontent.css";
 
 function Notifications({previousFive, username, dateprevious, daysremain, finishline}) {
 
+    const [Finishline, setFinishline] = useState();
 
 
-    const Finishline = finishline.toDateString();
+    // I was seeing re-render errors so I used useffect to set Finishline only if the value if finishline exists
+    useEffect(()=> {
+        if (finishline) {
+            setFinishline(finishline.toDateString());
+        }
+    }, [finishline, Finishline]);
+
 
     const [filter, setFilter] = useState("all");
     

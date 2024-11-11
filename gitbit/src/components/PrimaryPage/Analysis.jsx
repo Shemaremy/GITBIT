@@ -203,7 +203,6 @@ function Analysis() {
 
                     setDaysremain(daysDifference);
                     setFinishline(finishLine);
-                    console.log(finishLine)
                 }
             }
         }; findDaysleft(goal);
