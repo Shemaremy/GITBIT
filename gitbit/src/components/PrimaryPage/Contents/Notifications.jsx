@@ -1,32 +1,27 @@
 import React, { useState, useEffect } from "react";
 import "./Allcontent.css";
 
-function Notifications({previousFive, username, notificationArray}) {
+function Notifications({previousFive, username, dateprevious, daysremain, finishline}) {
 
+
+
+    const Finishline = finishline.toDateString();
 
     const [filter, setFilter] = useState("all");
+    
 
 
     // -------- Notifications container --------------------------------------------------------------
     const [notifications, setNotifications] = useState([
-        { id: 1, type: "Contribution", message: "Its been 5 days without contributing", isRead: false, time: "2 hrs ago", display: false },
-        { id: 2, type: "Achievement", message: "Your goal has been achieved! Congratulations!", isRead: false, time: "1 day ago", display: false },
-        { id: 3, type: "Reminder", message: "3 days remain to achieve your goal!", isRead: false, time: "3 days ago", display: false }
+        { id: 1, type: "Contribution", message: "Its been 5 days without contributing", isRead: false, time: dateprevious, display: false },
+        { id: 2, type: "Reminder", message: "Less than 3 days remain to achieve your goal!", isRead: false, time: Finishline, display: false }
     ]);
     
 
-    // ------- Updating current to db notifications -------------------------------------------------
-    useEffect(() => {
-        const fetchingNotifications = (notificationArray) => {
-            if (notificationArray[0].type !== "none") {
-                
-            }
-        }; fetchingNotifications(notificationArray);
-    }, [notificationArray]);
 
 
 
-    // -------- Mark as read function  ----------------------------------------------------------------
+    /* -------- Mark as read function  ----------------------------------------------------------------
     const markAsRead = async (id, type, username) => {
         setNotifications((prev) =>
             prev.map((notif) =>
@@ -52,6 +47,7 @@ function Notifications({previousFive, username, notificationArray}) {
             console.error('Error reading notification:', error);
         }
     };
+    */
 
 
 
@@ -65,7 +61,7 @@ function Notifications({previousFive, username, notificationArray}) {
     
 
 
-    // ---------- Deleting the notification ---------------------------------------------------------------
+    /* ---------- Deleting the notification ---------------------------------------------------------------
     const deleteNotification = (id) => {
         setNotifications((prev) =>
             prev.map((notif) =>
@@ -73,14 +69,15 @@ function Notifications({previousFive, username, notificationArray}) {
             )
         );
     };
+    */
 
 
 
 
 
-    // ---------- Check & display the notification, then add it to database ---------------------------------------------------------------
-    const checkNotification = async (username) => {
-        if (previousFive !== 0) {
+    // ---------- Check & display commits notification, then add it to database ---------------------------------------------------------------
+    const checkCommits = async (username) => {
+        if (previousFive === 0) {
             notifications[0].display = true;
             try {
                 const response = await fetch('https://git-bit.glitch.me/api/addnotification', {
@@ -97,14 +94,42 @@ function Notifications({previousFive, username, notificationArray}) {
                 }
 
                 const result = await response.json();
-                console.log(result.message);
+                //console.log(result.message);
             
             } catch (error) {
                 console.error('Error adding notification:', error);
             }    
         }
-    };
-    checkNotification(username);
+    }; checkCommits(username);
+
+
+
+    // ---------- Check & display reminder notification, then add it to database ---------------------------------------------------------------
+    const checkReminder = async (username) => {
+        if (daysremain && daysremain <= 3) {
+            notifications[1].display = true;
+            try {
+                const response = await fetch('https://git-bit.glitch.me/api/addnotification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, notification: notifications[1] }),
+                });
+    
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to add notification');
+                }
+
+                const result = await response.json();
+                //console.log(result.message);
+            
+            } catch (error) {
+                console.error('Error adding notification:', error);
+            }    
+        }
+    }; checkReminder(username);
 
     
 
@@ -131,10 +156,10 @@ function Notifications({previousFive, username, notificationArray}) {
                                 >
                                     Read
                                 </button>
-                            )} */}
+                            )}
                             <p className="del-notification" onClick={() => deleteNotification(notif.id)}>
                                 <i className="fa-solid fa-trash"></i>
-                            </p>
+                            </p> */}
                         </div>
                     ))
                 ) : (

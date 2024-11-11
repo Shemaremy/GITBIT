@@ -685,19 +685,43 @@ app.post('/api/addnotification', async (req, res) => {
     const user = await User.findOne({ username });
     if (!user) return res.status(404).json({ message: 'User not found' });
     
-    // Save() can sometimes encounter version conflicts if the document has been modified in another part of the app
-    await User.findOneAndUpdate(
-      { username },
-      {
-        notifications: {
-          type: notification.type,
-          message: notification.message,
-          isRead: notification.isRead,
-          display: notification.display,
-        },
-      },
-      { new: true }
+
+    // Check for an existing notification with type "None"
+    const existingNotification = user.notifications.find(
+      (notif) => notif.type === notification.type || notif.type === "none"
     );
+
+
+    if (existingNotification) {
+      // Save() can sometimes encounter version conflicts if the document has been modified in another part of the app
+      await User.findOneAndUpdate(
+        { username, "notifications._id": existingNotification._id },
+        {
+          $set: {
+            "notifications.$.type": notification.type,
+            "notifications.$.message": notification.message,
+            "notifications.$.isRead": notification.isRead,
+            "notifications.$.display": notification.display,
+          },
+        },
+        { new: true }
+      );
+    } else {
+      await User.findOneAndUpdate(
+        { username },
+        {
+          $push: {
+            notifications: {
+              type: notification.type,
+              message: notification.message,
+              isRead: notification.isRead,
+              display: notification.display,
+            },
+          },
+        },
+        { new: true }
+      );
+    }
     
     
 
@@ -707,33 +731,6 @@ app.post('/api/addnotification', async (req, res) => {
     res.status(500).json({ message: 'Error adding notification', error: error.message });
   }
 });
-
-
-
-
-
-app.put('/api/updatenotification', async (req, res) => {
-  try {
-    const { username, type } = req.body;
-
-    const result = await User.findOneAndUpdate(
-      { username, 'notifications.type': type },  // Query: find by username and notification type
-      { $set: { 'notifications.$[elem].isRead': true } },  // Update: set isRead to true
-      { 
-        arrayFilters: [{ 'elem.type': type }],  // Filter: apply only to matching notification
-        new: true 
-      }
-    );
-
-    if (!result) return res.status(404).json({ message: 'User or notification not found' });
-
-    res.status(200).json({ message: 'Notification marked as read' });
-  } catch (error) {
-    console.error('Error reading notification:', error);
-    res.status(500).json({ message: 'Error updating notification', error: error.message });
-  }
-});
-
 
 
 
