@@ -52,6 +52,11 @@ function Analysis() {
     const [dateprevious, setDateprevious] = useState();
     const [daysremain, setDaysremain] = useState();
     const [finishline, setFinishline] = useState();
+    const [years, setYears] = useState([]);
+    const [selectedYear, setSelectedYear] = useState("All");
+    const [allCalendarData, setAllCalendarData] = useState([]);
+    const [totalContributions, setTotalContributions] = useState(0);
+
 
     const navigate = useNavigate();
 
@@ -129,6 +134,15 @@ function Analysis() {
                             count: day.contributionCount
                         }))
                     ).flat();
+
+
+                    // Get years since the user started using github
+                    const uniqueYears = [
+                        new Date().getFullYear(),
+                        ...new Set(formattedContributions.map(item => moment(item.date).year()))
+                    ].filter((year, index, self) => self.indexOf(year) === index);
+                    setYears(uniqueYears);
+                    setAllCalendarData(formattedContributions);
 
                     setCalendarData(formattedContributions);
                                     
@@ -262,6 +276,57 @@ function Analysis() {
     };
 
 
+
+    // ----------- Year filtering options ------------------------------------------------------
+    const handleYearChange = (event) => {
+        const year = event.target.value;
+        setSelectedYear(year);
+
+        let filteredData;
+    
+        if (year === "All") {
+            setCalendarData(allCalendarData); // Show all data for "All" selection
+            setTotalContributions(contributions);
+        } else {
+            const startOfYear = moment(`01-01-${year}`, "DD-MM-YYYY").toDate();
+            const endOfYear = moment(`31-12-${year}`, "DD-MM-YYYY").toDate();
+    
+            const filteredData = allCalendarData.filter(item => {
+                const itemDate = new Date(item.date);
+                return itemDate >= startOfYear && itemDate <= endOfYear;
+            });
+    
+            setCalendarData(filteredData);
+            const total = filteredData.reduce((sum, item) => sum + item.count, 0);
+            setTotalContributions(total);
+        };
+    };
+
+
+
+    const getStartAndEndDate = () => {
+        if (selectedYear === "All") {
+            const firstContributionDate = allCalendarData.reduce((earliest, item) => {
+                const itemDate = new Date(item.date);
+                return itemDate < earliest ? itemDate : earliest;
+            }, new Date());
+    
+            return {
+                startDate: firstContributionDate,
+                endDate: moment().toDate() // Current date
+            };
+        } else {
+            return {
+                startDate: moment(`01-01-${selectedYear}`, "DD-MM-YYYY").toDate(),
+                endDate: moment(`31-12-${selectedYear}`, "DD-MM-YYYY").toDate()
+            };
+        }
+    };
+    
+    const { startDate, endDate } = getStartAndEndDate();
+
+    
+    
 
 
 
@@ -465,9 +530,18 @@ function Analysis() {
                 </div>
             </div>
             <div className="github-analysis-panel">
+                <div className="calendar-upper-settings">
+                <p>{totalContributions} Contributions in {selectedYear === "All" ? "overall" : selectedYear}</p>
+                    <select className="years-select-option" value={selectedYear} onChange={handleYearChange}>
+                        <option value="All">All</option>
+                        {years.map(year => (
+                            <option key={year} value={year}>{year}</option>
+                        ))}
+                    </select>
+                </div>
                 <CalendarHeatmap
-                    startDate={moment().subtract(1, 'year').toDate()}
-                    endDate={moment().toDate()}
+                    startDate={startDate}
+                    endDate={endDate}
                     values={calendarData}
                     classForValue={value => {
                         if (!value || value.count === 0) {
@@ -477,10 +551,10 @@ function Analysis() {
                     }}
                     tooltipDataAttrs={value => {
                         if (!value || !value.date) return {};
-                        const date = new Date(value.date);
+                        const date = new Date(value.date);                     
                         return {
                             'data-tooltip-id': 'my-tooltip',
-                            'data-tooltip-content': `${value.count} contributions on ${date.toISOString().slice(0, 10)}`,
+                            'data-tooltip-content': `${value.count} contributions on ${date.toDateString().slice(0, 15)}`,
                         };
                     }}
                     
