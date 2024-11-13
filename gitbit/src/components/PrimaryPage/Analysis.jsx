@@ -55,7 +55,7 @@ function Analysis() {
     const [years, setYears] = useState([]);
     const [selectedYear, setSelectedYear] = useState("All");
     const [allCalendarData, setAllCalendarData] = useState([]);
-    const [totalContributions, setTotalContributions] = useState(0);
+    const [totalContributions, setTotalContributions] = useState();
 
 
     const navigate = useNavigate();
@@ -520,7 +520,7 @@ function Analysis() {
                 </div>
                 <div className="second-panel-analysis">
                     <h5 className="min-panel-h5">Yesterday</h5>
-                    <p className="min-panel-par">{yesterday} contributions</p>
+                    <p className="min-panel-par">{yesterday} contribution(s)</p>
                     <h6 className="min-panel-h6">Status: &nbsp; {status}</h6>
                 </div>
                 <div className="third-panel-analysis">
