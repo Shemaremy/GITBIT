@@ -166,13 +166,6 @@ function Goals({username, goal, calendarData}) {
             );
     
             setGoals(updatedGoals);
-    
-            // API call to update the backend with the new progress
-            await fetch(`https://git-bit.glitch.me/api/renewgoal`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, goalId, progress: totalProgress }),
-            });
 
         } catch (error) {
             console.error('Error updating goal progress:', error);

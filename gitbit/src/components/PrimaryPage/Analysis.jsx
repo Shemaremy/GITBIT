@@ -64,6 +64,7 @@ function Analysis() {
     const [goalTarget, setGoalTarget] = useState();
     const [formattedEnd, setFormattedEnd] = useState();
     const [goalName, setGoalName] = useState();
+    const [settings, setSettings] = useState();
 
     const navigate = useNavigate();
 
@@ -133,6 +134,7 @@ function Analysis() {
                     setContributions(data.contributions.toLocaleString());
                     setRepositories(data.repositories);
                     
+                    setSettings(data.settings)
 
                     // Parse and set the 'yesterday' value
                     const yesterdayValue = parseInt(storedYesterday, 10);
@@ -646,7 +648,7 @@ function Analysis() {
                                 </div>
                                 <div className="goal-description">
                                     <h6>{goalName} goal</h6>
-                                    <p>Progress: 5</p>
+                                    <p>Progress: {progress}</p>
                                     <p>Target: {goalTarget}</p>
                                     <p>Deadline: {formattedEnd}</p>
                                 </div>
@@ -787,7 +789,7 @@ function Analysis() {
                     {panelChange === 'badges' && <Badges TotalContributions={contributions} calendarData={calendarData} />}
                     {panelChange === 'goals' && <Goals username={username} goal={goal} calendarData={calendarData}/>}
                     {panelChange === 'notifications' && <Notifications previousFive={previousFive} username={username} dateprevious={dateprevious} daysremain={daysremain} finishline={finishline} />}
-                    {panelChange === 'settings' && <Settings />}
+                    {panelChange === 'settings' && <Settings username={username} settings={settings}/>}
                     {panelChange === 'help' && <Help />}
                 </div>
             </div>

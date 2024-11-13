@@ -186,7 +186,13 @@ const userSchema = new mongoose.Schema({
       isRead: { type: Boolean },
       display: { type: Boolean }
     }
-  ]
+  ],
+  settings: {
+    darkMode: Boolean,
+    pageNotifications: Boolean,
+    emailReports: Boolean,
+    emailReminders: Boolean
+  }
 });
 const User = mongoose.model('User', userSchema);
 
@@ -350,6 +356,12 @@ passport.use(new GitHubStrategy({
             message: "none",
             isRead: false,
             display: false
+          },
+          settings: {
+            darkMode: false,
+            pageNotifications: true,
+            emailReports: false,
+            emailReminders: false
           }
         });
         await user.save();
@@ -568,7 +580,8 @@ app.get('/fetchdata', verifyToken, async (req, res) => {
       contributions: user.contributions.totalContributions,
       calendar: user.contributions.weeks,
       goal: user.goal,
-      notifications: user.notifications
+      notifications: user.notifications,
+      settings: user.settings
     });
   } catch (error) {
     console.error('Error fetching user data:', error);
@@ -647,33 +660,6 @@ app.delete('/api/deletegoal', async (req, res) => {
 
 
 
-app.put('/api/renewgoal', async (req, res) => {
-  const { username, goalId } = req.body;
-
-  try {
-      const user = await User.findOne({ username });
-      if (!user) {
-          return res.status(404).json({ error: 'User not found' });
-      }
-
-      if (user.goal && user.goal.goalId === goalId) {
-        user.goal.Progress = 0;
-
-        await user.save();
-
-        return res.status(200).json({ message: 'Goal renewed successfully' });
-      } else {
-        return res.status(404).json({ error: 'Goal not found' });
-      }
-
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Failed to renew goal' });
-  }
-});
-
-
-
 
 
 // ---------------- Notifications routes ------------------------------------------------------------------------
@@ -729,6 +715,33 @@ app.post('/api/addnotification', async (req, res) => {
   } catch (error) {
     console.error('Error adding notification:', error);
     res.status(500).json({ message: 'Error adding notification', error: error.message });
+  }
+});
+
+
+
+
+
+
+
+// ------------------- Custom notifications routes section ------------------------------------------------------------------------
+
+app.put('/api/settings', async (req, res) => {
+  const { username, darkMode, pageNotifications, emailReports, emailReminders } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+    if (!user) return res.status(404).send("User not found");
+
+    user.settings.darkMode = darkMode;
+    user.settings.pageNotifications = pageNotifications;
+    user.settings.emailReports = emailReports;
+    user.settings.emailReminders = emailReminders;
+
+    await user.save();
+    res.status(200).send("Settings updated successfully");
+  } catch (error) {
+    res.status(500).send("Error updating settings");
   }
 });
 

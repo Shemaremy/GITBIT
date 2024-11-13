@@ -481,6 +481,18 @@
     font-size: 1.2em;
 }
 
+.select-theme {
+    width: 90px;
+    cursor: pointer;
+    border: solid 1px;
+    background-color: #0057b300;
+    border-color: rgb(187, 187, 187);
+    border-radius: 20px;
+    font-size: 12px;
+    padding: 5px;
+}
+
+
 .settings_button {
     display: inline-block;
     margin: 5px 0;
@@ -497,6 +509,16 @@
 
 .settings_button:hover {
     background-color: #0056b3;
+}
+
+.settings_button.disable {
+    background-color: #587a9c9f;
+    cursor: not-allowed;
+}
+
+.settings_button.disable:hover {
+    background-color: #587a9c9f;
+    cursor: not-allowed;
 }
 
 select, input[type="checkbox"] {
