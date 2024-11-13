@@ -364,7 +364,6 @@ passport.use(new GitHubStrategy({
           totalRepositories
         };
         await user.save();
-        console.log(JSON.stringify(contributionCalendar.weeks[0], null, 2));
       }
      
 

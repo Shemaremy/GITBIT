@@ -847,8 +847,17 @@ select, input[type="checkbox"] {
 /* =============================== RESPONSIVENESS ========================================================== */
 
 @media (max-width: 850px) {
+    .badges_panel {
+        margin-top: 40px;
+    }
     .badges_panel p {
         width: 100%;
+    }
+
+    .goals_panel {
+        height: auto;
+        padding-top: 50px;
+        padding-bottom: 10px;
     }
 
     .parent-analysis.filledpage {
@@ -859,21 +868,25 @@ select, input[type="checkbox"] {
         background-color: rgba(255, 0, 0, 0);
         padding-left: 0;
         padding-right: 0;
+        margin-top: 30px;
     }
 
     .notification_panel h1 {
-        font-size: 25px;
+        font-size: 20px;
         color: gray;
         font-weight: 100 !important;
         text-decoration: underline;
-        margin-bottom: 25px;
+        margin-bottom: 15px;
+        margin-left: 10px;
     }
 
     .settings_panel {
-        height: 100%;
+        height: auto;
+        margin-top: 45px;
     }
 
     .help-panel {
+        margin-top: 40px;
         padding-left: 15px;
         padding-right: 15px;
     }

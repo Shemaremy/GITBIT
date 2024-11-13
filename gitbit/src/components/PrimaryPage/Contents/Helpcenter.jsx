@@ -22,16 +22,38 @@ function Help() {
 
 
     const faqItems = [
-        { question: "How do I earn Gitbit badges?", answer: "You can earn github badges by navigating on the badges panel, and try completing a task to achieve the badge. Once the challenge is achieved, GitBit will automatically unlock your badge." },
-        { question: "How do I set up GitBit goals and how to achieve them?", answer: "Go to the goals panel and set a goal. You will only be able to set up one personal goal, and when achieved you will get a notification." },
-        { question: "Why is my contribution data not updating?", answer: "Try refreshing the page to see if updated data is visible. If the issue persists, try logging out and log back in. And if neither of these are working, try again after some time." },
-        { question: "All my Github history data is not showing", answer: "Make sure all your Github repositories are public. GitBit only displays public repositories due to privacy policy." }
+        { 
+            question: "How do I earn Gitbit badges?", 
+            answer: "You can earn GitBit badges by navigating on the badges panel, and try completing a task to achieve the badge. Once the challenge is achieved, GitBit will automatically unlock your badge."
+        },
+        { 
+            question: "How do I set up GitBit goals and how to achieve them?", 
+            answers: [
+                "Go to the goals panel and set a goal. You will only be able to set up one personal goal, and when achieved you will be notified.",
+                "In order to achieve them, you will have to select type of goal you want to set. The target you set is the total number of contributions you must achieve within the range period"
+            ]
+        },
+        { 
+            question: "Why is my contribution data not updating?", 
+            answer: "Try refreshing the page to see if updated data is visible. If the issue persists, try logging out and log back in. And if neither of these are working, try again after some time." 
+        },
+        { 
+            question: "All my Github history data is not showing", 
+            answers: [
+                "Make sure all your Github repositories are public. GitBit only displays public repositories due to privacy policy.",
+                "Github API only allows to fetch calendar data within the year range period. So this means that the graph will only show you 53 weeks calendar data from github"
+            ] 
+        }
     ];
     
-    const filteredFAQs = faqItems.filter(item => 
-        item.question.toLowerCase().includes(searchQuery) || 
-        item.answer.toLowerCase().includes(searchQuery)
-    );
+    
+    const filteredFAQs = faqItems.filter(item => {
+        const questionMatch = item.question.toLowerCase().includes(searchQuery);
+        const answerMatch = item.answer?.toLowerCase().includes(searchQuery) || 
+        (item.answers && item.answers.some(answer => answer.toLowerCase().includes(searchQuery)));
+        return questionMatch || answerMatch;
+    });
+    
     
 
 
@@ -63,7 +85,10 @@ function Help() {
                                 </div>
                                 {faqOpen[index] && <div className="faq-answer">
                                     <ul>
-                                        <li>{item.answer}</li>
+                                        {Array.isArray(item.answers) 
+                                            ? item.answers.map((answer, i) => <li key={i}>{answer}</li>)
+                                            : <li>{item.answer}</li>
+                                        }
                                     </ul>
                                 </div>}
                             </div>

@@ -154,7 +154,7 @@ function Goals({username, goal, calendarData}) {
                 return contributionDate >= goalStartDate && contributionDate <= currentDate;
             });
             
-            const totalProgress = contributionsInRange[0].count;    
+            const totalProgress = contributionsInRange.reduce((sum, contribution) => sum + contribution.count, 0);   
             
             
             const isAchieved = totalProgress >= goal.Target;
@@ -167,12 +167,13 @@ function Goals({username, goal, calendarData}) {
     
             setGoals(updatedGoals);
     
-            // Optional: API call to update the backend with the new progress
+            // API call to update the backend with the new progress
             await fetch(`https://git-bit.glitch.me/api/renewgoal`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, goalId, progress: totalProgress }),
             });
+
         } catch (error) {
             console.error('Error updating goal progress:', error);
         }

@@ -56,7 +56,14 @@ function Analysis() {
     const [selectedYear, setSelectedYear] = useState("All");
     const [allCalendarData, setAllCalendarData] = useState([]);
     const [totalContributions, setTotalContributions] = useState();
-
+    const [goalExists, setGoalExists] = useState('No');
+    const [goals, setGoals] = useState([]);
+    const [progress, setProgress] = useState();
+    const [goalStart, setGoalStart] = useState();
+    const [goalEnd, setGoalEnd] = useState();
+    const [goalTarget, setGoalTarget] = useState();
+    const [formattedEnd, setFormattedEnd] = useState();
+    const [goalName, setGoalName] = useState();
 
     const navigate = useNavigate();
 
@@ -116,6 +123,10 @@ function Analysis() {
                     const storedYesterday = localStorage.getItem("yesterday");
 
                     setGoal(data.goal)
+                    setGoalStart(data.goal.startDate);
+                    setGoalEnd(data.goal.endDate);
+                    setGoalTarget(data.goal.Target);
+                    setGoalName(data.goal.goalName)
                     
                     setUsername(data.username);
                     setProfile(data.profile);
@@ -222,6 +233,81 @@ function Analysis() {
         }; findDaysleft(goal);
     }, [calendarData, goal]);
 
+
+
+
+
+
+
+
+
+
+    // Helping to determing if the goal exists for the front page
+    useEffect(() => {
+        if (goal && goal.goalId !== 0) {
+            setGoalExists("Yes");
+            //console.log(goal)
+        }
+    });
+
+
+
+
+    // ----------------------- HANDLING PROGRESS ------------------------------------------------------------
+    // ----------------------- HANDLING PROGRESS ------------------------------------------------------------
+    // ----------------------- HANDLING PROGRESS ------------------------------------------------------------
+
+    useEffect(() => {
+        const handleGoalProgress = async (username, goalId) => {
+            if(goalStart && goalEnd) {
+                // Finding the current date the calendar has to help us find counts in between
+                const filteredContributions = calendarData.flat();
+                const latestDate = calendarData.flat()
+                .reduce((latest, current) => {
+                    const currentDate = new Date(current.date);
+                    return currentDate > latest ? currentDate : latest;
+                }, new Date(0));
+    
+                const currentDate = latestDate.toISOString().slice(0, 10);
+                const goalStartDate = new Date(goalStart).toISOString().slice(0, 10);
+                const goalEndDate = new Date(goalEnd).toISOString().slice(0, 10);
+    
+    
+                // Find contributions in range from start to current date
+                const contributionsInRange = filteredContributions.filter(contribution => {
+                    const contributionDate = new Date(contribution.date).toISOString().slice(0, 10);
+                    return contributionDate >= goalStartDate && contributionDate <= currentDate;
+                });
+                
+                const totalProgress = contributionsInRange.reduce((sum, contribution) => sum + contribution.count, 0);   
+                setProgress(totalProgress);
+
+                const formattedEnd = new Date(goalEndDate)
+                setFormattedEnd(formattedEnd.toDateString().slice(3, 15))
+                
+                const isAchieved = totalProgress >= goalTarget;
+                const isFailed = !isAchieved && currentDate === goalEndDate;
+        
+                // Update the specific goal's progress
+                const updatedGoals = goals.map(g => 
+                    g.goalId === goalId ? { ...g, Progress: totalProgress, achieved: isAchieved, failed: isFailed } : g
+                );
+        
+                setGoals(updatedGoals);   
+                
+            }
+        }; handleGoalProgress();
+    }, [goalStart, goalEnd]);
+    
+    const [progressUpdated, setProgressUpdated] = useState(false);
+
+    useEffect(() => {
+        if (username && goals.length > 0 && calendarData && !progressUpdated) {
+            const goalId = goals[0].goalId; // specify the goalId you want
+            handleGoalProgress(username, goalId);
+            setProgressUpdated(true); // Set to true after first update
+        }
+    }, [username, goals, calendarData, progressUpdated]);
 
 
 
@@ -418,7 +504,30 @@ function Analysis() {
 
 
 
+    // ----------- Ring progressbar settings and appearance -----------------------------------------------
+    const RingProgressBar = ({ progress, size, color }) => {
+        const radius = (size - 10) / 2;
+        const circumference = 2 * Math.PI * radius;
+        const offset = circumference - (progress / 100) * circumference;
 
+        return (
+            <svg width={size} height={size}>
+                <circle cx={size / 2} cy={size / 2} r={radius} stroke="#ddd" strokeWidth="4" fill="none" />
+                <circle
+                    cx={size / 2}
+                    cy={size / 2}
+                    r={radius}
+                    stroke={color}
+                    strokeWidth="4"
+                    fill="none"
+                    strokeDasharray={circumference}
+                    strokeDashoffset={offset}
+                    style={{ transition: 'stroke-dashoffset 0.35s' }}
+                    transform={`rotate(-90 ${size / 2} ${size / 2})`}
+                />
+            </svg>
+        );
+    };
 
 
 
@@ -525,8 +634,30 @@ function Analysis() {
                 </div>
                 <div className="third-panel-analysis">
                     <h5 className="min-panel-h5">Current Goal:</h5>
-                    <p className="min-panel-par">No goal set yet <i className="fa-solid fa-ban"></i></p>
-                    <h6 className="min-panel-h6">Click <a href="#" onClick={() => handlePanelChange(PanelState.GOALS)}>here</a> to set one</h6>
+                    {
+                        goalExists === "Yes" ? (
+                            <div className="goal-front-container">
+                                <div className="ring-container-front">
+                                    <RingProgressBar
+                                        progress={(progress / goalTarget) * 100}
+                                        size={70}
+                                        color={goal.failed ? "red" : "#4caf50"}
+                                    />
+                                </div>
+                                <div className="goal-description">
+                                    <h6>{goalName} goal</h6>
+                                    <p>Progress: 5</p>
+                                    <p>Target: {goalTarget}</p>
+                                    <p>Deadline: {formattedEnd}</p>
+                                </div>
+                            </div> 
+                        ):(
+                            <>
+                                <p className="min-panel-par">No goal set yet <i className="fa-solid fa-ban"></i></p>
+                                <h6 className="min-panel-h6">Click <a href="#" onClick={() => handlePanelChange(PanelState.GOALS)}>here</a> to set one</h6>
+                            </>
+                        )
+                    }
                 </div>
             </div>
             <div className="github-analysis-panel">

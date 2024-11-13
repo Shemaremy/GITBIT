@@ -184,7 +184,7 @@
     border-style: solid;
     border-width: 1px;
     border-color: rgba(134, 134, 134, 0.315);
-    background-color: rgba(255, 255, 255, 0.288);
+    background-color: rgb(250, 250, 255);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.082);
 }
 
@@ -237,16 +237,53 @@
 
 
 .min-panel-h5 {
-    height: 60px;
+    background-color: rgba(210, 105, 30, 0);
 }
 
 .min-panel-par {
     margin-bottom: 0;
-    margin-top: 0;
+    margin-top: 45px;
 }
 
 .min-panel-h6 {
     font-size: 13px;
+}
+
+
+.goal-front-container {
+    height: 80%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ring-container-front {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.goal-description {
+    height: 100%;
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.goal-description > h6 {
+    font-size: 13px;
+    text-decoration: underline;
+    color: gray;
+}
+
+.goal-description > p {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 11px;
 }
 
 
@@ -394,7 +431,7 @@
     .parent-analysis {
         height: 150vh;
         overflow-y: hidden;
-        background-color: rgba(255, 255, 255, 0.288);
+        background-color: rgb(250, 250, 255);
     }
 
 
@@ -407,11 +444,16 @@
         border-style: solid;
         border-width: 1px;
         border-color: rgba(0, 0, 0, 0.212);
-        background-color: rgba(255, 255, 255, 0.288);
+        background-color: rgb(250, 250, 255);
         border-top: 0;
         border-left: 0;
         border-right: 0;
         width: 100%;
+        position: fixed;
+        top: 0;
+        padding-top: 14px;
+        padding-bottom: 3px;
+        
     }
 
     .left-part-nav {
@@ -476,7 +518,7 @@
         background-color: rgba(0, 0, 0, 0.123);
         position: fixed;
         top: 0;
-        margin-top: 80px;
+        margin-top: 73px;
         display: flex;
         opacity: 0;
         transition: opacity 0.3s ease-in-out;
@@ -491,11 +533,11 @@
     .analysis-options-mobile {
         height: 100%;
         width: 80%;
-        background-color: aliceblue;
+        background-color: rgb(250, 250, 255);
     }
 
     .basic-options {
-        margin-top: 50px;
+        margin-top: 40px;
     }
 
     .basic-options > p, 
@@ -536,7 +578,7 @@
 
     .top-headers {
         padding: 0px;
-        margin-top: 30px;
+        margin-top: 35px;
     }
 
     .welcome-header {
