@@ -253,6 +253,20 @@ function Analysis() {
     });
 
 
+    
+
+    useEffect(() => {
+        if (settings && settings !== undefined) {
+            const darkTheme = document.querySelector('.parent-analysis');
+            const darkTheme2 = document.querySelector('.right-wrapper');
+            if (settings.darkMode === true) {
+                darkTheme.classList.add('dark');
+                darkTheme2.classList.add('dark');
+            }
+        }
+    }, [settings]);
+
+
 
 
     // ----------------------- HANDLING PROGRESS ------------------------------------------------------------

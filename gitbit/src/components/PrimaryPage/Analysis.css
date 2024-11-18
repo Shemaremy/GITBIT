@@ -8,6 +8,8 @@
 }
 
 
+
+
 .left-part-panel {
     height: 100%;
     width: 20%;
@@ -357,9 +359,80 @@
 
 
 
+/* ================================== DARKTHEME TOGGLING ================================================= */
+
+.parent-analysis.dark, .right-wrapper.dark {
+    background-color: rgb(20, 20, 20);
+}
+
+.parent-analysis.dark p, 
+.parent-analysis.dark i {
+    color: rgba(255, 255, 255, 0.644);
+}
+
+
+.parent-analysis.dark h3 {
+    color: rgba(255, 255, 255, 0.801);
+}
+
+
+.right-wrapper.dark h2,
+.right-wrapper.dark h1,
+.right-wrapper.dark h5 {
+    color: rgba(255, 255, 255, 0.596);
+}
+
+.right-wrapper.dark h6 {
+    color: rgba(255, 255, 255, 0.384);
+}
+
+.right-wrapper.dark .badge {
+    background-color: rgba(199, 199, 199, 0.075);
+}
+
+.right-wrapper.dark .fa-award {
+    color: #4caf50;
+}
+
+.right-wrapper.dark .notification_panel,
+.right-wrapper.dark .help-panel {
+    background-color: rgba(179, 179, 179, 0.041);
+}
+
+.right-wrapper.dark .notification_item {
+    background-color: rgba(179, 179, 179, 0.192);
+    border-color: rgba(207, 207, 207, 0.226);
+}
+
+.right-wrapper.dark .notification_type {
+    color: rgb(175, 175, 175);
+}
+
+.right-wrapper.dark span {
+    color: rgba(212, 212, 212, 0.664);
+}
+
+.right-wrapper.dark .faq-item {
+    border-color: rgba(196, 196, 196, 0.651);
+}
+
+.right-wrapper.dark label {
+    color: rgba(255, 255, 255, 0.616);
+}
+
+.right-wrapper.dark input,
+.right-wrapper.dark textarea {
+    background-color: rgba(221, 221, 221, 0.048);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.493);
+}
 
 
 
+.right-wrapper.dark select {
+    color: rgba(255, 255, 255, 0.596);
+    background-color: rgb(39, 39, 39);
+}
 
 
 

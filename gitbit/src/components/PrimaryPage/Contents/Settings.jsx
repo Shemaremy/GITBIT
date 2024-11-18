@@ -3,6 +3,9 @@ import './Allcontent.css';
 
 function Settings({ username, settings }) {
 
+    const currentTheme = localStorage.getItem('currentTheme');
+    //console.log(currentTheme)
+
 
     const [theme, setTheme] = useState();
     const [notifications, setNotifications] = useState(settings.pageNotifications);
@@ -14,7 +17,11 @@ function Settings({ username, settings }) {
 
     // Set initial theme based on settings.darkMode
     useEffect(() => {
-        setTheme(settings.darkMode ? "Dark" : "Light");
+        if (currentTheme === null) {
+            setTheme(settings.darkMode ? "Dark" : "Light");
+        } else {
+            setTheme(currentTheme);
+        }
     }, [settings.darkMode]);
     
     
@@ -22,13 +29,21 @@ function Settings({ username, settings }) {
     
     // Handling toggle between dark and light modes
     const handleThemeChange = (e) => {
-        setTheme(e.target.value)
-        if (theme === "Dark") {
-            alert("Dark")
+        const selectedTheme = e.target.value;
+        setTheme(selectedTheme);
+        localStorage.setItem('currentTheme', selectedTheme);
+    
+        const darkTheme = document.querySelector('.parent-analysis');
+        const darkTheme2 = document.querySelector('.right-wrapper');
+        if (selectedTheme === "Dark") {
+            darkTheme.classList.add('dark');
+            darkTheme2.classList.add('dark');
         } else {
-            alert("Light")
+            darkTheme.classList.remove('dark');
+            darkTheme2.classList.remove('dark');
         }
     };
+    
 
 
     const toggleNotifications = () => setNotifications(!notifications);
@@ -60,6 +75,7 @@ function Settings({ username, settings }) {
             });
     
             if (response.ok) {
+                localStorage.removeItem('currentTheme');
                 setLoading(false);
                 disableButton.classList.remove('disable');
                 setIsButtonDisabled(false);
@@ -84,8 +100,8 @@ function Settings({ username, settings }) {
             <div className="settings_section">
                 <h2>Theme</h2>
                 <select value={theme} onChange={handleThemeChange} className="select-theme">
-                    <option value="Light">Light <i className="fa-solid fa-sun"></i></option>
-                    <option value="Dark">Dark <i className="fa-solid fa-moon"></i></option>
+                    <option value="Light">Light</option>
+                    <option value="Dark">Dark</option>
                 </select>
             </div>
 
