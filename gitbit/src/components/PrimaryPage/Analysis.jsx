@@ -64,6 +64,7 @@ function Analysis() {
     const [goalTarget, setGoalTarget] = useState();
     const [formattedEnd, setFormattedEnd] = useState();
     const [goalName, setGoalName] = useState();
+    const [goalFailed, setGoalFailed] = useState(false);
     const [settings, setSettings] = useState();
 
     const navigate = useNavigate();
@@ -286,34 +287,49 @@ function Analysis() {
     
                 const currentDate = latestDate.toISOString().slice(0, 10);
                 const goalStartDate = new Date(goalStart).toISOString().slice(0, 10);
-                const goalEndDate = new Date(goalEnd).toISOString().slice(0, 10);
+                let goalEndDate = new Date(goalEnd).toISOString().slice(0, 10);
     
-    
+                const finishLine = goalEndDate;
+
+                if (currentDate >= goalEndDate) {
+                    goalEndDate = finishLine;
+                } else {
+                    goalEndDate = currentDate;
+                }
+
+
+
                 // Find contributions in range from start to current date
                 const contributionsInRange = filteredContributions.filter(contribution => {
                     const contributionDate = new Date(contribution.date).toISOString().slice(0, 10);
-                    return contributionDate >= goalStartDate && contributionDate <= currentDate;
+                    return contributionDate >= goalStartDate && contributionDate <= goalEndDate;
                 });
                 
-                const totalProgress = contributionsInRange.reduce((sum, contribution) => sum + contribution.count, 0);   
+                let totalProgress = contributionsInRange.reduce((sum, contribution) => sum + contribution.count, 0);
+                totalProgress = Math.min(totalProgress, goal.Target);
                 setProgress(totalProgress);
 
-                const formattedEnd = new Date(goalEndDate)
+                const formattedEnd = new Date(finishLine)
                 setFormattedEnd(formattedEnd.toDateString().slice(3, 15))
                 
-                const isAchieved = totalProgress >= goalTarget;
-                const isFailed = !isAchieved && currentDate === goalEndDate;
-        
+                const isAchieved = totalProgress >= goalTarget && currentDate <= finishLine;
+                const isFailed = !isAchieved && currentDate > finishLine;
+                
+                if (isFailed) {
+                    setGoalFailed(true)
+                }
+                //console.log(goalFailed)
+
                 // Update the specific goal's progress
                 const updatedGoals = goals.map(g => 
                     g.goalId === goalId ? { ...g, Progress: totalProgress, achieved: isAchieved, failed: isFailed } : g
                 );
         
-                setGoals(updatedGoals);   
+                setGoals(updatedGoals);
                 
             }
         }; handleGoalProgress();
-    }, [goalStart, goalEnd]);
+    }, [goalStart, goalEnd, goalFailed]);
     
     const [progressUpdated, setProgressUpdated] = useState(false);
 
@@ -657,7 +673,7 @@ function Analysis() {
                                     <RingProgressBar
                                         progress={(progress / goalTarget) * 100}
                                         size={70}
-                                        color={goal.failed ? "red" : "#4caf50"}
+                                        color={goalFailed ? "red" : "#4caf50"}
                                     />
                                 </div>
                                 <div className="goal-description">

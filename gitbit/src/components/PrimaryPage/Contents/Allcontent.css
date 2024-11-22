@@ -194,14 +194,24 @@
     text-decoration: underline;
 }
 
+.goal-card.achieved {
+    border: 2px solid #3fe745;
+}
+
 .goal-card.failed {
     border: 2px solid red;
 }
 
-.goal-status {
-    color: red;
-    font-weight: bold;
+
+
+.goal-status.achieved {
+    color: #4cbd50e0;
 }
+
+.goal-status.failed {
+    color: red;
+}
+
 
 .goal-actions button {
     margin-top: 5px;

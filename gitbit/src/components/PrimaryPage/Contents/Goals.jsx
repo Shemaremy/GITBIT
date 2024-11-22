@@ -145,20 +145,37 @@ function Goals({username, goal, calendarData}) {
 
             const currentDate = latestDate.toISOString().slice(0, 10);
             const goalStartDate = new Date(goal.startDate).toISOString().split('T')[0];
-            const goalEndDate = new Date(goal.endDate).toISOString().split('T')[0];
+            let goalEndDate = new Date(goal.endDate).toISOString().split('T')[0];
 
+            
+            const finishLine = goalEndDate;
+
+            if (currentDate >= goalEndDate) {
+                goalEndDate = finishLine;
+            } else {
+                goalEndDate = currentDate;
+            }
+            
+
+    
 
             // Find contributions in range from start to current date
             const contributionsInRange = filteredContributions.filter(contribution => {
                 const contributionDate = new Date(contribution.date).toISOString().slice(0, 10);
-                return contributionDate >= goalStartDate && contributionDate <= currentDate;
+                return contributionDate >= goalStartDate && contributionDate <= goalEndDate;
             });
             
-            const totalProgress = contributionsInRange.reduce((sum, contribution) => sum + contribution.count, 0);   
+            let totalProgress = contributionsInRange.reduce((sum, contribution) => sum + contribution.count, 0);   
+
+
+            totalProgress = Math.min(totalProgress, goal.Target);
             
+            const isAchieved = totalProgress >= goal.Target && currentDate <= finishLine;
+            const isFailed = !isAchieved && currentDate > finishLine;
+
+
+
             
-            const isAchieved = totalProgress >= goal.Target;
-            const isFailed = !isAchieved && currentDate === goalEndDate;
     
             // Update the specific goal's progress
             const updatedGoals = goals.map(g => 
@@ -171,6 +188,7 @@ function Goals({username, goal, calendarData}) {
             console.error('Error updating goal progress:', error);
         }
     };
+    
     
     const [progressUpdated, setProgressUpdated] = useState(false);
 
@@ -235,7 +253,7 @@ function Goals({username, goal, calendarData}) {
             ) : (
                 <div className="goal-list">
                     {goals.map(goal => (
-                        <div key={goal.goalId} className={`goal-card ${goal.failed ? 'failed' : ''}`}>
+                        <div key={goal.goalId} className={`goal-card ${goal.failed ? 'failed' : goal.achieved ? "achieved" : ''}`}>
                             <p className="goal-name-header">{goal.goalName} Contributions</p>
                             <p>
                                 Goal set on {goal.startDate ? new Date(goal.startDate).toLocaleDateString('en-GB') : 'N/A'}&nbsp;
@@ -245,11 +263,11 @@ function Goals({username, goal, calendarData}) {
                             <RingProgressBar
                                 progress={(goal.Progress / goal.Target) * 100}
                                 size={100}
-                                color={goal.failed ? "red" : "#4caf50"}
+                                color={goal.failed ? "red" : goal.achieved ? "#3fe745" : "#4caf50"}
                             />
                             <p>{goal.Progress}/{goal.Target} contributions</p>
-                            {goal.achieved && <p className="goal-status">🎉 Goal Achieved!</p>}
-                            {goal.failed && <p className="goal-status">Goal Failed</p>}
+                            {goal.achieved && <p className="goal-status achieved">🎉 Goal Achieved!</p>}
+                            {goal.failed && <p className="goal-status failed">Goal Failed 🙁</p>}
                             <div className="goal-actions">
                                 <button className="delete-goal-button" onClick={() => handleDeleteGoal(username, goal.goalId)} disabled={isButtonDisabled}>
                                     {loading ? <>Deleting &nbsp; <i className="fa-solid fa-spinner fa-spin"></i></>
