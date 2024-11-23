@@ -30,6 +30,7 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.1",
     "react-tooltip": "^5.28.0",
+    "styled-components": "^6.1.13",
     "waypoints": "^4.0.1",
     "wowjs": "^1.1.3"
   },

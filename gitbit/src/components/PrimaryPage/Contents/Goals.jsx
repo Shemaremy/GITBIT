@@ -204,27 +204,34 @@ function Goals({username, goal, calendarData}) {
 
 
     // ----------- Ring progressbar settings and appearance -----------------------------------------------
-    const RingProgressBar = ({ progress, size, color }) => {
+    const RingProgressBar = ({ progress, size, color, achieved }) => {
         const radius = (size - 10) / 2;
         const circumference = 2 * Math.PI * radius;
         const offset = circumference - (progress / 100) * circumference;
 
         return (
-            <svg width={size} height={size}>
-                <circle cx={size / 2} cy={size / 2} r={radius} stroke="#ddd" strokeWidth="5" fill="none" />
-                <circle
-                    cx={size / 2}
-                    cy={size / 2}
-                    r={radius}
-                    stroke={color}
-                    strokeWidth="5"
-                    fill="none"
-                    strokeDasharray={circumference}
-                    strokeDashoffset={offset}
-                    style={{ transition: 'stroke-dashoffset 0.35s' }}
-                    transform={`rotate(-90 ${size / 2} ${size / 2})`}
-                />
-            </svg>
+            <div className="achieved-container">
+                {achieved && (
+                    <p className="achieved-icon">
+                        <i className="fa-solid fa-check fa-beat"></i>
+                    </p>
+                )}
+                <svg width={size} height={size}>
+                    <circle cx={size / 2} cy={size / 2} r={radius} stroke="#ddd" strokeWidth="5" fill="none" />
+                    <circle
+                        cx={size / 2}
+                        cy={size / 2}
+                        r={radius}
+                        stroke={color}
+                        strokeWidth="5"
+                        fill="none"
+                        strokeDasharray={circumference}
+                        strokeDashoffset={offset}
+                        style={{ transition: 'stroke-dashoffset 0.35s' }}
+                        transform={`rotate(-90 ${size / 2} ${size / 2})`}
+                    />
+                </svg>
+            </div>
         );
     };
 
@@ -264,6 +271,7 @@ function Goals({username, goal, calendarData}) {
                                 progress={(goal.Progress / goal.Target) * 100}
                                 size={100}
                                 color={goal.failed ? "red" : goal.achieved ? "#3fe745" : "#4caf50"}
+                                achieved={goal.achieved}
                             />
                             <p>{goal.Progress}/{goal.Target} contributions</p>
                             {goal.achieved && <p className="goal-status achieved">🎉 Goal Achieved!</p>}

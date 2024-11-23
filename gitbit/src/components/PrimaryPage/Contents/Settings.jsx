@@ -18,9 +18,11 @@ function Settings({ username, settings }) {
     // Set initial theme based on settings.darkMode
     useEffect(() => {
         if (currentTheme === null) {
+            //console.log("Its null")
             setTheme(settings.darkMode ? "Dark" : "Light");
         } else {
             setTheme(currentTheme);
+            //console.log(theme)
         }
     }, [settings.darkMode]);
     

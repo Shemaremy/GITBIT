@@ -365,6 +365,22 @@
     background-color: rgb(20, 20, 20);
 }
 
+.parent-analysis.dark .Mobile-navbar {
+    background-color: rgb(31, 31, 31);
+}
+
+.parent-analysis.dark .left-part-nav > h2 {
+    color: rgba(255, 255, 255, 0.781);    
+}
+
+.parent-analysis.dark .hamburger {
+    filter: invert(100%);
+}
+
+.parent-analysis.dark .analysis-options-mobile {
+    background-color: rgb(20, 20, 20);
+}
+
 .parent-analysis.dark p, 
 .parent-analysis.dark i {
     color: rgba(255, 255, 255, 0.644);
@@ -374,6 +390,22 @@
 .parent-analysis.dark h3 {
     color: rgba(255, 255, 255, 0.801);
 }
+
+
+.parent-analysis.dark .first-panel-analysis, .second-panel-analysis, .third-panel-analysis {
+    border-color: rgba(128, 128, 128, 0.308);
+}
+
+
+.parent-analysis.dark ::-webkit-scrollbar {
+    width: 7px;
+}
+
+.parent-analysis.dark ::-webkit-scrollbar-thumb {
+    background-color: rgba(85, 85, 85, 0.479);
+    border-radius: 10px;
+}
+
 
 
 .right-wrapper.dark h2,
@@ -433,10 +465,6 @@
     color: rgba(255, 255, 255, 0.596);
     background-color: rgb(39, 39, 39);
 }
-
-
-
-
 
 
 

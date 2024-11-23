@@ -23,6 +23,7 @@
     color: #333;
 }
 
+
 .badges_panel h1 {
     font-size: 2em;
     color: #133172cc;
@@ -188,7 +189,7 @@
 
 .goal-name-header {
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 100;
     margin-bottom: 15px;
     color: rgba(66, 66, 66, 0.671);
     text-decoration: underline;
@@ -283,7 +284,7 @@
 }
 
 .goal-achieved {
-    color: #4CAF50; /* Green for success */
+    color: #4CAF50;
     font-size: 1.2em;
     animation: bounce 0.5s ease infinite alternate;
 }
@@ -294,6 +295,33 @@
 }
 
 
+.achieved-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.achieved-icon {
+    position: absolute;
+    margin: 0;
+}
+
+.achieved-icon > i {
+    font-size: 25px;
+    color: rgb(124, 218, 115);
+}
+
+
+.small-version {
+    margin-top: 5px;
+    margin-left: 2px;
+}
+
+.small-version > i {
+    color: rgb(124, 218, 115);
+    font-size: 18px;
+    border-radius: 50%;
+}
 
 
 

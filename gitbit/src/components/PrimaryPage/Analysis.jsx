@@ -64,6 +64,7 @@ function Analysis() {
     const [goalTarget, setGoalTarget] = useState();
     const [formattedEnd, setFormattedEnd] = useState();
     const [goalName, setGoalName] = useState();
+    const [goalAchieved, setGoalAchieved] = useState(false);
     const [goalFailed, setGoalFailed] = useState(false);
     const [settings, setSettings] = useState();
 
@@ -256,16 +257,29 @@ function Analysis() {
 
     
 
+    // --------- DarkMode settings on page load -------------------------------------------------
+
+    const currentTheme = localStorage.getItem('currentTheme');
     useEffect(() => {
-        if (settings && settings !== undefined) {
-            const darkTheme = document.querySelector('.parent-analysis');
-            const darkTheme2 = document.querySelector('.right-wrapper');
-            if (settings.darkMode === true) {
-                darkTheme.classList.add('dark');
-                darkTheme2.classList.add('dark');
+        const darkTheme = document.querySelector('.parent-analysis');
+        const darkTheme2 = document.querySelector('.right-wrapper');
+        if (darkTheme && darkTheme2) {
+            if (currentTheme === null) {
+                if (settings && settings !== undefined) {
+                    if (settings.darkMode === true) {
+                        darkTheme.classList.add('dark');
+                        darkTheme2.classList.add('dark');
+                    }
+                }
+            } else {
+                if (currentTheme === 'Dark') {
+                    darkTheme.classList.add('dark');
+                    darkTheme2.classList.add('dark');
+                }
             }
         }
     }, [settings]);
+    
 
 
 
@@ -315,6 +329,10 @@ function Analysis() {
                 const isAchieved = totalProgress >= goalTarget && currentDate <= finishLine;
                 const isFailed = !isAchieved && currentDate > finishLine;
                 
+                if (isAchieved) {
+                    setGoalAchieved(true)
+                }
+
                 if (isFailed) {
                     setGoalFailed(true)
                 }
@@ -537,27 +555,34 @@ function Analysis() {
 
 
     // ----------- Ring progressbar settings and appearance -----------------------------------------------
-    const RingProgressBar = ({ progress, size, color }) => {
+    const RingProgressBar = ({ progress, size, color, achieved }) => {
         const radius = (size - 10) / 2;
         const circumference = 2 * Math.PI * radius;
         const offset = circumference - (progress / 100) * circumference;
 
         return (
-            <svg width={size} height={size}>
-                <circle cx={size / 2} cy={size / 2} r={radius} stroke="#ddd" strokeWidth="4" fill="none" />
-                <circle
-                    cx={size / 2}
-                    cy={size / 2}
-                    r={radius}
-                    stroke={color}
-                    strokeWidth="4"
-                    fill="none"
-                    strokeDasharray={circumference}
-                    strokeDashoffset={offset}
-                    style={{ transition: 'stroke-dashoffset 0.35s' }}
-                    transform={`rotate(-90 ${size / 2} ${size / 2})`}
-                />
-            </svg>
+            <div className="achieved-container">
+                {goalAchieved && (
+                    <p className="achieved-icon small-version">
+                        <i className="fa-solid fa-check"></i>
+                    </p>
+                )}
+                <svg width={size} height={size}>
+                    <circle cx={size / 2} cy={size / 2} r={radius} stroke="#ddd" strokeWidth="4" fill="none" />
+                    <circle
+                        cx={size / 2}
+                        cy={size / 2}
+                        r={radius}
+                        stroke={color}
+                        strokeWidth="4"
+                        fill="none"
+                        strokeDasharray={circumference}
+                        strokeDashoffset={offset}
+                        style={{ transition: 'stroke-dashoffset 0.35s' }}
+                        transform={`rotate(-90 ${size / 2} ${size / 2})`}
+                    />
+                </svg>
+            </div>
         );
     };
 

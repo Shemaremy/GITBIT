@@ -75,11 +75,10 @@ function Part2() {
                         </div>
                         <div className="col-lg-4 d-flex justify-content-center justify-content-lg-end wow fadeInUp" data-wow-delay="0.3s">
                             <div className="owl-carousel screenshot-carousel">
-                                <img className="img-fluid" src="img/coming-soon.png" alt="" />
-                                <img className="img-fluid" src="img/coming-soon.png" alt="" />
-                                <img className="img-fluid" src="img/coming-soon.png" alt="" />
-                                <img className="img-fluid" src="img/coming-soon.png" alt="" />
-                                <img className="img-fluid" src="img/coming-soon.png" alt="" />
+                                <img className="img-fluid" src="img/screenshots/image.png" alt="" />
+                                <img className="img-fluid" src="img/screenshots/image2.png" alt="" />
+                                <img className="img-fluid" src="img/screenshots/image3.png" alt="" />
+                                <img className="img-fluid" src="img/screenshots/image5.png" alt="" />
                             </div>
                         </div>
                     </div>
