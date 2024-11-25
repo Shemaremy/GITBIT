@@ -554,7 +554,7 @@
         top: 0;
         padding-top: 14px;
         padding-bottom: 3px;
-        
+        z-index: 2;
     }
 
     .left-part-nav {

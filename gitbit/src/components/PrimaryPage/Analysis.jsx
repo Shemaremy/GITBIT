@@ -832,8 +832,8 @@ function Analysis() {
                         <h2>{username}</h2>
                     </div>
                     <div className="right-part-nav">
-                        <i className="fa-solid fa-bell"></i>
-                        <i className="fa-solid fa-shield-halved"></i>
+                        <i className="fa-solid fa-bell" onClick={() => handlePanelChange(PanelState.NOTIFICATIONS)}></i>
+                        <i className="fa-solid fa-shield-halved" onClick={() => handlePanelChange(PanelState.BADGES)}></i>
                         <div className="img-container">
                             <img src={profile} alt="Pic" className="profile-pic"/>
                         </div>                            
