@@ -143,12 +143,12 @@ function Goals({username, goal, calendarData}) {
                 return currentDate > latest ? currentDate : latest;
             }, new Date(0));
 
-            const currentDate = latestDate.toISOString().slice(0, 10);
+            let currentDate = latestDate.toISOString().slice(0, 10);
             const goalStartDate = new Date(goal.startDate).toISOString().split('T')[0];
             let goalEndDate = new Date(goal.endDate).toISOString().split('T')[0];
 
             
-            const finishLine = goalEndDate;
+            let finishLine = goalEndDate;
 
             if (currentDate >= goalEndDate) {
                 goalEndDate = finishLine;
@@ -165,13 +165,27 @@ function Goals({username, goal, calendarData}) {
                 return contributionDate >= goalStartDate && contributionDate <= goalEndDate;
             });
             
-            let totalProgress = contributionsInRange.reduce((sum, contribution) => sum + contribution.count, 0);   
+            let totalProgress = contributionsInRange.reduce((sum, contribution) => sum + contribution.count, 0); 
+            let unomunsi = '0';
 
 
             totalProgress = Math.min(totalProgress, goal.Target);
+
+            /* --- Use these below for testing ------:
+                totalProgress = '5';
+                currentDate = '2024-11-25'
+                finishLine = '2024-11-22'
+            */
+
+
+            if (currentDate > finishLine) {
+                unomunsi = currentDate;
+                currentDate = finishLine
+            }
+
             
             const isAchieved = totalProgress >= goal.Target && currentDate <= finishLine;
-            const isFailed = !isAchieved && currentDate > finishLine;
+            const isFailed = !isAchieved && unomunsi > finishLine;
 
 
 

@@ -299,11 +299,11 @@ function Analysis() {
                     return currentDate > latest ? currentDate : latest;
                 }, new Date(0));
     
-                const currentDate = latestDate.toISOString().slice(0, 10);
+                let currentDate = latestDate.toISOString().slice(0, 10);
                 const goalStartDate = new Date(goalStart).toISOString().slice(0, 10);
                 let goalEndDate = new Date(goalEnd).toISOString().slice(0, 10);
     
-                const finishLine = goalEndDate;
+                let finishLine = goalEndDate;
 
                 if (currentDate >= goalEndDate) {
                     goalEndDate = finishLine;
@@ -318,7 +318,8 @@ function Analysis() {
                     const contributionDate = new Date(contribution.date).toISOString().slice(0, 10);
                     return contributionDate >= goalStartDate && contributionDate <= goalEndDate;
                 });
-                
+                let unomunsi = '0';
+
                 let totalProgress = contributionsInRange.reduce((sum, contribution) => sum + contribution.count, 0);
                 totalProgress = Math.min(totalProgress, goal.Target);
                 setProgress(totalProgress);
@@ -326,8 +327,19 @@ function Analysis() {
                 const formattedEnd = new Date(finishLine)
                 setFormattedEnd(formattedEnd.toDateString().slice(3, 15))
                 
+                /* --- Use these below for testing ------:
+                    totalProgress = '5';
+                    currentDate = '2024-11-25'
+                    finishLine = '2024-11-22'
+                */
+
+                if (currentDate > finishLine) {
+                    unomunsi = currentDate;
+                    currentDate = finishLine
+                }
+
                 const isAchieved = totalProgress >= goalTarget && currentDate <= finishLine;
-                const isFailed = !isAchieved && currentDate > finishLine;
+                const isFailed = !isAchieved && unomunsi > finishLine;
                 
                 if (isAchieved) {
                     setGoalAchieved(true)

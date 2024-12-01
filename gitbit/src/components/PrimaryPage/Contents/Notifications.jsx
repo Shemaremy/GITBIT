@@ -113,28 +113,30 @@ function Notifications({previousFive, username, dateprevious, daysremain, finish
 
     // ---------- Check & display reminder notification, then add it to database ---------------------------------------------------------------
     const checkReminder = async (username) => {
-        if (daysremain && daysremain <= 3) {
-            notifications[1].display = true;
-            try {
-                const response = await fetch('https://git-bit.glitch.me/api/addnotification', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ username, notification: notifications[1] }),
-                });
-    
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to add notification');
-                }
+        if (daysremain) {
+            if (daysremain > 0 && daysremain <= 3) {
+                notifications[1].display = true;
+                try {
+                    const response = await fetch('https://git-bit.glitch.me/api/addnotification', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ username, notification: notifications[1] }),
+                    });
+        
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.message || 'Failed to add notification');
+                    }
 
-                const result = await response.json();
-                //console.log(result.message);
-            
-            } catch (error) {
-                console.error('Error adding notification:', error);
-            }    
+                    const result = await response.json();
+                    //console.log(result.message);
+                
+                } catch (error) {
+                    console.error('Error adding notification:', error);
+                }    
+            }
         }
     }; checkReminder(username);
 
