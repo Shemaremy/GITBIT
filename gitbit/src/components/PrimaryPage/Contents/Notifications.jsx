@@ -18,6 +18,7 @@ function Notifications({previousFive, username, dateprevious, daysremain, finish
     
 
 
+    
     // -------- Notifications container --------------------------------------------------------------
     const [notifications, setNotifications] = useState([
         { id: 1, type: "Contribution", message: "Its been 5 days without contributing", isRead: false, time: dateprevious, display: false },
