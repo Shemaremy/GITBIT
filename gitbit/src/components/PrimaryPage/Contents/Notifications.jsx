@@ -21,7 +21,7 @@ function Notifications({previousFive, username, dateprevious, daysremain, finish
     
     // -------- Notifications container --------------------------------------------------------------
     const [notifications, setNotifications] = useState([
-        { id: 1, type: "Contribution", message: "Its been 5 days without contributing", isRead: false, time: dateprevious, display: false },
+        { id: 1, type: "Contribution", message: "Its been more than 5 days without contributing", isRead: false, time: dateprevious, display: false },
         { id: 2, type: "Reminder", message: "Less than 3 days remain to achieve your goal!", isRead: false, time: Finishline, display: false }
     ]);
     

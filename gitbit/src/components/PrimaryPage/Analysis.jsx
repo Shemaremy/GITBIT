@@ -90,6 +90,7 @@ function Analysis() {
 
 
 
+    
 
 
     // ------------- Fetching user data from database ---------------------------------------------------------
@@ -133,6 +134,7 @@ function Analysis() {
                     
                     setUsername(data.username);
                     setProfile(data.profile);
+                    //console.log(data.contributions.toLocaleString())
                     setContributions(data.contributions.toLocaleString());
                     setRepositories(data.repositories);
                     
@@ -152,11 +154,10 @@ function Analysis() {
 
 
                     // Get years since the user started using github
-                    const uniqueYears = [
-                        new Date().getFullYear(),
-                        ...new Set(formattedContributions.map(item => moment(item.date).year()))
-                    ].filter((year, index, self) => self.indexOf(year) === index);
+                    const currentYear = new Date().getFullYear();
+                    const uniqueYears = [currentYear, currentYear - 1];
                     setYears(uniqueYears);
+
                     setAllCalendarData(formattedContributions);
 
                     setCalendarData(formattedContributions);
@@ -179,6 +180,16 @@ function Analysis() {
     }, []);
     
 
+    // ------------ Fixing undefined contributions value on graph below ----------------------------------------
+    useEffect(() => {
+        const handleTotalContributions = () => {
+            
+            if (totalContributions === undefined && contributions !== 0) {
+                setTotalContributions(contributions)
+            }
+        }
+        handleTotalContributions()
+    }, [contributions])
 
     
     // ------ Checking the first notification -----------------------------------------------------------------
@@ -258,7 +269,6 @@ function Analysis() {
     
 
     // --------- DarkMode settings on page load -------------------------------------------------
-
     const currentTheme = localStorage.getItem('currentTheme');
     useEffect(() => {
         const darkTheme = document.querySelector('.parent-analysis');
@@ -446,7 +456,7 @@ function Analysis() {
     
             setCalendarData(filteredData);
             const total = filteredData.reduce((sum, item) => sum + item.count, 0);
-            setTotalContributions(total);
+            setTotalContributions(total.toLocaleString());
         };
     };
 
@@ -476,6 +486,8 @@ function Analysis() {
     
     
 
+
+    
 
 
 
@@ -555,6 +567,7 @@ function Analysis() {
 
 
 
+    
 
 
 
@@ -731,7 +744,7 @@ function Analysis() {
             </div>
             <div className="github-analysis-panel">
                 <div className="calendar-upper-settings">
-                <p>{totalContributions} Contributions in {selectedYear === "All" ? "overall" : selectedYear}</p>
+                <p>{totalContributions} Contributions in {selectedYear === "All" ? "a year" : selectedYear}</p>
                     <select className="years-select-option" value={selectedYear} onChange={handleYearChange}>
                         <option value="All">All</option>
                         {years.map(year => (
